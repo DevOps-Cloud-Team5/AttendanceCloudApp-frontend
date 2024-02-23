@@ -1,0 +1,64 @@
+/* RootPage.css - Dark Theme */
+
+/* General reset */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212; /* Dark background for the body */
+    color: #ffffff; /* Light text color for better readability on dark background */
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #1f1f1f; /* Darker shade for the navbar */
+}
+
+.logo {
+    height: 40px; /* Adjust as needed */
+}
+
+.navbar-right a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin-left: 10px;
+    background-color: #323232; /* Dark background for buttons */
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.navbar-right a:hover {
+    background-color: #0a84ff; /* Highlight color for buttons on hover */
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+    min-height: calc(
+        100vh - 60px
+    ); /* Adjust the value based on your actual header and footer height */
+}
+
+/* Footer styles */
+.footer {
+    padding: 10px 20px;
+    background: #1f1f1f; /* Darker shade for the footer */
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Utility classes for text */
+.text-light {
+    color: #aaaaaa; /* Lighter text color for less important text */
+}
+
+.text-primary {
+    color: #0a84ff; /* Primary color for links and buttons */
+}

@@ -1,15 +1,24 @@
-import React, { FC } from "react"; import { Route, Switch } from "react-router-dom";
+import {
+    createBrowserRouter,
+    Navigate
+} from "react-router-dom";
 
-// import LoginPage from "../pages/login";
-import HomePage from "../pages/home/home";
+import LoginPage from "../pages/login";
+import HomePage from "../pages/home";
 
-
-const AppRoutes: FC = () => {
-    return (
-        <Switch>
-            {/* <Route path="/login" component={LoginPage} /> */}
-            <Route path="/" exact={true} component={HomePage} />
-        </Switch>
-    );
-}
-export default AppRoutes;
+// Create router
+const AppRouter = createBrowserRouter([
+    {
+        path: "/",
+        element: <Navigate to="/home" replace />
+    },
+    {
+        path: "/login",
+        element: <LoginPage />
+    },
+    {
+        path: "/home",
+        element: <HomePage />
+    }
+]);
+export default AppRouter;

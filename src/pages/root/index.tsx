@@ -1,18 +1,44 @@
-import React, {FC} from "react";
+import { FC, ReactNode } from "react";
+import { Link } from "react-router-dom";
 
-const Rootpage: FC = (props) => {
-    return (
-        <>
-        {/* <Header /> */}
+import logo from "../../assets/logo.png";
 
-        {/* Page Content */}
-        {props.children}
-        {/* End Page Content */}
+import "./root.css";
 
-        {/* <Footer /> */}
-        </>
-        );
+// This is just a placeholder. You would replace this with your actual authentication logic.
+const isLoggedIn = false;
 
+interface RootPageProps {
+    children?: ReactNode;
 }
 
-export default Rootpage
+const RootPage: FC<RootPageProps> = ({ children }) => {
+    return (
+        <>
+            <header className="navbar">
+                <Link to="/">
+                    <img src={logo} alt="Logo" className="logo" />
+                </Link>
+                <div className="navbar-right">
+                    {isLoggedIn ? (
+                        <Link to="/profile" className="text-primary">
+                            Profile
+                        </Link>
+                    ) : (
+                        <Link to="/login" className="text-primary">
+                            Login
+                        </Link>
+                    )}
+                </div>
+            </header>
+
+            <main>{children}</main>
+
+            <footer className="footer">
+                <p>© 2024 Attendunce. All rights reserved.</p>
+            </footer>
+        </>
+    );
+};
+
+export default RootPage;

@@ -1,11 +1,11 @@
 import React, { useEffect, FC, useState } from "react";
 import { Navigate } from "react-router-dom";
 
-export const Middleware: FC = (props) => {
+const Middleware: FC = ({children}: {children?: React.ReactNode}) => {
     const [needLoginPage, setNeedLoginPage] = useState(false);
 
     useEffect(() => {
-        if (window.localStorage.getItem("authToken")) {
+        if (!window.localStorage.getItem("authToken")) {
             setNeedLoginPage(true);
         }
         else {
@@ -16,7 +16,9 @@ export const Middleware: FC = (props) => {
     return (
         <>
             {needLoginPage && <Navigate to="/login" />}
-            {!needLoginPage && <>{props.children}</>}
+            {!needLoginPage && <>{children}</>}
         </>
     )
 }
+
+export default Middleware;

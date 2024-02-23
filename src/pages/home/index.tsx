@@ -1,12 +1,12 @@
 import { FC } from "react";
 import Rootpage from "../root";
 
-const LoginPage: FC = () => {
+const HomePage: FC = () => {
     return (
         <Rootpage>
-            <h1>This is the Login Page!</h1>
+            <h1>This is the Home Page!</h1>
         </Rootpage>
     );
 };
 
-export default LoginPage;
+export default HomePage;

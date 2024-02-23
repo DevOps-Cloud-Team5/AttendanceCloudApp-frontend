@@ -1,20 +1,18 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+
+import AppRouter from "./routes";
 import "./index.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: ,
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+// Make sure there's a div with id="root" in your index.html
+const rootElement = document.getElementById("root");
+if (rootElement) {
+    createRoot(rootElement).render(
+        <React.StrictMode>
+            <RouterProvider router={AppRouter} />
+        </React.StrictMode>
+    );
+} else {
+    console.error("Failed to find the root element");
+}
