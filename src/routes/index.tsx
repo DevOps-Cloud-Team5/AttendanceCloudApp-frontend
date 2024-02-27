@@ -3,6 +3,7 @@ import {
     Navigate
 } from "react-router-dom";
 
+import NotFound from "../pages/notfound";
 import LoginPage from "../pages/login";
 import HomePage from "../pages/home";
 
@@ -19,6 +20,10 @@ const AppRouter = createBrowserRouter([
     {
         path: "/home",
         element: <HomePage />
+    },
+    {
+        path: "/*",
+        element: <NotFound />
     }
 ]);
 export default AppRouter;
