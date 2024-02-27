@@ -6,6 +6,7 @@ const HomePage: FC = () => {
         <Rootpage>
             <h1>This is the Home Page!</h1>
             <h2>With an updated header!</h2>
+            <h2>An a second header!</h2>
         </Rootpage>
     );
 };
