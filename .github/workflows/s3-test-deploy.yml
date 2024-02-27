@@ -1,4 +1,4 @@
-name: s3-depl
+name: s3-depl-test
 
 on:
   push:
