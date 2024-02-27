@@ -2,7 +2,7 @@ name: s3-depl
 
 on:
   push:
-    branches: [ main ]
+    branches: [ test ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -24,4 +24,4 @@ jobs:
       - name: Build React App
         run: npm install && npm run build
       - name: Deploy app build to S3 bucket
-        run: aws s3 sync ./dist/ s3://attendunce-frontend --delete
+        run: aws s3 sync ./dist/ s3://attendunce-frontend-test --delete
