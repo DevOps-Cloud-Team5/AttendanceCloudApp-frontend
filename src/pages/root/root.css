@@ -62,3 +62,8 @@ main {
 .text-primary {
     color: #0a84ff; /* Primary color for links and buttons */
 }
+.landing-page {
+    background-image: url("../../assets/logo.png"); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+  }
