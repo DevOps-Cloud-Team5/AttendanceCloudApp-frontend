@@ -14,7 +14,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: #1f1f1f; /* Darker shade for the navbar */
+    background: black; /* Darker shade for the navbar */
 }
 
 .logo {
@@ -26,14 +26,14 @@ body {
     text-decoration: none;
     padding: 8px 16px;
     margin-left: 10px;
-    background-color: #323232; /* Dark background for buttons */
+    background-color: #0a84ff; /* Dark background for buttons */
     border: none;
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
 .navbar-right a:hover {
-    background-color: #0a84ff; /* Highlight color for buttons on hover */
+    background-color: #00d5ff; /* Highlight color for buttons on hover */
 }
 
 /* Main content styles */
@@ -47,7 +47,7 @@ main {
 /* Footer styles */
 .footer {
     padding: 10px 20px;
-    background: #1f1f1f; /* Darker shade for the footer */
+    background: black; /* Darker shade for the footer */
     text-align: center;
     position: fixed;
     bottom: 0;
@@ -62,3 +62,8 @@ main {
 .text-primary {
     color: #0a84ff; /* Primary color for links and buttons */
 }
+.landing-page {
+    background-image: url("../../assets/logo.png"); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+  }

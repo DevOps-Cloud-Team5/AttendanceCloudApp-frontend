@@ -25,9 +25,14 @@ const RootPage: FC<RootPageProps> = ({ children }) => {
                             Profile
                         </Link>
                     ) : (
-                        <Link to="/login" className="text-primary">
-                            Login
-                        </Link>
+                        <>
+                            <Link to="/login" className="text-primary" >
+                                Login
+                            </Link>
+                            <Link to="/registration" className="text-primary">
+                                Sign Up
+                            </Link>
+                        </>
                     )}
                 </div>
             </header>
