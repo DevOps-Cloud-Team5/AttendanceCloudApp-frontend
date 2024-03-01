@@ -32,7 +32,7 @@ function SignIn() {
         var expire_date = new Date(new Date().getTime() + expire_time * 1000);
         Cookies.set("token_access", data["access"], {expires: expire_date});
         Cookies.set("token_refresh", data["refresh"], {expires: expire_date});
-        Cookies.set("token_spawned", Date.now() / 1000, {expires: expire_date});
+        Cookies.set("token_spawned", (Date.now() / 1000).toString(), {expires: expire_date});
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
