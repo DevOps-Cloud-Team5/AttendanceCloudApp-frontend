@@ -35,6 +35,7 @@ function SignIn() {
         Cookies.set("token_access", data["access"], {expires: expire_date});
         Cookies.set("token_refresh", data["refresh"], {expires: expire_date});
         Cookies.set("token_spawned", (Date.now() / 1000).toString(), {expires: expire_date});
+        navigate(0)
         navigate("/home", { replace: true })
     }
 
