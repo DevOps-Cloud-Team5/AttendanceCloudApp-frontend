@@ -5,12 +5,13 @@ import {
 
 import LoginPage from "../pages/login";
 import HomePage from "../pages/home";
+import { isLoggedIn } from "../utils";
 
 // Create router
 const AppRouter = createBrowserRouter([
     {
         path: "/",
-        element: <Navigate to="/home" replace />
+        element: isLoggedIn() ? <Navigate to="/home" replace /> : <LoginPage />
     },
     {
         path: "/login",
@@ -18,7 +19,7 @@ const AppRouter = createBrowserRouter([
     },
     {
         path: "/home",
-        element: <HomePage />
+        element: isLoggedIn() ? <HomePage /> : <LoginPage />
     }
 ]);
 export default AppRouter;

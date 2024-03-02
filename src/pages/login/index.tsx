@@ -13,11 +13,12 @@ import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "./login.css"; // Import CSS file for additional styling
 import { Box, FormControlLabel } from "@mui/material";
-import { post_db, expire_time } from "../../utils";
-
+import { post_db, expire_time, isLoggedIn } from "../../utils";
+import { useNavigate } from "react-router-dom"
 
 function SignIn() {
     const [rememberMe, setRememberMe] = useState(false);
+    const navigate = useNavigate()
 
     const handleRememberMeChange = () => {
         setRememberMe(!rememberMe);
@@ -30,9 +31,11 @@ function SignIn() {
 
     const handleTokenResponse = (data : any) => {
         var expire_date = new Date(new Date().getTime() + expire_time * 1000);
+        console.log(data)
         Cookies.set("token_access", data["access"], {expires: expire_date});
         Cookies.set("token_refresh", data["refresh"], {expires: expire_date});
         Cookies.set("token_spawned", (Date.now() / 1000).toString(), {expires: expire_date});
+        navigate("/home", { replace: true })
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

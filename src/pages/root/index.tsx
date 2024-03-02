@@ -2,11 +2,11 @@ import { FC, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import logo from "../../assets/logo.png";
+import { isLoggedIn } from "../../utils";
 
 import "./root.css";
 
 // This is just a placeholder. You would replace this with your actual authentication logic.
-const isLoggedIn = false;
 
 interface RootPageProps {
     children?: ReactNode;
@@ -20,10 +20,18 @@ const RootPage: FC<RootPageProps> = ({ children }) => {
                     <img src={logo} alt="Logo" className="logo" />
                 </Link>
                 <div className="navbar-right">
-                    {isLoggedIn ? (
-                        <Link to="/profile" className="text-primary">
-                            Profile
-                        </Link>
+                    {isLoggedIn() ? (
+                        <>
+                            <Link to="/schedule" className="text-primary">
+                                Schedule
+                            </Link>
+                            <Link to="/courses" className="text-primary">
+                                Courses
+                            </Link>
+                            <Link to="/profile" className="text-primary">
+                                Profile
+                            </Link>
+                        </>
                     ) : (
                         <>
                             <Link to="/login" className="text-primary" >
