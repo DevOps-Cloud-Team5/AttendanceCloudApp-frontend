@@ -9,9 +9,12 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "./login.css"; // Import CSS file for additional styling
 import { Box, FormControlLabel } from "@mui/material";
+import { post_db, expire_time } from "../../utils";
+
 
 function SignIn() {
     const [rememberMe, setRememberMe] = useState(false);
@@ -25,13 +28,28 @@ function SignIn() {
         // put registration link?
     };
 
+    const handleTokenResponse = (data : any) => {
+        var expire_date = new Date(new Date().getTime() + expire_time * 1000);
+        Cookies.set("token_access", data["access"], {expires: expire_date});
+        Cookies.set("token_refresh", data["refresh"], {expires: expire_date});
+        Cookies.set("token_spawned", (Date.now() / 1000).toString(), {expires: expire_date});
+    }
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
-            email: data.get('email'),
+            username: data.get('username'),
             password: data.get('password'),
         });
+
+        post_db("token/", {
+            "username": data.get("username"),
+            "password": data.get("password")
+        })
+        .then(resp => resp.json())
+        .then(data => handleTokenResponse(data))
+        .catch(error => console.log(error))
     };
 
     const theme = createTheme({
@@ -49,7 +67,6 @@ function SignIn() {
             secondary: {
                 main: '#3C80D0',
               },
-            
                 mode:'light',
             
         },
@@ -80,10 +97,10 @@ function SignIn() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
                             autoFocus
                             color="primary"
              
