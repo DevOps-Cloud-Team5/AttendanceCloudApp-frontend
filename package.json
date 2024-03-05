@@ -9,7 +9,8 @@
         "preview": "vite preview",
         "format": "npx prettier . --write",
         "tsc": "npx tsc",
-        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "pre-commit": "npm run format && npm run lint && npm run tsc"
     },
     "dependencies": {
         "@emotion/react": "^11.5.0",
@@ -41,7 +42,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-push": "./node_modules/.bin/tsc"
+            "pre-commit": "npm run pre-commit"
         }
     }
 }
