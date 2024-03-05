@@ -13,6 +13,9 @@ module.exports = {
         "react-refresh/only-export-components": [
             "warn",
             { allowConstantExport: true }
-        ]
+        ],
+        "prefer-arrow-callback": ["error", { allowNamedFunctions: false }],
+        "arrow-body-style": ["error", "as-needed"],
+        "func-style": ["error", "expression", { allowArrowFunctions: true }]
     }
 };

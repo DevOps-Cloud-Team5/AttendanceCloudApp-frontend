@@ -8,9 +8,8 @@ export interface Course {
     course_name: string;
     schedule: string[];
     enrolled_students: string[];
-    teachers: string[]
+    teachers: string[];
 }
-
 
 export interface User {
     id: number;

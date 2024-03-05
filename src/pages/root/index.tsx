@@ -12,46 +12,44 @@ interface RootPageProps {
     children?: ReactNode;
 }
 
-const RootPage: FC<RootPageProps> = ({ children }) => {
-    return (
-        <>
-            <header className="navbar">
-                <Link to="/">
-                    <img src={logo} alt="Logo" className="logo" />
-                </Link>
-                <div className="navbar-right">
-                    {isLoggedIn() ? (
-                        <>
-                            <Link to="/schedule" className="text-primary">
-                                Schedule
-                            </Link>
-                            <Link to="/people" className="text-primary">
-                                People
-                            </Link>
-                            <Link to="/courses" className="text-primary">
-                                Courses
-                            </Link>
-                            <Link to="/profile" className="text-primary">
-                                Profile
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login" className="text-primary">
-                                Login
-                            </Link>
-                        </>
-                    )}
-                </div>
-            </header>
+const RootPage: FC<RootPageProps> = ({ children }) => (
+    <>
+        <header className="navbar">
+            <Link to="/">
+                <img src={logo} alt="Logo" className="logo" />
+            </Link>
+            <div className="navbar-right">
+                {isLoggedIn() ? (
+                    <>
+                        <Link to="/schedule" className="text-primary">
+                            Schedule
+                        </Link>
+                        <Link to="/people" className="text-primary">
+                            People
+                        </Link>
+                        <Link to="/courses" className="text-primary">
+                            Courses
+                        </Link>
+                        <Link to="/profile" className="text-primary">
+                            Profile
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login" className="text-primary">
+                            Login
+                        </Link>
+                    </>
+                )}
+            </div>
+        </header>
 
-            <main>{children}</main>
+        <main>{children}</main>
 
-            <footer className="footer">
-                <p>© 2024 Attendunce. All rights reserved.</p>
-            </footer>
-        </>
-    );
-};
+        <footer className="footer">
+            <p>© 2024 Attendunce. All rights reserved.</p>
+        </footer>
+    </>
+);
 
 export default RootPage;

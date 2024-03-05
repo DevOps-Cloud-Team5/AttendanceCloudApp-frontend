@@ -11,7 +11,11 @@ import { isLoggedIn } from "../utils";
 const AppRouter = createBrowserRouter([
     {
         path: "/",
-        element: isLoggedIn() ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />
+        element: isLoggedIn() ? (
+            <Navigate to="/home" replace />
+        ) : (
+            <Navigate to="/login" replace />
+        )
     },
     {
         path: "/login",
