@@ -39,8 +39,8 @@ export default function People() {
                     return
                 }
                 
-                if (!("error" in users)) setAllStudents(users);
-                if (!("error" in teachers)) setAllTeachers(teachers);
+                if (!("error" in users || "detail" in users)) setAllStudents(users);
+                if (!("error" in teachers || "detail" in teachers)) setAllTeachers(teachers);
             } catch (error) {
                 console.error('Error fetching profile:', error);
                 // Show error on frontend
@@ -85,7 +85,7 @@ export default function People() {
                                 <ListItemText primary="Teachers" />
                             </ListItemButton>
                         </ListItem>
-
+                        {console.log(allTeachers)}
                         {allTeachers.map(key => {
                             return (
                                 <ListItem disablePadding>

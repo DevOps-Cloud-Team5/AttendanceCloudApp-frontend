@@ -22,7 +22,7 @@ export function json_request(url : string, method : string, body_json : {} = {},
 }
 
 export function get_db(endpoint : string, useJWT : boolean = false) {
-    return json_request(db_url + endpoint, "GET", useJWT=useJWT)
+    return json_request(db_url + endpoint, "GET", {}, useJWT)
 }
 
 export function post_db(endpoint : string, body_json : {} = {}, useJWT : boolean = false) {
