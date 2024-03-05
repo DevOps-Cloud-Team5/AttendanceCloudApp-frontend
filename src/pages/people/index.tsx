@@ -5,17 +5,16 @@ import "./people.css"; // Import CSS file for additional styling
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import StarIcon from '@mui/icons-material/Star';
 import { useEffect, useState } from "react";
 import { deleteAuthCookies, get_db } from "../../utils";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../types/common";
 
 export default function People() {
     const navigate = useNavigate()
-    const [allStudents, setAllStudents] = useState();
-    const [allTeachers, setAllTeachers] = useState();
+    const [allStudents, setAllStudents] : any = useState();
+    const [allTeachers, setAllTeachers] : any = useState();
 
     const getStudents = async () => {
         const resp = await get_db("user/getrole/student", true)
@@ -86,7 +85,7 @@ export default function People() {
                             </ListItemButton>
                         </ListItem>
                         {console.log(allTeachers)}
-                        {allTeachers.map(key => {
+                        {allTeachers.map((key : User) => {
                             return (
                                 <ListItem disablePadding>
                                     <ListItemButton sx={{ border:1 }}>
@@ -110,7 +109,7 @@ export default function People() {
                             </ListItemButton>
                         </ListItem>
 
-                        {allStudents.map(key => {
+                        {allStudents.map((key : User) => {
                             return (
                                 <ListItem disablePadding>
                                     <ListItemButton sx={{ border:1 }}>

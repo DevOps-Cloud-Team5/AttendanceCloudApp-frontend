@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import { TokenResponse } from "../types/common";
 
 export const expire_time = 1800;
 
@@ -34,7 +33,7 @@ export function isLoggedIn() {
     var spawn_time = Cookies.get("token_spawned")
     if (spawn_time == undefined) return false // No active token
 
-    var time_diff = (Date.now() / 1000) - spawn_time
+    var time_diff = (Date.now() / 1000) - (+spawn_time)
     return (time_diff < expire_time)
 }
 
@@ -49,9 +48,9 @@ function shouldRefreshToken() {
     if (spawn_time == undefined) return false; // No active token
 
 
-    var time_diff = (Date.now() / 1000) - spawn_time
+    var time_diff = (Date.now() / 1000) - (+spawn_time)
     return (time_diff > expire_time / 3) // Check if token is too fresh, will attempt a refresh after 1/3rd of the expire time
-
+}
 
 export function attemptTokenRefresh() {
     if (!shouldRefreshToken()) return;

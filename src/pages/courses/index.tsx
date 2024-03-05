@@ -9,10 +9,11 @@ import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useState } from "react";
 import { deleteAuthCookies, get_db } from "../../utils";
 import { useNavigate } from "react-router-dom";
+import { Course } from "../../types/common";
 
 export default function Courses() {
     const navigate = useNavigate()
-    const [allCourses, setAllCourses] = useState();
+    const [allCourses, setAllCourses] : any = useState();
 
     const getCourses = async () => {
         const resp = await get_db("course/getall/", true)
@@ -76,7 +77,7 @@ export default function Courses() {
                             </ListItemButton>
                         </ListItem>
 
-                        {allCourses.map(key => {
+                        {allCourses.map((key : Course) => {
                             return (
                                 <ListItem disablePadding>
                                     <ListItemButton sx={{ border:1 }}>

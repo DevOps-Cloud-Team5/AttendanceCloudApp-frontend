@@ -1,22 +1,13 @@
-import React, { FC, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import RootPage from "../root";
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import { CircularProgress } from "@mui/material";
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "./profile.css"; // Import CSS file for additional styling
-import { Box, FormControlLabel } from "@mui/material";
-import { get_db, expire_time, deleteAuthCookies } from "../../utils";
+import { get_db, deleteAuthCookies } from "../../utils";
 import { useNavigate } from "react-router-dom"
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 
 function Profile() {
     const navigate = useNavigate()
@@ -32,7 +23,9 @@ function Profile() {
 
     const getProfileData = async () => {
         const jwt_token = Cookies.get("token_access")
-        const decoded = jwtDecode(jwt_token)
+        if (jwt_token == undefined) return {"code": "missing access token"}
+        const decoded : JwtPayload = jwtDecode(jwt_token)
+        if (!("username" in decoded)) return {"code": "broken access token"}
         const username = decoded["username"]
         const resp = await get_db("user/get/" + username, true)
         return resp.json()

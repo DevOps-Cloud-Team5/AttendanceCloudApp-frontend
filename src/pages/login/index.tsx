@@ -20,8 +20,6 @@ import { post_db, expire_time } from "../../utils";
 
 import { useNavigate } from "react-router-dom"
 
-import { TokenResponse } from "../../types/common";
-
 
 function SignIn() {
     const [rememberMe, setRememberMe] = useState(false);
