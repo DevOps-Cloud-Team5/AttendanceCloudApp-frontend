@@ -6,38 +6,28 @@ export const expire_time = 1800
 // export const db_url = "https://bmjg67cbef.execute-api.eu-central-1.amazonaws.com/prod/"
 export const db_url = "http://127.0.0.1:8000/"
 
-export function post_json(url : string, body_json : {}) {
-    return fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        },
-        body: JSON.stringify(body_json)
-    })
-}
-
-export function get_json(url : string, useJWT : boolean) {
+export function json_request(url : string, method : string, body_json : {} = {}, useJWT : boolean = false) {
     const all_headers = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        ...(useJWT && { "Authorization": "JWT " + Cookies.get("token_access") }) // Only add authorization header if using JWT
     }
-    if (useJWT) {
-        const jwt_token = Cookies.get("token_access")
-        all_headers["Authorization"] = "JWT " + jwt_token
-    }
-    return fetch(url, {
-        method: "GET",
-        headers: all_headers
-    })
-}
 
-export function post_db(endpoint : string, body_json : {} = {}) {
-    return post_json(db_url + endpoint, body_json)
+    const fetch_args = {
+        method: method,
+        headers: all_headers,
+        ...(Object.keys(body_json).length !== 0 && { body: JSON.stringify(body_json) }) // Only add body if it's not empty
+    }
+
+    return fetch(url, fetch_args)
 }
 
 export function get_db(endpoint : string, useJWT : boolean = false) {
-    return get_json(db_url + endpoint, useJWT)
+    return json_request(db_url + endpoint, "GET", useJWT=useJWT)
+}
+
+export function post_db(endpoint : string, body_json : {} = {}, useJWT : boolean = false) {
+    return json_request(db_url + endpoint, "POST", body_json, useJWT)
 }
 
 export function isLoggedIn() {
@@ -71,7 +61,7 @@ export function attemptTokenRefresh() {
     const handleRefreshResponse = (data : any) => {
         var expire_date = new Date(new Date().getTime() + expire_time * 1000);
         Cookies.set("token_access", data["access"], {expires: expire_date});
-        Cookies.set("token_refresh", refresh_token, {expires: expire_date});
+        Cookies.set("token_refresh", data["refresh"], {expires: expire_date});
         Cookies.set("token_spawned", (Date.now() / 1000).toString(), {expires: expire_date});
     }
 

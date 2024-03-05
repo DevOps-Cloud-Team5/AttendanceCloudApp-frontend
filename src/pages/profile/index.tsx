@@ -20,7 +20,6 @@ import { jwtDecode } from "jwt-decode";
 
 function Profile() {
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(true);
     
     const [profileData, setProfileData] = useState({
         username: '',
@@ -56,10 +55,9 @@ function Profile() {
                 }
                 profile[0]["avaterUrl"] = getRandomPicture();
                 setProfileData(profile[0]);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching profile:', error);
-                setLoading(false);
+                // Show error on frontend
             }
         };
 
@@ -89,9 +87,6 @@ function Profile() {
     return (
     <RootPage>
         <ThemeProvider theme={theme}>
-        {loading ? (
-            <CircularProgress /> // Display loading indicator while fetching profile data
-        ) : (
             <Container component="main" maxWidth="xs">
                 <div className="profile">
                     <img className="avatar" src={profileData.avatarUrl} alt="User Avatar" />
@@ -111,7 +106,6 @@ function Profile() {
                     </div>
                 </div>
             </Container>
-        )}
         </ThemeProvider>
     </RootPage>
     );
