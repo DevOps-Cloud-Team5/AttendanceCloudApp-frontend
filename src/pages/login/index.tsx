@@ -13,31 +13,35 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, FormControlLabel } from "@mui/material";
 
+
 import RootPage from "../root";
 import "./login.css"; // Import CSS file for additional styling
 import { post_db, expire_time } from "../../utils";
+
+import { useNavigate } from "react-router-dom"
+
 import { TokenResponse } from "../../types/common";
+
 
 function SignIn() {
     const [rememberMe, setRememberMe] = useState(false);
+    const navigate = useNavigate()
 
     const handleRememberMeChange = () => {
         setRememberMe(!rememberMe);
     };
 
-    // const handleForgotPassword = () => {
-    //     console.log("Forgot password clicked");
-    //     // put registration link?
-    // };
 
-    const handleTokenResponse = (data: TokenResponse) => {
-        const expire_date = new Date(new Date().getTime() + expire_time * 1000);
-        Cookies.set("token_access", data.access, { expires: expire_date });
-        Cookies.set("token_refresh", data.refresh, { expires: expire_date });
-        Cookies.set("token_spawned", (Date.now() / 1000).toString(), {
-            expires: expire_date
-        });
-    };
+    const handleTokenResponse = (data : any) => {
+        var expire_date = new Date(new Date().getTime() + expire_time * 1000);
+        console.log(data)
+        Cookies.set("token_access", data["access"], {expires: expire_date});
+        Cookies.set("token_refresh", data["refresh"], {expires: expire_date});
+        Cookies.set("token_spawned", (Date.now() / 1000).toString(), {expires: expire_date});
+        navigate(0)
+        navigate("/home", { replace: true })
+    }
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
