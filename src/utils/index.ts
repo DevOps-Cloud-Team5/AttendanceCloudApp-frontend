@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
 
 export const expire_time = 1800
 

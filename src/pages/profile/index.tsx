@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import "./login.css"; // Import CSS file for additional styling
+import "./profile.css"; // Import CSS file for additional styling
 import { Box, FormControlLabel } from "@mui/material";
 import { get_db, expire_time, deleteAuthCookies } from "../../utils";
 import { useNavigate } from "react-router-dom"

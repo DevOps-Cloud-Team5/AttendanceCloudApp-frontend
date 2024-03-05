@@ -7,6 +7,7 @@ import LoginPage from "../pages/login";
 import HomePage from "../pages/home";
 import Profile from "../pages/profile";
 import People from "../pages/people";
+import Courses from "../pages/courses";
 import { isLoggedIn } from "../utils";
 
 // Create router
@@ -30,6 +31,10 @@ const AppRouter = createBrowserRouter([
     {
         path: "/people",
         element: isLoggedIn() ? <People /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/courses",
+        element: isLoggedIn() ? <Courses /> : <Navigate to="/login" replace />
     }
 ]);
 

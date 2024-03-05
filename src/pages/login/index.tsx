@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import RootPage from "../root";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "./login.css"; // Import CSS file for additional styling
 import { Box, FormControlLabel } from "@mui/material";
-import { post_db, expire_time, isLoggedIn } from "../../utils";
+import { post_db, expire_time } from "../../utils";
 import { useNavigate } from "react-router-dom"
 
 function SignIn() {
@@ -22,11 +22,6 @@ function SignIn() {
 
     const handleRememberMeChange = () => {
         setRememberMe(!rememberMe);
-    };
-
-    const handleForgotPassword = () => {
-        console.log("Forgot password clicked");
-        // put registration link?
     };
 
     const handleTokenResponse = (data : any) => {
