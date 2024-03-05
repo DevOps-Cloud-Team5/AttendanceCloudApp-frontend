@@ -37,7 +37,7 @@ const RootPage: FC<RootPageProps> = ({ children }) => {
                         </>
                     ) : (
                         <>
-                            <Link to="/login" className="text-primary" >
+                            <Link to="/login" className="text-primary">
                                 Login
                             </Link>
                         </>

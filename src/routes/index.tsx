@@ -1,7 +1,4 @@
-import {
-    createBrowserRouter,
-    Navigate
-} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import LoginPage from "../pages/login";
 import HomePage from "../pages/home";
@@ -37,5 +34,4 @@ const AppRouter = createBrowserRouter([
         element: isLoggedIn() ? <Courses /> : <Navigate to="/login" replace />
     }
 ]);
-
 export default AppRouter;

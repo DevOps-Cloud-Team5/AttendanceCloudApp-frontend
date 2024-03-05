@@ -4,7 +4,7 @@
     height: 100%; /* Adjust height to occupy half of the screen */
     display: flex;
     flex-direction: column; /* Align items vertically */
-    justify-content: center;  /* Align items to the left horizontally */
+    justify-content: center; /* Align items to the left horizontally */
     padding: 20px;
     background-color: #f9f9f9;
     overflow: auto; /* Add overflow to enable scrolling if content exceeds viewport */
@@ -30,7 +30,6 @@
     text-align: center;
     justify-content: center;
     margin-right: 55px;
-
 }
 
 .login-form input,
@@ -38,7 +37,6 @@
     top: 500px;
     margin-top: 10px;
     align-items: center;
-
 }
 
 .login-form button {
@@ -59,5 +57,4 @@
     text-align: center;
     justify-content: center;
     margin-left: 300px;
-
 }
