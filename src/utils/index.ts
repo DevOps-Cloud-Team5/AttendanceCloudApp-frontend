@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
-import { TokenResponse } from "../types/common";
+import { CookieJWT, TokenResponse } from "../types/common";
+import { jwtDecode } from "jwt-decode";
 
 export const expire_time = 1800;
 
@@ -12,6 +13,8 @@ export const json_request = (
     body_json: string = "",
     useJWT: boolean = false
 ) => {
+    if (useJWT) attemptTokenRefresh();
+
     const all_headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -79,6 +82,20 @@ export const attemptTokenRefresh = () => {
         .then((resp) => resp.json())
         .then((data) => handleRefreshResponse(data))
         .catch((error) => console.log(error));
+};
+
+export const getDecodedJWT = () => {
+    const jwt_token = Cookies.get("token_access");
+    if (jwt_token == undefined) return { code: "missing access token" };
+    const decoded: CookieJWT = jwtDecode(jwt_token);
+    if (!("username" in decoded)) return { code: "broken access token" };
+    return decoded;
+};
+
+export const IsAdmin = () => {
+    const jwt_token = getDecodedJWT();
+    if ("code" in jwt_token) return false;
+    return jwt_token["role"] == "admin";
 };
 
 // getUrlDB()
