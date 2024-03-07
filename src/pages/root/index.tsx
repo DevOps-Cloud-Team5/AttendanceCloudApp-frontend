@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import logo from "../../assets/logo.png";
 import { isLoggedIn } from "../../utils";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import "./root.css";
 
@@ -12,8 +13,27 @@ interface RootPageProps {
     children?: ReactNode;
 }
 
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#3C80D0"
+        },
+        text: {
+            primary: "#FAFAFA",
+            secondary: "rgba(255, 255, 255, 0.7)" // Change text color to white
+        },
+        background: {
+            default: "#fff" // Change background color to black
+        },
+        secondary: {
+            main: "#3C80D0"
+        },
+        mode: "light"
+    }
+});
+
 const RootPage: FC<RootPageProps> = ({ children }) => (
-    <>
+    <ThemeProvider theme={theme}>
         <header className="navbar">
             <Link to="/">
                 <img src={logo} alt="Logo" className="logo" />
@@ -49,7 +69,7 @@ const RootPage: FC<RootPageProps> = ({ children }) => (
         <footer className="footer">
             <p>© 2024 Attendunce. All rights reserved.</p>
         </footer>
-    </>
+    </ThemeProvider>
 );
 
 export default RootPage;
