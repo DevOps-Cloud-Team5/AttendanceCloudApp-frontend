@@ -29,7 +29,7 @@ const SignIn = () => {
     const handleTokenResponse = (data: TokenResponse) => {
         if ("detail" in data) {
             // TODO: Show wrong password, deny login
-            return
+            return;
         }
         const expire_date = new Date(new Date().getTime() + expire_time * 1000);
         console.log(data);
