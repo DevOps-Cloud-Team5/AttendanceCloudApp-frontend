@@ -26,8 +26,8 @@ const People = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const students_query = await getUserRole("students");
-                const teachers_query = await getUserRole("teachers");
+                const students_query = await getUserRole("student");
+                const teachers_query = await getUserRole("teacher");
                 if ("code" in students_query || "code" in teachers_query) {
                     // Not authenticated anymore
                     deleteAuthCookies();
