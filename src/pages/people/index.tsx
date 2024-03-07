@@ -1,41 +1,31 @@
 import RootPage from "../root";
 import Container from "@mui/material/Container";
 import "./people.css"; // Import CSS file for additional styling
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import { useEffect, useState } from "react";
 import { deleteAuthCookies, get_db, IsAdmin } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
-import { IconButton , Typography } from '@mui/material';
+import { Button, IconButton , Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Avatar from '@mui/material/Avatar';
 
 const People = () => {
     const navigate = useNavigate();
-    const [allStudents, setAllStudents] = useState<User[]>();
-    const [allTeachers, setAllTeachers] = useState<User[]>();
+    const [allUsers, setAllUsers] = useState<User[]>();
     const alternatingColor = ['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.3)'];
 
-    const getStudents = async () => {
-        const resp = await get_db("user/getrole/student", true);
-        return resp.json();
-    };
-
-    const getTeachers = async () => {
-        const resp = await get_db("user/getrole/teacher", true);
+    const getUserRole = async (role : string) => {
+        const resp = await get_db("user/getrole/" + role, true);
         return resp.json();
     };
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const users = await getStudents();
-                const teachers = await getTeachers();
-                if ("code" in users || "code" in teachers) {
+                const students_query = await getUserRole("students");
+                const teachers_query = await getUserRole("teachers");
+                if ("code" in students_query || "code" in teachers_query) {
                     // Not authenticated anymore
                     deleteAuthCookies();
                     navigate("/login");
@@ -43,10 +33,9 @@ const People = () => {
                     return;
                 }
 
-                if (!("error" in users || "detail" in users))
-                    setAllStudents(users);
-                if (!("error" in teachers || "detail" in teachers))
-                    setAllTeachers(teachers);
+                const students = (!("error" in students_query || "detail" in students_query)) ? students_query : {}
+                const teachers = (!("error" in teachers_query || "detail" in teachers_query)) ? teachers_query : {}
+                setAllUsers(students.concat(teachers))
             } catch (error) {
                 console.error("Error fetching profile:", error);
                 // Show error on frontend
@@ -105,7 +94,6 @@ const People = () => {
             alignItems: 'center',
         },
     });
-    
 
     return (
         <RootPage>
@@ -124,27 +112,13 @@ const People = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {allTeachers?.map((teacher: User, index: number) => (
-                                <tr key={teacher.id} style={{ backgroundColor: alternatingColor[index % alternatingColor.length] }}>
+                            {allUsers?.map((user: User, index: number) => (
+                                <tr key={user.id} style={{ backgroundColor: alternatingColor[index % alternatingColor.length] }}>
                                     <td className="avatar-column">
-                                        <Avatar alt={`${teacher.first_name} ${teacher.last_name}`} src={teacher.avatarUrl} />
+                                        <Avatar alt={`${user.first_name} ${user.last_name}`} />
                                     </td>
-                                    <td>{`${teacher.first_name} ${teacher.last_name}`}</td>
-                                    <td>Teacher</td>
-                                    {IsAdmin() ? <td className="actions-icon">
-                                        <IconButton>
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    </td> : null}
-                                </tr>
-                            ))}
-                            {allStudents?.map((student: User, index: number) => (
-                                <tr key={student.id} style={{ backgroundColor: alternatingColor[index % alternatingColor.length] }}>
-                                    <td className="avatar-column">
-                                        <Avatar alt={`${student.first_name} ${student.last_name}`} src={student.avatarUrl} />
-                                    </td>
-                                    <td>{`${student.first_name} ${student.last_name}`}</td>
-                                    <td>Student</td>
+                                    <td><Button>{`${user.first_name} ${user.last_name}`}</Button></td>
+                                    <td>{user.role}</td>
                                     {IsAdmin() ? <td className="actions-icon">
                                         <IconButton>
                                             <MoreVertIcon />
