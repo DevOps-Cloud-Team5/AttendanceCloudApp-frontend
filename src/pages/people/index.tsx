@@ -45,25 +45,6 @@ const People = () => {
         fetchUsers();
     }, [navigate]);
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "#3C80D0"
-            },
-            text: {
-                primary: "#333", // Changed text color to a darker shade
-                secondary: "#666" // Changed secondary text color to a darker shade
-            },
-            background: {
-                default: "#fff"
-            },
-            secondary: {
-                main: "#3C80D0"
-            },
-            mode: "dark"
-        }
-    });
-
     const StyledTable = styled('table')({
         borderCollapse: 'collapse',
         width: '100%',
@@ -97,7 +78,6 @@ const People = () => {
 
     return (
         <RootPage>
-            <ThemeProvider theme={theme}>
                 <Container component="main">
                     <Typography variant="h4" gutterBottom>
                         People
@@ -129,7 +109,6 @@ const People = () => {
                         </tbody>
                     </StyledTable>
                 </Container>
-            </ThemeProvider>
         </RootPage>
     );
 };
