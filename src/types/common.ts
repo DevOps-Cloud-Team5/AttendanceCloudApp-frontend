@@ -22,3 +22,9 @@ export interface User {
     courses: [];
     role: string;
 }
+
+export interface CookieJWT {
+    username: string;
+    email: string;
+    role: string;
+}
