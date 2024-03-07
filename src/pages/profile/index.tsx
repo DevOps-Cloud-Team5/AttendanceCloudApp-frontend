@@ -30,10 +30,10 @@ const Profile = () => {
         return resp.json();
     };
 
-    const getRandomPicture = () => {
-        const img_index = Math.floor(Math.random() * 100);
-        return "https://randomuser.me/api/portraits/men/" + img_index + ".jpg";
-    };
+    // const getRandomPicture = () => {
+    //     const img_index = Math.floor(Math.random() * 100);
+    //     return "https://randomuser.me/api/portraits/men/" + img_index + ".jpg";
+    // };
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -45,7 +45,7 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                profile[0]["avaterUrl"] = getRandomPicture();
+                // profile[0]["avaterUrl"] = getRandomPicture();
                 setProfileData(profile[0]);
             } catch (error) {
                 console.error("Error fetching profile:", error);
