@@ -19,7 +19,7 @@ const Profile = () => {
         role: "",
         first_name: "",
         last_name: "",
-        avatarUrl: "https://randomuser.me/api/portraits/men/5.jpg"
+        avatarUrl: ""
     });
 
     const getProfileData = async () => {
@@ -36,6 +36,11 @@ const Profile = () => {
         const resp = await get_db("user/get/" + username, true);
         return resp.json();
     };
+
+    // const getRandomPicture = () => {
+    //     const img_index = Math.floor(Math.random() * 100);
+    //     return "https://randomuser.me/api/portraits/men/" + img_index + ".jpg";
+    // };
 
     useEffect(() => {
         const fetchUserProfile = async () => {
