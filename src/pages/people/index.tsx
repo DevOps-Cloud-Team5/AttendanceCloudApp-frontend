@@ -9,11 +9,13 @@ import { useEffect, useState } from "react";
 import { deleteAuthCookies, get_db } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
+import { ListItemSecondaryAction, Typography } from '@mui/material';
 
 const People = () => {
     const navigate = useNavigate();
     const [allStudents, setAllStudents] = useState<User[]>();
     const [allTeachers, setAllTeachers] = useState<User[]>();
+    const alternatingColor = ['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.3)'];
 
     const getStudents = async () => {
         const resp = await get_db("user/getrole/student", true);
@@ -52,80 +54,73 @@ const People = () => {
     }, [navigate]);
 
     return (
-        <RootPage>
-            <Container component="main" maxWidth="xs">
+<RootPage>
+    <ThemeProvider theme={theme}>
+        <Container component="main">
+            <Typography variant="h5" gutterBottom>
+                People
+            </Typography>
+            <List
+                sx={{
+                    width: "100%",
+                    maxWidth: "none",
+                    marginLeft: "auto",
+                    bgcolor: "background.paper"
+                }}
+                aria-label="People"
+            >
                 {allTeachers != undefined ? (
-                    <List
-                        sx={{
-                            width: "100%",
-                            maxWidth: 1000,
-                            bgcolor: "background.paper"
-                        }}
-                        aria-label="Teachers"
-                    >
-                        <ListItem disablePadding>
+                    allTeachers.map((teacher: User, index: number) => (
+                        <ListItem disablePadding key={teacher.id}>
                             <ListItemButton
                                 sx={{
-                                    border: 1,
-                                    bgcolor: "rgba(255, 255, 255, 0.12)"
+                                    borderTop: 1,
+                                    borderBottom: 1,
+                                    borderColor: 'rgba(255, 255, 255, 0.12)',
+                                    bgcolor: alternatingColor[index % alternatingColor.length]
                                 }}
                             >
-                                <ListItemText primary="Teachers" />
+                                <ListItemText
+                                    primary={`${teacher.first_name} ${teacher.last_name}`}
+                                />
+                                <ListItemSecondaryAction>
+                                    <Typography variant="body2" color="textSecondary">
+                                        Teacher
+                                    </Typography>
+                                </ListItemSecondaryAction>
                             </ListItemButton>
                         </ListItem>
-                        {allTeachers.map((key: User) => (
-                            <ListItem disablePadding>
-                                <ListItemButton sx={{ border: 1 }}>
-                                    <ListItemText
-                                        primary={
-                                            key["first_name"] +
-                                            " " +
-                                            key["last_name"]
-                                        }
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
+                    ))
                 ) : null}
-
                 {allStudents != undefined ? (
-                    <List
-                        sx={{
-                            width: "100%",
-                            maxWidth: 1000,
-                            bgcolor: "background.paper"
-                        }}
-                        aria-label="Students"
-                    >
-                        <ListItem disablePadding>
+                    allStudents.map((student: User, index: number) => (
+                        <ListItem disablePadding key={student.id}>
                             <ListItemButton
                                 sx={{
-                                    border: 1,
-                                    bgcolor: "rgba(255, 255, 255, 0.12)"
+                                    borderTop: 1,
+                                    borderBottom: 1,
+                                    bgcolor: alternatingColor[index % alternatingColor.length]
                                 }}
                             >
-                                <ListItemText primary="Students" />
+                                <ListItemText
+                                    primary={`${student.first_name} ${student.last_name}`}
+                                />
+                                <ListItemSecondaryAction>
+                                    <Typography variant="body2" color="textSecondary">
+                                        Student
+                                    </Typography>
+                                </ListItemSecondaryAction>
                             </ListItemButton>
                         </ListItem>
-
-                        {allStudents.map((key: User) => (
-                            <ListItem disablePadding>
-                                <ListItemButton sx={{ border: 1 }}>
-                                    <ListItemText
-                                        primary={
-                                            key["first_name"] +
-                                            " " +
-                                            key["last_name"]
-                                        }
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
+                    ))
                 ) : null}
-            </Container>
-        </RootPage>
+            </List>
+        </Container>
+    </ThemeProvider>
+</RootPage>
+
+
+    
     );
 };
 

@@ -12,6 +12,8 @@ export const json_request = (
     body_json: string = "",
     useJWT: boolean = false
 ) => {
+    if (useJWT) attemptTokenRefresh();
+
     const all_headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
