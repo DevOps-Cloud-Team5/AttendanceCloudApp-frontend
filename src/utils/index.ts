@@ -89,14 +89,14 @@ export const getDecodedJWT = () => {
     if (jwt_token == undefined) return { code: "missing access token" };
     const decoded: CookieJWT = jwtDecode(jwt_token);
     if (!("username" in decoded)) return { code: "broken access token" };
-    return decoded
+    return decoded;
 };
 
 export const IsAdmin = () => {
-    const jwt_token = getDecodedJWT()
-    if ("code" in jwt_token) return false
-    return (jwt_token["role"] == "admin")
-}
+    const jwt_token = getDecodedJWT();
+    if ("code" in jwt_token) return false;
+    return jwt_token["role"] == "admin";
+};
 
 // getUrlDB()
 
