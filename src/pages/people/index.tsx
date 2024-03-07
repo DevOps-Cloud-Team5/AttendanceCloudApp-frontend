@@ -7,10 +7,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useEffect, useState } from "react";
-import { deleteAuthCookies, get_db } from "../../utils";
+import { deleteAuthCookies, get_db, IsAdmin } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
-import { ListItemSecondaryAction, Typography } from '@mui/material';
+import { IconButton , Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Avatar from '@mui/material/Avatar';
 
 const People = () => {
     const navigate = useNavigate();
@@ -60,11 +63,11 @@ const People = () => {
                 main: "#3C80D0"
             },
             text: {
-                primary: "#FAFAFA",
-                secondary: "rgba(255, 255, 255, 0.7)" // Change text color to white
+                primary: "#333", // Changed text color to a darker shade
+                secondary: "#666" // Changed secondary text color to a darker shade
             },
             background: {
-                default: "#fff" // Change background color to black
+                default: "#fff"
             },
             secondary: {
                 main: "#3C80D0"
@@ -73,74 +76,88 @@ const People = () => {
         }
     });
 
-    return (
-<RootPage>
-    <ThemeProvider theme={theme}>
-        <Container component="main">
-            <Typography variant="h5" gutterBottom>
-                People
-            </Typography>
-            <List
-                sx={{
-                    width: "100%",
-                    maxWidth: "none",
-                    marginLeft: "auto",
-                    bgcolor: "background.paper"
-                }}
-                aria-label="People"
-            >
-                {allTeachers != undefined ? (
-                    allTeachers.map((teacher: User, index: number) => (
-                        <ListItem disablePadding key={teacher.id}>
-                            <ListItemButton
-                                sx={{
-                                    borderTop: 1,
-                                    borderBottom: 1,
-                                    borderColor: 'rgba(255, 255, 255, 0.12)',
-                                    bgcolor: alternatingColor[index % alternatingColor.length]
-                                }}
-                            >
-                                <ListItemText
-                                    primary={`${teacher.first_name} ${teacher.last_name}`}
-                                />
-                                <ListItemSecondaryAction>
-                                    <Typography variant="body2" color="textSecondary">
-                                        Teacher
-                                    </Typography>
-                                </ListItemSecondaryAction>
-                            </ListItemButton>
-                        </ListItem>
-                    ))
-                ) : null}
-                {allStudents != undefined ? (
-                    allStudents.map((student: User, index: number) => (
-                        <ListItem disablePadding key={student.id}>
-                            <ListItemButton
-                                sx={{
-                                    borderTop: 1,
-                                    borderBottom: 1,
-                                    bgcolor: alternatingColor[index % alternatingColor.length]
-                                }}
-                            >
-                                <ListItemText
-                                    primary={`${student.first_name} ${student.last_name}`}
-                                />
-                                <ListItemSecondaryAction>
-                                    <Typography variant="body2" color="textSecondary">
-                                        Student
-                                    </Typography>
-                                </ListItemSecondaryAction>
-                            </ListItemButton>
-                        </ListItem>
-                    ))
-                ) : null}
-            </List>
-        </Container>
-    </ThemeProvider>
-</RootPage>
-
-
+    const StyledTable = styled('table')({
+        borderCollapse: 'collapse',
+        width: '100%',
+        '& th, & td': {
+            padding: '8px', // Adjust the padding as needed
+            borderBottom: '1px solid #ddd', // Add a border bottom to create a divider effect
+            textAlign: 'left', // Align content to the left
+        },
+        '& th': {
+            // backgroundColor: '#f2f2f2', // Add background color to header cells if needed
+            fontWeight: 'bold', // Add bold font weight to header cells if needed
+        },
+        '& .type-column': {
+            width: '10%', // Adjust the width of the actions column
+            textAlign: 'left', // Align content to the left
+        },
+        '& .actions-column': {
+            width: '5%', // Adjust the width of the actions column
+            textAlign: 'left', // Align content to the left
+        },
+        '& .avatar-column': {
+            width: '5%', // Adjust the width of the avatar column
+            textAlign: 'left', // Align content to the left
+        },
+        '& .actions-icon': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+    });
     
+
+    return (
+        <RootPage>
+            <ThemeProvider theme={theme}>
+                <Container component="main">
+                    <Typography variant="h4" gutterBottom>
+                        People
+                    </Typography>
+                    <StyledTable>
+                        <thead>
+                            <tr>
+                                <th className="avatar-column"></th>
+                                <th>Name</th>
+                                <th className="type-column">Role</th>
+                                {IsAdmin() ? <th className="actions-column">Actions</th> : null}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {allTeachers?.map((teacher: User, index: number) => (
+                                <tr key={teacher.id} style={{ backgroundColor: alternatingColor[index % alternatingColor.length] }}>
+                                    <td className="avatar-column">
+                                        <Avatar alt={`${teacher.first_name} ${teacher.last_name}`} src={teacher.avatarUrl} />
+                                    </td>
+                                    <td>{`${teacher.first_name} ${teacher.last_name}`}</td>
+                                    <td>Teacher</td>
+                                    {IsAdmin() ? <td className="actions-icon">
+                                        <IconButton>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    </td> : null}
+                                </tr>
+                            ))}
+                            {allStudents?.map((student: User, index: number) => (
+                                <tr key={student.id} style={{ backgroundColor: alternatingColor[index % alternatingColor.length] }}>
+                                    <td className="avatar-column">
+                                        <Avatar alt={`${student.first_name} ${student.last_name}`} src={student.avatarUrl} />
+                                    </td>
+                                    <td>{`${student.first_name} ${student.last_name}`}</td>
+                                    <td>Student</td>
+                                    {IsAdmin() ? <td className="actions-icon">
+                                        <IconButton>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    </td> : null}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </StyledTable>
+                </Container>
+            </ThemeProvider>
+        </RootPage>
     );
 };
 

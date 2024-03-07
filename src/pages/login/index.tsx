@@ -28,6 +28,10 @@ const SignIn = () => {
     };
 
     const handleTokenResponse = (data: TokenResponse) => {
+        if ("detail" in data) {
+            // TODO: Show wrong password, deny login
+            return
+        }
         const expire_date = new Date(new Date().getTime() + expire_time * 1000);
         console.log(data);
         Cookies.set("token_access", data["access"], { expires: expire_date });
