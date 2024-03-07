@@ -1,6 +1,5 @@
 import RootPage from "../root";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./courses.css"; // Import CSS file for additional styling
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -42,62 +41,41 @@ export default function Courses() {
         fetchCourses();
     }, [navigate]);
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "#3C80D0"
-            },
-            text: {
-                primary: "#FAFAFA",
-                secondary: "rgba(255, 255, 255, 0.7)" // Change text color to white
-            },
-            background: {
-                default: "#fff" // Change background color to black
-            },
-            secondary: {
-                main: "#3C80D0"
-            },
-            mode: "dark"
-        }
-    });
-
     return (
         <RootPage>
-            <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
-                    {allCourses != undefined ? (
-                        <List
-                            sx={{
-                                width: "100%",
-                                maxWidth: 1000,
-                                bgcolor: "background.paper"
-                            }}
-                            aria-label="Courses"
-                        >
+            <Container component="main" maxWidth="xs">
+                {allCourses != undefined ? (
+                    <List
+                        sx={{
+                            width: "100%",
+                            maxWidth: 1000,
+                            bgcolor: "background.paper"
+                        }}
+                        aria-label="Courses"
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                sx={{
+                                    border: 1,
+                                    bgcolor: "rgba(255, 255, 255, 0.12)"
+                                }}
+                            >
+                                <ListItemText primary="Courses" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        {allCourses.map((key: Course) => (
                             <ListItem disablePadding>
-                                <ListItemButton
-                                    sx={{
-                                        border: 1,
-                                        bgcolor: "rgba(255, 255, 255, 0.12)"
-                                    }}
-                                >
-                                    <ListItemText primary="Courses" />
+                                <ListItemButton sx={{ border: 1 }}>
+                                    <ListItemText
+                                        primary={key["course_name"]}
+                                    />
                                 </ListItemButton>
                             </ListItem>
-
-                            {allCourses.map((key: Course) => (
-                                <ListItem disablePadding>
-                                    <ListItemButton sx={{ border: 1 }}>
-                                        <ListItemText
-                                            primary={key["course_name"]}
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                    ) : null}
-                </Container>
-            </ThemeProvider>
+                        ))}
+                    </List>
+                ) : null}
+            </Container>
         </RootPage>
     );
 }
