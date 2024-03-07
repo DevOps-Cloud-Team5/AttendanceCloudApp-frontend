@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { CookieJWT, TokenResponse } from "../types/common";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export const expire_time = 1800;
 
