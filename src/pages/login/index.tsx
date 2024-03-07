@@ -11,7 +11,6 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, FormControlLabel } from "@mui/material";
 
 import RootPage from "../root";
@@ -63,106 +62,85 @@ const SignIn = () => {
             .catch((error) => console.log(error));
     };
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "#3C80D0"
-            },
-            text: {
-                primary: "#FAFAFA",
-                secondary: "rgba(255, 255, 255, 0.7)" // Change text color to white
-            },
-            background: {
-                default: "#fff" // Change background color to black
-            },
-            secondary: {
-                main: "#3C80D0"
-            },
-            mode: "light"
-        }
-    });
-
     return (
         <RootPage>
-            <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs">
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center"
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
                     <Box
-                        sx={{
-                            marginTop: 8,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center"
-                        }}
+                        component="form"
+                        onSubmit={handleSubmit}
+                        noValidate
+                        sx={{ mt: 1 }}
+                        color={"primary"}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                        <Box
-                            component="form"
-                            onSubmit={handleSubmit}
-                            noValidate
-                            sx={{ mt: 1 }}
-                            color={"primary"}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                            color="primary"
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    value="remember"
+                                    checked={rememberMe}
+                                    onChange={handleRememberMeChange}
+                                    color="primary"
+                                />
+                            }
+                            label="Remember me"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
                         >
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="Username"
-                                name="username"
-                                autoComplete="username"
-                                autoFocus
-                                color="primary"
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        value="remember"
-                                        checked={rememberMe}
-                                        onChange={handleRememberMeChange}
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Sign In
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
+                            Sign In
+                        </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="#" variant="body2">
+                                    Forgot password?
+                                </Link>
                             </Grid>
-                        </Box>
+                            <Grid item>
+                                <Link href="#" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
                     </Box>
-                </Container>
-            </ThemeProvider>
+                </Box>
+            </Container>
         </RootPage>
     );
 };

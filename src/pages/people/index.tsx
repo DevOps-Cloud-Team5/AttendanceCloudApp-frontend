@@ -1,6 +1,5 @@
 import RootPage from "../root";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./people.css"; // Import CSS file for additional styling
 import { useEffect, useState } from "react";
 import { deleteAuthCookies, get_db, IsAdmin } from "../../utils";
