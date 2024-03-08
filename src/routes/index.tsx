@@ -30,6 +30,14 @@ const AppRouter = createBrowserRouter([
         element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
     },
     {
+        path: "/profile/:id",
+        element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/create_user",
+        element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+    },
+    {
         path: "/people",
         element: isLoggedIn() ? <People /> : <Navigate to="/login" replace />
     },
