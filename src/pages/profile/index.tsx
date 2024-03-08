@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import "./profile.css"; // Import CSS file for additional styling
 import { get_db, deleteAuthCookies } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { CookieJWT } from "../../types/common";
 
 const Profile = () => {
@@ -23,13 +23,14 @@ const Profile = () => {
     });
 
     const getProfileData = async () => {
-        let username = ""
-        if (id != undefined) username = id
+        let username = "";
+        if (id != undefined) username = id;
         else {
             const jwt_token = Cookies.get("token_access");
             if (jwt_token == undefined) return { code: "missing access token" };
             const decoded: CookieJWT = jwtDecode(jwt_token);
-            if (!("username" in decoded)) return { code: "broken access token" };
+            if (!("username" in decoded))
+                return { code: "broken access token" };
             username = decoded["username"];
         }
         const resp = await get_db("user/get/" + username, true);
@@ -46,7 +47,8 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                profile[0]["avaterUrl"] = "https://randomuser.me/api/portraits/men/5.jpg"
+                profile[0]["avaterUrl"] =
+                    "https://randomuser.me/api/portraits/men/5.jpg";
                 setProfileData(profile[0]);
             } catch (error) {
                 console.error("Error fetching profile:", error);
