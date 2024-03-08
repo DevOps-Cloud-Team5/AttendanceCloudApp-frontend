@@ -6,11 +6,12 @@ import Cookies from "js-cookie";
 import "./profile.css"; // Import CSS file for additional styling
 import { get_db, deleteAuthCookies } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 import { CookieJWT } from "../../types/common";
 
 const Profile = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const { id } = useParams();
 
     const [profileData, setProfileData] = useState({
@@ -36,11 +37,6 @@ const Profile = () => {
         const resp = await get_db("user/get/" + username, true);
         return resp.json();
     };
-
-    // const getRandomPicture = () => {
-    //     const img_index = Math.floor(Math.random() * 100);
-    //     return "https://randomuser.me/api/portraits/men/" + img_index + ".jpg";
-    // };
 
     useEffect(() => {
         const fetchUserProfile = async () => {

@@ -36,12 +36,7 @@ const AppRouter = createBrowserRouter([
     },
     {
         path: "/create_user",
-        element:
-            isLoggedIn() && IsAdmin() ? (
-                <CreateUser />
-            ) : (
-                <Navigate to="/login" replace />
-            )
+        element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
     },
     {
         path: "/people",

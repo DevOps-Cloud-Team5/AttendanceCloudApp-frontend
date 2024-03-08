@@ -1,10 +1,5 @@
 .mainComponent {
-    background: rgba(
-        255,
-        255,
-        255,
-        0.1
-    ); /* Semi-transparent white for profile background */
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white for profile background */
     backdrop-filter: blur(5px); /* Blur effect for the background */
     border-radius: 15px;
     display: flex;
