@@ -168,6 +168,7 @@ const People = () => {
                         ))}
                     </tbody>
                 </StyledTable>
+
             </Container>
         </RootPage>
     );
