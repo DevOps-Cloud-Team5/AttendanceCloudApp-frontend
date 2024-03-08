@@ -1,6 +1,6 @@
 const Cookies = {
-    get: jest.fn(),
+    get: jest.fn()
     // Add other mocked methods here if needed
-  };
-  
-  export default Cookies;
+};
+
+export default Cookies;
