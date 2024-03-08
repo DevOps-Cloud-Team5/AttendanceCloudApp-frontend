@@ -5,7 +5,8 @@ import HomePage from "../pages/home";
 import Profile from "../pages/profile";
 import People from "../pages/people";
 import Courses from "../pages/courses";
-import { isLoggedIn } from "../utils";
+import { IsAdmin, isLoggedIn } from "../utils";
+import CreateUser from "../pages/create_user";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -35,7 +36,12 @@ const AppRouter = createBrowserRouter([
     },
     {
         path: "/create_user",
-        element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+        element:
+            isLoggedIn() && IsAdmin() ? (
+                <CreateUser />
+            ) : (
+                <Navigate to="/login" replace />
+            )
     },
     {
         path: "/people",

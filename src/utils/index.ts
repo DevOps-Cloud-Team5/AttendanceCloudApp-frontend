@@ -86,7 +86,8 @@ export const attemptTokenRefresh = () => {
 
 export const getDecodedJWT = () => {
     const jwt_token = Cookies.get("token_access");
-    if (jwt_token == undefined) return { code: "missing access token" };
+    if (jwt_token == undefined || jwt_token == "undefined")
+        return { code: "missing access token" };
     const decoded: CookieJWT = jwtDecode(jwt_token);
     if (!("username" in decoded)) return { code: "broken access token" };
     return decoded;
