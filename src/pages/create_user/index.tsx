@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -14,38 +14,30 @@ import { post_db } from "../../utils";
 
 const CreateUser = () => {
     // const navigate = useNavigate();
-    const [regStatus, setRegStatus] = useState(""); 
 
-    const handleTokenResponse = (data: any, event : React.FormEvent<HTMLFormElement>) => {
-        console.log(data)
-        if (!("username" in data) || (typeof data["username"] !== "string")) {
-            setRegStatus("failed");
+    const handleTokenResponse = (data: any) => {
+        console.log(data);
+        if ("detail" in data) {
+            // TODO: Show wrong password, deny login
             return;
         }
-        else {
-            setRegStatus("success");
-        }
-        // event.currentTarget.reset()
+
         // navigate(0);
         // navigate("/home", { replace: true });
     };
 
     // TODO: Add first and last name validation
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        setRegStatus("submitting");
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const first_name = data.get("first_name");
         const last_name = data.get("last_name");
-        
+
         let username = data.get("username");
         let email = data.get("email");
 
         if (username == "") username = first_name + "." + last_name;
         if (email == "") email = first_name + "." + last_name + "@uni.org";
-
-        if (username !== null) username = username.toString().toLowerCase()
-        if (email !== null) email = email.toString().toLowerCase()
 
         post_db(
             "user/register/",
@@ -58,8 +50,8 @@ const CreateUser = () => {
                 role: data.get("role")
             })
         )
-            .then((resp) => (resp.json()))
-            .then((data) => handleTokenResponse(data, event))
+            .then((resp) => resp.json())
+            .then((data) => handleTokenResponse(data))
             .catch((error) => console.log(error));
     };
 
@@ -148,19 +140,12 @@ const CreateUser = () => {
                             autoComplete="role"
                             autoFocus
                             label="Role"
-                            defaultValue="student"
+                            defaultValue="Student"
                         >
-                            <MenuItem value="student">Student</MenuItem>
-                            <MenuItem value="teacher">Teacher</MenuItem>
-                            <MenuItem value="admin">Admin</MenuItem>
+                            <MenuItem value="Student">Student</MenuItem>
+                            <MenuItem value="Teacher">Teacher</MenuItem>
+                            <MenuItem value="Admin">Admin</MenuItem>
                         </Select>
-
-                        {regStatus === "success" && (
-                            <Typography variant="body1" color="success">Registration successful!</Typography>
-                        )}
-                        {regStatus === "failed" && (
-                            <Typography variant="body1" color="error">Registration failed. Please try again.</Typography>
-                        )}
 
                         <Button
                             type="submit"

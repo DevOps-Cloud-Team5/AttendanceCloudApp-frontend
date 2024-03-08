@@ -8,7 +8,7 @@ import { User } from "../../types/common";
 import { Button, IconButton, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Avatar from "@mui/material/Avatar";
 
 const People = () => {
@@ -99,14 +99,22 @@ const People = () => {
     return (
         <RootPage>
             <Container component="main" className="mainComponent">
-                <Typography variant="h4" gutterBottom >
+                <Typography variant="h4" gutterBottom>
                     People
-                    {IsAdmin() ? 
-                    <IconButton onClick={() => handleNewUserClick()} style={{ marginLeft: "2%", color: "white", backgroundColor: "rgba(255, 255, 255, 0.5)" }}>
-                        <AddCircleOutlineIcon style={{ fontSize: "1em" }} />
-                    </IconButton> : null}
+                    {IsAdmin() ? (
+                        <IconButton
+                            onClick={() => handleNewUserClick()}
+                            style={{
+                                marginLeft: "2%",
+                                color: "white",
+                                backgroundColor: "rgba(255, 255, 255, 0.5)"
+                            }}
+                        >
+                            <AddCircleOutlineIcon style={{ fontSize: "1em" }} />
+                        </IconButton>
+                    ) : null}
                 </Typography>
-                
+
                 <StyledTable>
                     <thead>
                         <tr>
@@ -135,11 +143,20 @@ const People = () => {
                                     />
                                 </td>
                                 <td>
-                                    <Button style={{ color: 'white', textTransform: 'none', fontSize: '1em' }} onClick={() => handleProfileClick(user.username)}>
+                                    <Button
+                                        style={{
+                                            color: "white",
+                                            textTransform: "none",
+                                            fontSize: "1em"
+                                        }}
+                                        onClick={() =>
+                                            handleProfileClick(user.username)
+                                        }
+                                    >
                                         {`${user.first_name} ${user.last_name}`}
                                     </Button>
                                 </td>
-                                <td style={{ fontSize: '1em' }}>{user.role}</td>
+                                <td style={{ fontSize: "1em" }}>{user.role}</td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
                                         <IconButton>
@@ -151,7 +168,6 @@ const People = () => {
                         ))}
                     </tbody>
                 </StyledTable>
-
             </Container>
         </RootPage>
     );

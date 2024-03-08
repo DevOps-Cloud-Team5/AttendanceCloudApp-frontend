@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import "./profile.css"; // Import CSS file for additional styling
 import { get_db, deleteAuthCookies } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { CookieJWT } from "../../types/common";
 
 const Profile = () => {
