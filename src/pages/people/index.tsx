@@ -46,7 +46,7 @@ const People = () => {
                     "error" in teachers_query || "detail" in teachers_query
                 )
                     ? teachers_query
-                    : {};
+                    : [];
                 setAllUsers(teachers.concat(students));
             } catch (error) {
                 console.error("Error fetching profile:", error);
