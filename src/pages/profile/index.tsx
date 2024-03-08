@@ -5,11 +5,13 @@ import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
 import "./profile.css"; // Import CSS file for additional styling
 import { get_db, deleteAuthCookies } from "../../utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { JwtPayload, jwtDecode } from "jwt-decode";
+import { CookieJWT } from "../../types/common";
 
 const Profile = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [profileData, setProfileData] = useState({
         username: "",
@@ -21,19 +23,18 @@ const Profile = () => {
     });
 
     const getProfileData = async () => {
-        const jwt_token = Cookies.get("token_access");
-        if (jwt_token == undefined) return { code: "missing access token" };
-        const decoded: JwtPayload = jwtDecode(jwt_token);
-        if (!("username" in decoded)) return { code: "broken access token" };
-        const username = decoded["username"];
+        let username = ""
+        if (id != undefined) username = id
+        else {
+            const jwt_token = Cookies.get("token_access");
+            if (jwt_token == undefined) return { code: "missing access token" };
+            const decoded: CookieJWT = jwtDecode(jwt_token);
+            if (!("username" in decoded)) return { code: "broken access token" };
+            username = decoded["username"];
+        }
         const resp = await get_db("user/get/" + username, true);
         return resp.json();
     };
-
-    // const getRandomPicture = () => {
-    //     const img_index = Math.floor(Math.random() * 100);
-    //     return "https://randomuser.me/api/portraits/men/" + img_index + ".jpg";
-    // };
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -45,7 +46,7 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                // profile[0]["avaterUrl"] = getRandomPicture();
+                profile[0]["avaterUrl"] = "https://randomuser.me/api/portraits/men/5.jpg"
                 setProfileData(profile[0]);
             } catch (error) {
                 console.error("Error fetching profile:", error);
