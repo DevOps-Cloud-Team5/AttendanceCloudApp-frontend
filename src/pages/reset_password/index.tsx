@@ -1,36 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { Box, FormControlLabel } from "@mui/material";
+import { Box } from "@mui/material";
 
 import RootPage from "../root";
-import "./login.css"; // Import CSS file for additional styling
+import "./reset_password.css"; // Import CSS file for additional styling
 import { post_db, expire_time } from "../../utils";
 import { TokenResponse } from "../../types/common";
 
-const SignIn = () => {
-    const [rememberMe, setRememberMe] = useState(false);
+const ResetPassword = () => {
     const navigate = useNavigate();
 
-    const handleRememberMeChange = () => {
-        setRememberMe(!rememberMe);
-    };
-
     const handleTokenResponse = (data: TokenResponse) => {
-        if ("detail" in data) {
-            // TODO: Show wrong password, deny login
-            return;
-        }
         const expire_date = new Date(new Date().getTime() + expire_time * 1000);
         console.log(data);
         Cookies.set("token_access", data["access"], { expires: expire_date });
@@ -77,7 +65,7 @@ const SignIn = () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Change Password
                     </Typography>
                     <Box
                         component="form"
@@ -90,33 +78,28 @@ const SignIn = () => {
                             margin="normal"
                             required
                             fullWidth
-                            id="username"
-                            label="Username"
-                            name="username"
-                            autoComplete="username"
-                            autoFocus
-                            color="primary"
+                            name="old_password"
+                            label="Previous Password"
+                            type="password"
+                            id="old_password"
                         />
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
-                            label="Password"
+                            name="new_password"
+                            label="New Password"
                             type="password"
-                            id="password"
-                            autoComplete="current-password"
+                            id="new_password"
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    value="remember"
-                                    checked={rememberMe}
-                                    onChange={handleRememberMeChange}
-                                    color="primary"
-                                />
-                            }
-                            label="Remember me"
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirm_password"
+                            label="Confirm Password"
+                            type="password"
+                            id="confirm_password"
                         />
                         <Button
                             type="submit"
@@ -124,20 +107,8 @@ const SignIn = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Change Password
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
                     </Box>
                 </Box>
             </Container>
@@ -145,4 +116,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default ResetPassword;
