@@ -8,6 +8,7 @@ import { User } from "../../types/common";
 import { Button, IconButton, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Avatar from "@mui/material/Avatar";
 
 const People = () => {
@@ -26,8 +27,8 @@ const People = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const students_query = await getUserRole("students");
-                const teachers_query = await getUserRole("teachers");
+                const students_query = await getUserRole("student");
+                const teachers_query = await getUserRole("teacher");
                 if ("code" in students_query || "code" in teachers_query) {
                     // Not authenticated anymore
                     deleteAuthCookies();
@@ -40,13 +41,13 @@ const People = () => {
                     "error" in students_query || "detail" in students_query
                 )
                     ? students_query
-                    : {};
+                    : [];
                 const teachers = !(
                     "error" in teachers_query || "detail" in teachers_query
                 )
                     ? teachers_query
-                    : {};
-                setAllUsers(students.concat(teachers));
+                    : [];
+                setAllUsers(teachers.concat(students));
             } catch (error) {
                 console.error("Error fetching profile:", error);
                 // Show error on frontend
@@ -87,12 +88,33 @@ const People = () => {
         }
     });
 
+    const handleNewUserClick = () => {
+        navigate(`/create_user`);
+    };
+
+    const handleProfileClick = (username: string) => {
+        navigate(`/profile/${username}`);
+    };
+
     return (
         <RootPage>
-            <Container component="main">
+            <Container component="main" className="mainComponent">
                 <Typography variant="h4" gutterBottom>
                     People
+                    {IsAdmin() ? (
+                        <IconButton
+                            onClick={() => handleNewUserClick()}
+                            style={{
+                                marginLeft: "2%",
+                                color: "white",
+                                backgroundColor: "rgba(255, 255, 255, 0.5)"
+                            }}
+                        >
+                            <AddCircleOutlineIcon style={{ fontSize: "1em" }} />
+                        </IconButton>
+                    ) : null}
                 </Typography>
+
                 <StyledTable>
                     <thead>
                         <tr>
@@ -121,9 +143,20 @@ const People = () => {
                                     />
                                 </td>
                                 <td>
-                                    <Button>{`${user.first_name} ${user.last_name}`}</Button>
+                                    <Button
+                                        style={{
+                                            color: "white",
+                                            textTransform: "none",
+                                            fontSize: "1em"
+                                        }}
+                                        onClick={() =>
+                                            handleProfileClick(user.username)
+                                        }
+                                    >
+                                        {`${user.first_name} ${user.last_name}`}
+                                    </Button>
                                 </td>
-                                <td>{user.role}</td>
+                                <td style={{ fontSize: "1em" }}>{user.role}</td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
                                         <IconButton>
