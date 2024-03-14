@@ -2,7 +2,7 @@ import RootPage from "../root";
 import Container from "@mui/material/Container";
 import "./people.css"; // Import CSS file for additional styling
 import { useEffect, useState } from "react";
-import { deleteAuthCookies, get_db, IsAdmin } from "../../utils";
+import { deleteAuthCookies, backend_get, IsAdmin } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
 import { Button, IconButton, Typography } from "@mui/material";
@@ -20,7 +20,7 @@ const People = () => {
     ];
 
     const getUserRole = async (role: string) => {
-        const resp = await get_db("user/getrole/" + role, true);
+        const resp = await backend_get("user/getrole/" + role, true);
         return resp.json();
     };
 

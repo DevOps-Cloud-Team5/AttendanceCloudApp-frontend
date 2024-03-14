@@ -4,9 +4,10 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
 import "./profile.css"; // Import CSS file for additional styling
-import { get_db, deleteAuthCookies } from "../../utils";
+
+import { backend_get, deleteAuthCookies } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 import { CookieJWT } from "../../types/common";
 
 const Profile = () => {
@@ -33,7 +34,7 @@ const Profile = () => {
                 return { code: "broken access token" };
             username = decoded["username"];
         }
-        const resp = await get_db("user/get/" + username, true);
+        const resp = await backend_get("user/get/" + username, true);
         return resp.json();
     };
 

@@ -12,7 +12,7 @@ import { Box } from "@mui/material";
 
 import RootPage from "../root";
 import "./reset_password.css"; // Import CSS file for additional styling
-import { post_db, expire_time } from "../../utils";
+import { backend_post, expire_time } from "../../utils";
 import { TokenResponse } from "../../types/common";
 
 const ResetPassword = () => {
@@ -20,7 +20,6 @@ const ResetPassword = () => {
 
     const handleTokenResponse = (data: TokenResponse) => {
         const expire_date = new Date(new Date().getTime() + expire_time * 1000);
-        console.log(data);
         Cookies.set("token_access", data["access"], { expires: expire_date });
         Cookies.set("token_refresh", data["refresh"], { expires: expire_date });
         Cookies.set("token_spawned", (Date.now() / 1000).toString(), {
@@ -38,7 +37,7 @@ const ResetPassword = () => {
             password: data.get("password")
         });
 
-        post_db(
+        backend_post(
             "token/",
             JSON.stringify({
                 username: data.get("username"),
