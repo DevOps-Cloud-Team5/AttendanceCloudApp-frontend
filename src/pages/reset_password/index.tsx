@@ -12,7 +12,7 @@ import { Box } from "@mui/material";
 
 import RootPage from "../root";
 import "./reset_password.css"; // Import CSS file for additional styling
-import { post_db, expire_time } from "../../utils";
+import { backend_post, expire_time } from "../../utils";
 import { TokenResponse } from "../../types/common";
 
 const ResetPassword = () => {
@@ -38,7 +38,7 @@ const ResetPassword = () => {
             password: data.get("password")
         });
 
-        post_db(
+        backend_post(
             "token/",
             JSON.stringify({
                 username: data.get("username"),

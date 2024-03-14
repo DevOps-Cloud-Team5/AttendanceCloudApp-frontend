@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
 import "./profile.css"; // Import CSS file for additional styling
-import { get_db, deleteAuthCookies } from "../../utils";
+import { backend_get, deleteAuthCookies } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 
@@ -26,7 +26,7 @@ const Profile = () => {
         const decoded: JwtPayload = jwtDecode(jwt_token);
         if (!("username" in decoded)) return { code: "broken access token" };
         const username = decoded["username"];
-        const resp = await get_db("user/get/" + username, true);
+        const resp = await backend_get("user/get/" + username, true);
         return resp.json();
     };
 

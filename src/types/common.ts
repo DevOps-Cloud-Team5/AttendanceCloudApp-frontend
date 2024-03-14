@@ -1,14 +1,14 @@
+export interface Empty {}
+
+
 export interface TokenResponse {
     access: string;
     refresh: string;
 }
 
 export interface Course {
-    course_id: string;
+    id: number;
     course_name: string;
-    schedule: string[];
-    enrolled_students: string[];
-    teachers: string[];
 }
 
 export interface User {

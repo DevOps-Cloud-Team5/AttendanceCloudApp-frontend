@@ -5,51 +5,41 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { useEffect, useState } from "react";
-import { deleteAuthCookies, get_db } from "../../utils";
-import { useNavigate } from "react-router-dom";
-import { Course } from "../../types/common";
+import { useEffect } from "react";
+import { useAxiosRequest } from "../../utils";
+import { Course, Empty } from "../../types/common";
 
-export default function Courses() {
-    const navigate = useNavigate();
-    const [allCourses, setAllCourses] = useState<Course[]>();
+type ResponseData = Course[];
 
-    const getCourses = async () => {
-        const resp = await get_db("course/getall/", true);
-        return resp.json();
-    };
+const Courses = () => {
+    const { response, error, loading, sendRequest } = useAxiosRequest<
+        Empty,
+        ResponseData
+    >();
 
     useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const courses = await getCourses();
-                if ("code" in courses) {
-                    // Not authenticated anymore
-                    deleteAuthCookies();
-                    navigate("/login");
-                    navigate(0);
-                    return;
-                }
+        sendRequest({
+            method: "GET",
+            route: "/course/getall/",
+            useJWT: true
+        });
+    }, [sendRequest]);
 
-                if (!("error" in courses)) setAllCourses(courses);
-            } catch (error) {
-                console.error("Error fetching profile:", error);
-                // Show error on frontend
-            }
-        };
-
-        fetchCourses();
-    }, [navigate]);
-
+    if (error) {
+        console.error("Error fetching courses:", error);
+        // Optionally, render an error message in the UI
+    }
+    console.log(response);
     return (
         <RootPage>
             <Container component="main" maxWidth="xs">
-                {allCourses != undefined ? (
+                {loading ? (
+                    <div>Loading...</div> // Added loading state feedback
+                ) : (
                     <List
                         sx={{
                             width: "100%",
                             maxWidth: 1000,
-                            bgcolor: "background.paper"
                         }}
                         aria-label="Courses"
                     >
@@ -64,18 +54,22 @@ export default function Courses() {
                             </ListItemButton>
                         </ListItem>
 
-                        {allCourses.map((key: Course) => (
-                            <ListItem disablePadding>
+                        {response?.map((course: Course) => (
+                            <ListItem disablePadding key={course.course_name}>
+                                {" "}
+                                {/* Assuming course_name is unique */}
                                 <ListItemButton sx={{ border: 1 }}>
                                     <ListItemText
-                                        primary={key["course_name"]}
+                                        primary={course.course_name}
                                     />
                                 </ListItemButton>
                             </ListItem>
                         ))}
                     </List>
-                ) : null}
+                )}
             </Container>
         </RootPage>
     );
-}
+};
+
+export default Courses;

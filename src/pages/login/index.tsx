@@ -15,7 +15,7 @@ import { Box, FormControlLabel } from "@mui/material";
 
 import RootPage from "../root";
 import "./login.css"; // Import CSS file for additional styling
-import { post_db, expire_time } from "../../utils";
+import { backend_post, expire_time } from "../../utils";
 import { TokenResponse } from "../../types/common";
 
 const SignIn = () => {
@@ -50,7 +50,7 @@ const SignIn = () => {
             password: data.get("password")
         });
 
-        post_db(
+        backend_post(
             "token/",
             JSON.stringify({
                 username: data.get("username"),
