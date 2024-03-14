@@ -28,3 +28,8 @@ export interface CookieJWT {
     email: string;
     role: string;
 }
+export interface AttendanceData {
+    [day: string]: {
+      [courseId: string]: boolean;
+    };
+  }

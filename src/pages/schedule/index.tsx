@@ -5,9 +5,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import { useParams } from 'react-router-dom';
-import { Course } from '../../types/common';
+import { Course, AttendanceData } from '../../types/common';
 
-// Mock data for courses and attendance
+// Mock data for courses
 const mockCourses: Course[] = [
   {
     course_id: 'course1',
@@ -32,18 +32,19 @@ const mockCourses: Course[] = [
   },
 ];
 
-// Initialize mock attendance for each course and each day
-const initialAttendance = mockCourses.reduce((acc, course) => {
+const initialAttendanceData: AttendanceData = {};
+
+// Initialize attendance data for each course and each day
+mockCourses.forEach(course => {
   course.schedule.forEach(day => {
-    acc[day] = acc[day] || {};
-    acc[day][course.course_id] = false;
+    initialAttendanceData[day] = initialAttendanceData[day] || {};
+    initialAttendanceData[day][course.course_id] = false;
   });
-  return acc;
-}, {});
+});
 
 const AttendancePage: React.FC = () => {
   const { studentId } = useParams<{ studentId: string }>();
-  const [attendance, setAttendance] = useState(initialAttendance);
+  const [attendance, setAttendance] = useState<AttendanceData>(initialAttendanceData);
 
   const handleAttendanceChange = (courseId: string, day: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setAttendance(prevAttendance => ({
