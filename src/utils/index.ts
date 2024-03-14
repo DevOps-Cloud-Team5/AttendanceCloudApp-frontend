@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 export const expire_time = 1800;
 
 // export const backend_url = "https://bmjg67cbef.execute-api.eu-central-1.amazonaws.com/prod/"
+export const backend_url = "http://127.0.0.1:8000/";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -48,8 +49,6 @@ export const useAxiosRequest = <TRequest, TResponse>() => {
         };
 
         try {
-            console.log("Request Options:", options);
-            console.log("Axios Config:", config);
             const result = await axios.request<TResponse>(config);
             setResponse(result.data);
         } catch (error) {
@@ -102,13 +101,13 @@ export const json_request = (
 };
 
 export const backend_get = (endpoint: string, useJWT: boolean = false) =>
-    json_request(apiURL + endpoint, "GET", "", useJWT);
+    json_request(backend_url + endpoint, "GET", "", useJWT);
 
 export const backend_post = (
     endpoint: string,
     body_json: string = "",
     useJWT: boolean = false
-) => json_request(apiURL + endpoint, "POST", body_json, useJWT);
+) => json_request(backend_url + endpoint, "POST", body_json, useJWT);
 
 export const isLoggedIn = () => {
     const spawn_time = Cookies.get("token_spawned");

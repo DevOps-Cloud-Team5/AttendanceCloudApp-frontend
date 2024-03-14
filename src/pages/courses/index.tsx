@@ -29,7 +29,6 @@ const Courses = () => {
         console.error("Error fetching courses:", error);
         // Optionally, render an error message in the UI
     }
-    console.log(response);
     return (
         <RootPage>
             <Container component="main" maxWidth="xs">
@@ -39,7 +38,7 @@ const Courses = () => {
                     <List
                         sx={{
                             width: "100%",
-                            maxWidth: 1000,
+                            maxWidth: 1000
                         }}
                         aria-label="Courses"
                     >

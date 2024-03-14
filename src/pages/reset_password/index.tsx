@@ -20,7 +20,6 @@ const ResetPassword = () => {
 
     const handleTokenResponse = (data: TokenResponse) => {
         const expire_date = new Date(new Date().getTime() + expire_time * 1000);
-        console.log(data);
         Cookies.set("token_access", data["access"], { expires: expire_date });
         Cookies.set("token_refresh", data["refresh"], { expires: expire_date });
         Cookies.set("token_spawned", (Date.now() / 1000).toString(), {

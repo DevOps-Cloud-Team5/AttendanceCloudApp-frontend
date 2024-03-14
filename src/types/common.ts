@@ -1,6 +1,5 @@
 export interface Empty {}
 
-
 export interface TokenResponse {
     access: string;
     refresh: string;

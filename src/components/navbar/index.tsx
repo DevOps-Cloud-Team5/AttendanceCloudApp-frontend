@@ -8,16 +8,14 @@ import { isLoggedIn } from "../../utils";
 
 import "./navbar.css";
 
-
 const Navbar = () => {
     const { sendRequest } = useAxiosRequest<Empty, Empty>();
     const navigate = useNavigate();
 
-
     const handleLogout = () => {
         sendRequest({
             method: "POST",
-            route: "/logout/",
+            route: "/token/blacklist/",
             useJWT: true
         })
             .then(() => {
@@ -32,38 +30,38 @@ const Navbar = () => {
 
     return (
         <header className="navbar">
-        <Link to="/">
-            <img src={logo} alt="Logo" className="logo" />
-        </Link>
-        <div className="navbar-right">
-            {isLoggedIn() ? (
-                <>
-                    <Link to="/schedule" className="text-primary">
-                        Schedule
-                    </Link>
-                    <Link to="/people" className="text-primary">
-                        People
-                    </Link>
-                    <Link to="/courses" className="text-primary">
-                        Courses
-                    </Link>
-                    <Link to="/profile" className="text-primary">
-                        Profile
-                    </Link>
-                    <Link to="/logout" className="text-primary">
-                        Profile
-                    </Link>
-                    <a onClick={handleLogout}>Logout</a>
-                </>
-            ) : (
-                <>
-                    <Link to="/login" className="text-primary">
-                        Login
-                    </Link>
-                </>
-            )}
-        </div>
-    </header>
+            <Link to="/">
+                <img src={logo} alt="Logo" className="logo" />
+            </Link>
+            <div className="navbar-right">
+                {isLoggedIn() ? (
+                    <>
+                        <Link to="/schedule" className="text-primary">
+                            Schedule
+                        </Link>
+                        <Link to="/people" className="text-primary">
+                            People
+                        </Link>
+                        <Link to="/courses" className="text-primary">
+                            Courses
+                        </Link>
+                        <Link to="/profile" className="text-primary">
+                            Profile
+                        </Link>
+                        <Link to="/logout" className="text-primary">
+                            Profile
+                        </Link>
+                        <a onClick={handleLogout}>Logout</a>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login" className="text-primary">
+                            Login
+                        </Link>
+                    </>
+                )}
+            </div>
+        </header>
     );
 };
 
