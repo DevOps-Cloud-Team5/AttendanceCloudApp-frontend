@@ -1,11 +1,8 @@
 import { FC, ReactNode } from "react";
-import { Link } from "react-router-dom";
-
-import logo from "../../assets/logo.png";
-import { isLoggedIn } from "../../utils";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import "./root.css";
+import Navbar from "../../components/navbar";
 
 // This is just a placeholder. You would replace this with your actual authentication logic.
 
@@ -28,41 +25,13 @@ const theme = createTheme({
         secondary: {
             main: "#3C80D0"
         },
-        mode: "light"
+        mode: "dark"
     }
 });
 
 const RootPage: FC<RootPageProps> = ({ children }) => (
     <ThemeProvider theme={theme}>
-        <header className="navbar">
-            <Link to="/">
-                <img src={logo} alt="Logo" className="logo" />
-            </Link>
-            <div className="navbar-right">
-                {isLoggedIn() ? (
-                    <>
-                        <Link to="/schedule" className="text-primary">
-                            Schedule
-                        </Link>
-                        <Link to="/people" className="text-primary">
-                            People
-                        </Link>
-                        <Link to="/courses" className="text-primary">
-                            Courses
-                        </Link>
-                        <Link to="/profile" className="text-primary">
-                            Profile
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login" className="text-primary">
-                            Login
-                        </Link>
-                    </>
-                )}
-            </div>
-        </header>
+        <Navbar></Navbar>
 
         <main>{children}</main>
 

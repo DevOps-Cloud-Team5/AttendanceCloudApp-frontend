@@ -6,8 +6,10 @@ import Profile from "../pages/profile";
 import People from "../pages/people";
 import Courses from "../pages/courses";
 import Schedule from "../pages/schedule"
-import { isLoggedIn } from "../utils";
+import { IsAdmin, isLoggedIn } from "../utils";
+import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
+
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -30,6 +32,19 @@ const AppRouter = createBrowserRouter([
     {
         path: "/profile",
         element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/profile/:id",
+        element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/create_user",
+        element:
+            isLoggedIn() && IsAdmin() ? (
+                <CreateUser />
+            ) : (
+                <Navigate to="/login" replace />
+            )
     },
     {
         path: "/people",
