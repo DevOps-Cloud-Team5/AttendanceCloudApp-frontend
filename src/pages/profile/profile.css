@@ -12,45 +12,80 @@
     min-height: 100vh;
 } */
 
+/* Container main {
+    
+} */
+
 .profile {
-    background: rgba(
-        255,
-        255,
-        255,
-        0.1
-    ); /* Semi-transparent white for profile background */
-    backdrop-filter: blur(5px); /* Blur effect for the background */
+    margin: 0px 1em 1em -100px; /* Top, Right, Bottom, Left */
+    min-width: 550px;
+    min-height: 550px;
+    background-color: transparent;
     border-radius: 15px;
-    display: flex;
-    align-items: center;
     padding: 2em;
-    margin: 1em;
-    gap: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Set a min-width and min-height if necessary */
+    
+    
 }
 
+
+
 .avatar {
-    width: 100px;
-    height: 100px;
+    
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    border: 3px solid #fff; /* White border for the avatar */
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* subtle glow to the avatar */
+    border: 5px solid #fff; /* White border for the avatar */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Enhanced glow effect for the avatar */
+    /* margin-right: 2em;  */
+    /*Spacing between avatar and profile info*/
+    margin-bottom: 20px;
 }
 
 .profile-info {
-    color: #fff; /* Light text for readability */
-}
-
-.profile-info h1,
-.profile-info p {
-    margin: 0.3em 0; /* Add some vertical spacing between text elements */
+    min-width: 300px;
+    background-color: #222; /* Dark background for profile info */
+    border-radius: 10px;
+    padding: 1.5em;
+    color: #fff; /* White text for profile info */
+    text-align: left; 
 }
 
 .profile-info h1 {
     color: #29b6f6; /* A brighter color for the user's name */
-    font-size: 1.5em;
+    font-size: 2.5em; /* Larger font size for the user's name */
+    margin-bottom: 0.5em; /* Add some space below the name */
+    font-weight: bold; /* Bold font for the name */
 }
 
 .profile-info p {
+    font-size: 1.3em; /* Slightly larger font size for other info */
+    margin: 0.5em 0; /* Add spacing between elements */
+}
+
+.label {
+    font-weight: bold; /* Make the label text bold */
+    color: #29b6f6; /* Set color for labels */
+    margin-right: 0.5em; /* Add spacing between label and data */
+}
+
+.update-btn {
+    background-color: #29b6f6; /* Example primary color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
     font-size: 1em;
-    color: #bbb; /* Slightly dimmed color for less important text */
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+    outline: none;
+    margin-bottom: 1em; /* Spacing between button and profile info */
+}
+
+.update-btn:hover {
+    background-color: #1c85c7; /* Darker shade for hover effect */
 }
