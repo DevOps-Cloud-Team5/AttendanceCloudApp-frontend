@@ -9,15 +9,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ScheduleLecture, AttendanceData, Empty } from "../../types/common";
 import { backend_post, useAxiosRequest } from "../../utils";
 import moment from "moment";
-import { Button } from "@mui/material";
+import { Button, Divider, capitalize } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import "./schedule.css"; 
 
 const AttendancePage: React.FC = () => {
     const navigate = useNavigate();
     const { response, error, loading, sendRequest } = useAxiosRequest<Empty, ScheduleLecture[]>();
     const [lectures, setLectures]  = useState<ScheduleLecture[][]>();
     const [schedule_date, setScheduleDate]  = useState<moment.Moment>( moment() );
+    const alternatingColor = [
+        "#424242",
+        "#595959"
+    ];
+
 
     const updateSchedule = () => {
         sendRequest({
@@ -27,9 +33,7 @@ const AttendancePage: React.FC = () => {
         });
     }
 
-    useEffect(() => {
-        updateSchedule()
-    }, [sendRequest]);
+    useEffect(() => { updateSchedule() }, [sendRequest]);
 
     useEffect(() => {
         if (response) {
@@ -76,50 +80,71 @@ const AttendancePage: React.FC = () => {
     const dayConvert = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     const monthConvert = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobor", "November", "December"]
 
+    const convertToScheduleTime = (time : string) => {
+        return moment(Date.parse(time)).format("HH:mm")
+    }
+
     return (
         <RootPage>
             <Container
                 component="main"
-                maxWidth="xs"
+                maxWidth="md"
                 sx={{ marginBottom: "5%" }}
+                className="mainComponent"
             >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                    <div>
-                        <h2>{`Week ${schedule_date.week()} overview`}</h2> 
-                        <h3>{`${monthConvert[schedule_date.month()]} ${schedule_date.year()}`}</h3>
+                <div style={{ marginLeft: "2%", marginRight: "2%" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                        <div>
+                            <h2>{`Week ${schedule_date.week()} overview`}</h2> 
+                            <h3>{`${monthConvert[schedule_date.month()]} ${schedule_date.year()}`}</h3>
+                        </div>
+                        <div>
+                            <Button variant="contained" style={{ minWidth: "1em", width: "auto", height: "2.5em" }} onClick={goBackWeek}>
+                                <ArrowBackIcon />
+                            </Button>
+                            <Button variant="contained" style={{ minWidth: "1em", width: "auto", height: "2.5em" }} onClick={goForwardWeek}>
+                                <ArrowForwardIcon />
+                            </Button>
+                        </div>
                     </div>
-                    <div>
-                        <Button variant="contained" style={{ minWidth: "1em", width: "auto", height: "2.5em" }} onClick={goBackWeek}>
-                            <ArrowBackIcon />
-                        </Button>
-                        <Button variant="contained" style={{ minWidth: "1em", width: "auto", height: "2.5em" }} onClick={goForwardWeek}>
-                            <ArrowForwardIcon />
-                        </Button>
-                    </div>
-                </div>
 
-                {lectures?.map((day, index) => (
-                    <div key={dayConvert[index]}>
-                        <h2>{dayConvert[index]}</h2>
-                        <List>
-                            {day.map((lecture) => (
-                                <ListItem key={lecture.id}>
-                                    <ListItemText primary={lecture.course} />
-                                    <Checkbox
-                                        checked={lecture.attended_student}
-                                        onChange={handleAttendanceChange(lecture.id)}
-                                        sx={{ "& .MuiSvgIcon-root": { color: "white" } }}
-                                    />
-                                    <Checkbox
-                                        checked={lecture.attended_teacher}
-                                        disabled={true}
-                                        sx={{ "& .MuiSvgIcon-root": { color: "white" } }}
-                                    />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </div>
-                ))}
+                    <Divider style={{ marginBottom: "3%" }} />
+
+                    {lectures?.map((day : ScheduleLecture[], dayIndex) => (
+                        <div key={dayConvert[dayIndex]} style={{ background: alternatingColor[dayIndex%2], paddingTop: "0", marginTop: "0" }}>
+                            <h2 style={{ paddingLeft: "2%", paddingTop: "1%", paddingBottom: "0", marginBottom: "0", marginTop: "0" }}>
+                                {dayConvert[dayIndex]}
+                            </h2>
+                            
+                            {(day.length != 0) ? <Divider variant="middle" style={{ marginTop: "1.5%" }} /> : null}
+
+                            <List>
+                                {day.map((lecture, lectureIndex) => (
+                                    <ListItem key={lecture.id} style={{ marginTop: "-0.5%", marginBottom: "-1%" }}>
+                                        <div style={{ marginRight: "3%" }}>
+                                            <ListItemText primary={convertToScheduleTime(lecture.start_time)} />
+                                            <ListItemText primary={convertToScheduleTime(lecture.end_time)} />
+                                        </div>
+                                        <ListItemText primary={lecture.course} secondary={capitalize(lecture.lecture_type)}/>
+
+                                        <Checkbox
+                                            checked={lecture.attended_student}
+                                            onChange={handleAttendanceChange(lecture.id)}
+                                            sx={{ "& .MuiSvgIcon-root": { color: "white" } }}
+                                        />
+                                        <Checkbox
+                                            checked={lecture.attended_teacher}
+                                            disabled={true}
+                                            sx={{ "& .MuiSvgIcon-root": { color: "white" } }}
+                                        />
+                                    </ListItem>
+                                    ))
+                                }
+                            </List>
+                        <Divider/>
+                        </div>
+                    ))}
+                </div>
             </Container>
         </RootPage>
     );

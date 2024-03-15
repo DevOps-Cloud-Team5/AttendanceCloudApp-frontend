@@ -29,9 +29,10 @@ const Courses = () => {
     const [course_data, setCourseData]  = useState<Course[]>();
 
     const alternatingColor = [
-        "rgba(255, 255, 255, 0.5)",
-        "rgba(255, 255, 255, 0.3)"
+        "#424242",
+        "#595959"
     ];
+
 
     useEffect(() => {
         sendRequest({
@@ -143,9 +144,7 @@ const Courses = () => {
                                 key={course.id}
                                 style={{
                                     backgroundColor:
-                                        alternatingColor[
-                                            index % alternatingColor.length
-                                        ]
+                                        alternatingColor[index%2]
                                 }}
                             >
                                 <td>
