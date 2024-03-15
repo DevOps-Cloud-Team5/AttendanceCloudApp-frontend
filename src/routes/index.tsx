@@ -10,6 +10,7 @@ import { IsAdmin, isLoggedIn, IsTeacher } from "../utils";
 import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
 import CreateCourse from "../pages/create_course";
+import CreateLecture from "../pages/create_lecture";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -42,6 +43,15 @@ const AppRouter = createBrowserRouter([
         element:
             isLoggedIn() && (IsTeacher() || IsAdmin()) ? (
                 <CreateCourse />
+            ) : (
+                <Navigate to="/login" replace />
+            )
+    },
+    {
+        path: "/create_lecture",
+        element:
+            isLoggedIn() && (IsTeacher() || IsAdmin()) ? (
+                <CreateLecture />
             ) : (
                 <Navigate to="/login" replace />
             )

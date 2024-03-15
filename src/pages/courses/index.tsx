@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import "./courses.css"; // Import CSS file for additional styling
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAxiosRequest } from "../../utils";
+import { backend_post, useAxiosRequest } from "../../utils";
 import { Course, Empty } from "../../types/common";
 import { IsAdmin } from "../../utils";
 import { User } from "../../types/common";
@@ -80,12 +80,7 @@ const Courses = () => {
     const handleEnrollment =
         (courseId: number, enroll: boolean) =>
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            sendRequest({
-                method: "POST",
-                route: "course/enroll/" + courseId,
-                useJWT: true
-            });
-            // You can send the updated attendance for the specific course and day to the backend here
+            if (enroll) backend_post("course/enroll/" + courseId, "", true);
         };
 
     return (
