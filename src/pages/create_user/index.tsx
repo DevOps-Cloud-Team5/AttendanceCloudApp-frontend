@@ -10,19 +10,21 @@ import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 
 import RootPage from "../root";
 import "./create.css"; // Import CSS file for additional styling
-import { post_db } from "../../utils";
+import { backend_post } from "../../utils";
 
 const CreateUser = () => {
     // const navigate = useNavigate();
-    const [regStatus, setRegStatus] = useState(""); 
+    const [regStatus, setRegStatus] = useState("");
 
-    const handleTokenResponse = (data: any, event : React.FormEvent<HTMLFormElement>) => {
-        console.log(data)
-        if (!("username" in data) || (typeof data["username"] !== "string")) {
+    const handleTokenResponse = (
+        data: any,
+        event: React.FormEvent<HTMLFormElement>
+    ) => {
+        console.log(data);
+        if (!("username" in data) || typeof data["username"] !== "string") {
             setRegStatus("failed");
             return;
-        }
-        else {
+        } else {
             setRegStatus("success");
         }
         // event.currentTarget.reset()
@@ -37,17 +39,17 @@ const CreateUser = () => {
         const data = new FormData(event.currentTarget);
         const first_name = data.get("first_name");
         const last_name = data.get("last_name");
-        
+
         let username = data.get("username");
         let email = data.get("email");
 
         if (username == "") username = first_name + "." + last_name;
         if (email == "") email = first_name + "." + last_name + "@uni.org";
 
-        if (username !== null) username = username.toString().toLowerCase()
-        if (email !== null) email = email.toString().toLowerCase()
+        if (username !== null) username = username.toString().toLowerCase();
+        if (email !== null) email = email.toString().toLowerCase();
 
-        post_db(
+        backend_post(
             "user/register/",
             JSON.stringify({
                 username: username,
@@ -58,7 +60,7 @@ const CreateUser = () => {
                 role: data.get("role")
             })
         )
-            .then((resp) => (resp.json()))
+            .then((resp) => resp.json())
             .then((data) => handleTokenResponse(data, event))
             .catch((error) => console.log(error));
     };
@@ -156,10 +158,14 @@ const CreateUser = () => {
                         </Select>
 
                         {regStatus === "success" && (
-                            <Typography variant="body1" color="success">Registration successful!</Typography>
+                            <Typography variant="body1" color="success">
+                                Registration successful!
+                            </Typography>
                         )}
                         {regStatus === "failed" && (
-                            <Typography variant="body1" color="error">Registration failed. Please try again.</Typography>
+                            <Typography variant="body1" color="error">
+                                Registration failed. Please try again.
+                            </Typography>
                         )}
 
                         <Button
