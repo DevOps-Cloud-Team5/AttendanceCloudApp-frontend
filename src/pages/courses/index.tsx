@@ -26,7 +26,7 @@ const Courses = () => {
         Empty,
         ResponseData
     >();
-    const [course_data, setCourseData] = useState();
+    const [course_data, setCourseData]  = useState<Course[]>();
 
     const alternatingColor = [
         "rgba(255, 255, 255, 0.5)",
@@ -41,6 +41,10 @@ const Courses = () => {
         });
     }, [sendRequest]);
 
+    useEffect(() => {
+        if (response) setCourseData(response)
+    }, [response]);
+
     if (error) {
         console.error("Error fetching courses:", error);
         // Optionally, render an error message in the UI
@@ -49,10 +53,14 @@ const Courses = () => {
     const StyledTable = styled("table")({
         borderCollapse: "collapse",
         width: "100%",
-        "& th, & td": {
-            padding: "8px", // Adjust the padding as needed
-            borderBottom: "1px solid #ddd", // Add a border bottom to create a divider effect
-            textAlign: "left" // Align content to the left
+        "& th, & tr": {
+            padding: "8px", 
+            borderBottom: "1px solid #ddd", 
+            textAlign: "left"
+        },
+        "& td":{
+            padding: "8px",
+            textAlign: "left" 
         },
         "& th": {
             fontWeight: "bold" // Add bold font weight to header cells if needed
@@ -64,6 +72,9 @@ const Courses = () => {
         "& .actions-column": {
             width: "5%", // Adjust the width of the actions column
             textAlign: "left" // Align content to the left
+        },
+        "& .enroll-column": {
+            width: "5%"
         },
         "& .avatar-column": {
             width: "5%", // Adjust the width of the avatar column
@@ -89,9 +100,9 @@ const Courses = () => {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             if (enroll) {
                 backend_post("course/enroll/" + courseId, "", true);
-                // if (response == null) return
-                // const result = response.map((course : Course) => (course.id == courseId ? { ...course, enrolled: true } : course))
-                // console.log(result)
+                if (response == null) return
+                const new_data = course_data?.map((course : Course) => (course.id == courseId ? { ...course, enrolled: true } : course))
+                setCourseData(new_data)
             }
         };
 
@@ -122,12 +133,12 @@ const Courses = () => {
                             {IsAdmin() ? (
                                 <th className="actions-column">Actions</th>
                             ) : (
-                                <th className="actions-column">Enroll</th>
+                                <th className="enroll-column">Enroll</th>
                             )}
                         </tr>
                     </thead>
                     <tbody>
-                        {response?.map((course: Course, index: number) => (
+                        {course_data?.map((course: Course, index: number) => (
                             <tr
                                 key={course.id}
                                 style={{
@@ -159,7 +170,7 @@ const Courses = () => {
                                         </IconButton>
                                     </td>
                                 ) : (
-                                    <Checkbox
+                                    <Checkbox className="actions-icon"
                                         checked={course.enrolled}
                                         onChange={handleEnrollment(
                                             course.id,

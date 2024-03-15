@@ -76,7 +76,7 @@ export const useAxiosRequest = <TRequest, TResponse>() => {
         []
     );
 
-    return { response, error, loading, sendRequest };
+    return { response, error, loading, sendRequest, setResponse };
 };
 export const json_request = (
     url: string,
@@ -137,6 +137,7 @@ const shouldRefreshToken = () => {
 export const attemptTokenRefresh = () => {
     if (!shouldRefreshToken()) return;
     console.log("Refreshing access token");
+    
     const refresh_token = Cookies.get("token_refresh");
     if (refresh_token == "undefined") return;
 
@@ -149,7 +150,7 @@ export const attemptTokenRefresh = () => {
         });
     };
 
-    backend_post("token/refresh/", refresh_token)
+    backend_post("token/refresh/", JSON.stringify({"refresh": refresh_token}))
         .then((resp) => resp.json())
         .then((data) => handleRefreshResponse(data))
         .catch((error) => console.log(error));

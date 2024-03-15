@@ -60,13 +60,16 @@ const People = () => {
     const StyledTable = styled("table")({
         borderCollapse: "collapse",
         width: "100%",
-        "& th, & td": {
-            padding: "8px", // Adjust the padding as needed
-            borderBottom: "1px solid #ddd", // Add a border bottom to create a divider effect
-            textAlign: "left" // Align content to the left
+        "& th, & tr": {
+            padding: "8px", 
+            borderBottom: "1px solid #ddd", 
+            textAlign: "left"
+        },
+        "& td":{
+            padding: "8px",
+            textAlign: "left" 
         },
         "& th": {
-            // backgroundColor: '#f2f2f2', // Add background color to header cells if needed
             fontWeight: "bold" // Add bold font weight to header cells if needed
         },
         "& .type-column": {
