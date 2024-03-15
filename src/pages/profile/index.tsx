@@ -12,7 +12,6 @@ import { CookieJWT } from "../../types/common";
 const Profile = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const { id } = useParams();
 
     const [profileData, setProfileData] = useState({
         username: "",
