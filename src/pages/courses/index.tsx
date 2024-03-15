@@ -7,7 +7,13 @@ import { backend_post, useAxiosRequest } from "../../utils";
 import { Course, Empty } from "../../types/common";
 import { IsAdmin } from "../../utils";
 import { User } from "../../types/common";
-import { Button, Checkbox, IconButton, Typography, styled } from "@mui/material";
+import {
+    Button,
+    Checkbox,
+    IconButton,
+    Typography,
+    styled
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Avatar from "@mui/material/Avatar";
@@ -20,7 +26,7 @@ const Courses = () => {
         Empty,
         ResponseData
     >();
-    const [ course_data, setCourseData ] = useState()
+    const [course_data, setCourseData] = useState();
 
     const alternatingColor = [
         "rgba(255, 255, 255, 0.5)",
@@ -115,9 +121,9 @@ const Courses = () => {
                             <th className="type-column">Students</th>
                             {IsAdmin() ? (
                                 <th className="actions-column">Actions</th>
-                            ) : 
+                            ) : (
                                 <th className="actions-column">Enroll</th>
-                                }
+                            )}
                         </tr>
                     </thead>
                     <tbody>
@@ -152,30 +158,26 @@ const Courses = () => {
                                             <MoreVertIcon />
                                         </IconButton>
                                     </td>
-                                ) : 
-                                <Checkbox
-                                    checked={
-                                        course.enrolled
-                                    }
-                                    onChange={handleEnrollment(
-                                        course.id,
-                                        !course.enrolled
-                                    )}
-                                    sx={{
-                                        "& .MuiSvgIcon-root": {
-                                            color: "white"
-                                        }
-                                    }}
-                                />
-                            }   
+                                ) : (
+                                    <Checkbox
+                                        checked={course.enrolled}
+                                        onChange={handleEnrollment(
+                                            course.id,
+                                            !course.enrolled
+                                        )}
+                                        sx={{
+                                            "& .MuiSvgIcon-root": {
+                                                color: "white"
+                                            }
+                                        }}
+                                    />
+                                )}
                             </tr>
                         ))}
                     </tbody>
                 </StyledTable>
             </Container>
         </RootPage>
-
-
     );
 };
 

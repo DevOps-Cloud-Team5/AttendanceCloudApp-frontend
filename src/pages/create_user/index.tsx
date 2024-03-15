@@ -60,7 +60,7 @@ const CreateUser = () => {
                 role: data.get("role")
             })
         )
-            .then((resp) => (resp.json()))
+            .then((resp) => resp.json())
             .then((data) => handleTokenResponse(data, event))
             .catch((error) => console.log(error));
     };

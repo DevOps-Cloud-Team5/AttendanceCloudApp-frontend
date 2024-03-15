@@ -102,7 +102,7 @@ const AttendancePage: React.FC = () => {
                                                 }
                                             }}
                                         />
-                                          <Checkbox
+                                        <Checkbox
                                             sx={{
                                                 "& .MuiSvgIcon-root": {
                                                     // Overrides the color of the checkbox icon

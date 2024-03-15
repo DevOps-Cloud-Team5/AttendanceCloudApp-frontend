@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Box, MenuItem, Select } from "@mui/material";
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 import RootPage from "../root";
 import "./create.css"; // Import CSS file for additional styling
@@ -22,7 +22,10 @@ const CreateCourse = () => {
         event: React.FormEvent<HTMLFormElement>
     ) => {
         console.log(data);
-        if (!("course_name" in data) || typeof data["course_name"] !== "string") {
+        if (
+            !("course_name" in data) ||
+            typeof data["course_name"] !== "string"
+        ) {
             setRegStatus("failed");
             return;
         } else {
@@ -39,10 +42,10 @@ const CreateCourse = () => {
         backend_post(
             "course/create/",
             JSON.stringify({
-                course_name: data.get("course_name"),
+                course_name: data.get("course_name")
             })
         )
-            .then((resp) => (resp.json()))
+            .then((resp) => resp.json())
             .then((data) => handleResponse(data, event))
             .catch((error) => console.log(error));
     };

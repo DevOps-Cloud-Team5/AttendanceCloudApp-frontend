@@ -6,10 +6,10 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Box, MenuItem, Select } from "@mui/material";
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 
 import RootPage from "../root";
 import "./create.css"; // Import CSS file for additional styling
@@ -28,8 +28,7 @@ const CreateLecture = () => {
         console.log(data);
         if ("ok" in data) {
             setRegStatus("success");
-        }
-        else{
+        } else {
             setRegStatus("failed");
         }
     };
@@ -39,24 +38,24 @@ const CreateLecture = () => {
         setRegStatus("submitting");
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const start_time = data.get("start_time")
-        const end_time = data.get("end_time")
-        
-        if (start_time == null || end_time == null) return
-        if (start_time == "" || end_time == "") return
+        const start_time = data.get("start_time");
+        const end_time = data.get("end_time");
 
-        const start_date = new Date(Date.parse(start_time.toString()))
-        const end_date = new Date(Date.parse(end_time.toString()))
+        if (start_time == null || end_time == null) return;
+        if (start_time == "" || end_time == "") return;
+
+        const start_date = new Date(Date.parse(start_time.toString()));
+        const end_date = new Date(Date.parse(end_time.toString()));
 
         backend_post(
             "course/lecture/" + id + "/add",
             JSON.stringify({
                 start_time: start_date.toISOString(),
                 end_time: end_date.toISOString(),
-                lecture_type: data.get("lecture_type"),
+                lecture_type: data.get("lecture_type")
             })
         )
-            .then((resp) => (resp.json()))
+            .then((resp) => resp.json())
             .then((data) => handleResponse(data, event))
             .catch((error) => console.log(error));
     };
@@ -86,15 +85,15 @@ const CreateLecture = () => {
                         color={"primary"}
                     >
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DesktopDateTimePicker 
+                            <DesktopDateTimePicker
                                 label="Start time"
                                 name="start_time"
-                                slotProps={{ textField: { required: true,},}}
+                                slotProps={{ textField: { required: true } }}
                             />
-                            <DesktopDateTimePicker 
+                            <DesktopDateTimePicker
                                 label="End time"
                                 name="end_time"
-                                slotProps={{ textField: { required: true,},}}
+                                slotProps={{ textField: { required: true } }}
                             />
                         </LocalizationProvider>
                         <Select
@@ -113,7 +112,6 @@ const CreateLecture = () => {
                             <MenuItem value="workshop">Workshop</MenuItem>
                             <MenuItem value="exam">Exam</MenuItem>
                         </Select>
-
 
                         {regStatus === "success" && (
                             <Typography variant="body1" color="success">
