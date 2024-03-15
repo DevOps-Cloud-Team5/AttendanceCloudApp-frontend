@@ -19,7 +19,7 @@ const Profile = () => {
         role: "",
         first_name: "",
         last_name: "",
-        avatarUrl: "https://randomuser.me/api/portraits/men/5.jpg"
+        avatarUrl: ""
     });
 
     const getProfileData = async () => {
@@ -36,6 +36,18 @@ const Profile = () => {
         const resp = await get_db("user/get/" + username, true);
         return resp.json();
     };
+    
+    const updateProfilePicture = async () => {
+        
+        console.log('Update Profile Picture function triggered');
+    };
+
+    // const [loggedInUsername, setLoggedInUsername] = useState("");
+    //store image inside a storage solution (S3 bucket)!
+    // After, we collect the url from the s3
+    // store url in database
+    // it will be retrieved in getprofile data via url
+    // 1 image per profile, therefore, override the previous one
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -47,7 +59,8 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                profile[0]["avaterUrl"] =
+                // if profile[0]
+                profile[0]["avatarUrl"] =
                     "https://randomuser.me/api/portraits/men/5.jpg";
                 setProfileData(profile[0]);
             } catch (error) {
@@ -55,6 +68,14 @@ const Profile = () => {
                 // Show error on frontend
             }
         };
+
+        // const jwt_token = Cookies.get("token_access");
+        // if (jwt_token) {
+        //     const decodedToken = jwtDecode(jwt_token);
+        //     if (decodedToken && "username" in decodedToken) {
+        //         setLoggedInUsername(decodedToken.username);
+        //     }
+        // }
 
         fetchUserProfile();
     }, [navigate]);
@@ -68,20 +89,18 @@ const Profile = () => {
                         src={profileData.avatarUrl}
                         alt="User Avatar"
                     />
+                    <button className="update-btn" onClick={updateProfilePicture}>
+                        Update Profile Picture
+                     </button>
                     <div className="profile-info">
                         <Typography component="h1" variant="h5">
                             {profileData.first_name} {profileData.last_name}
                         </Typography>
-                        <Typography component="p" variant="body1">
-                            Username: {profileData.username}
-                        </Typography>
-                        <Typography component="p" variant="body1">
-                            Email: {profileData.email}
-                        </Typography>
-                        <Typography component="p" variant="body1">
-                            Role: {profileData.role}
-                        </Typography>
+                        <p><span className="label">Username:</span> {profileData.username}</p>
+                        <p><span className="label">Email:</span> {profileData.email}</p>
+                        <p><span className="label">Role:</span> {profileData.role}</p>
                     </div>
+                    
                 </div>
             </Container>
         </RootPage>
