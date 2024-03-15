@@ -48,7 +48,7 @@ const AppRouter = createBrowserRouter([
             )
     },
     {
-        path: "/create_lecture",
+        path: "course/:id/create_lecture/",
         element:
             isLoggedIn() && (IsTeacher() || IsAdmin()) ? (
                 <CreateLecture />

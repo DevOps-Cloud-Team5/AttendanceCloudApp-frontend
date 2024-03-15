@@ -1,7 +1,7 @@
 import RootPage from "../root";
 import Container from "@mui/material/Container";
 import "./courses.css"; // Import CSS file for additional styling
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { backend_post, useAxiosRequest } from "../../utils";
 import { Course, Empty } from "../../types/common";
@@ -20,6 +20,7 @@ const Courses = () => {
         Empty,
         ResponseData
     >();
+    const [ course_data, setCourseData ] = useState()
 
     const alternatingColor = [
         "rgba(255, 255, 255, 0.5)",
@@ -74,13 +75,18 @@ const Courses = () => {
     };
 
     const handleCourseClick = (course_id: number) => {
-        navigate(`/course/${course_id}`);
+        navigate(`/course/${course_id}/create_lecture`);
     };
 
     const handleEnrollment =
         (courseId: number, enroll: boolean) =>
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            if (enroll) backend_post("course/enroll/" + courseId, "", true);
+            if (enroll) {
+                backend_post("course/enroll/" + courseId, "", true);
+                // if (response == null) return
+                // const result = response.map((course : Course) => (course.id == courseId ? { ...course, enrolled: true } : course))
+                // console.log(result)
+            }
         };
 
     return (

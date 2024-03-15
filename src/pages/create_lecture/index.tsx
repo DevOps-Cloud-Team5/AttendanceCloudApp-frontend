@@ -14,21 +14,23 @@ import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker
 import RootPage from "../root";
 import "./create.css"; // Import CSS file for additional styling
 import { backend_post } from "../../utils";
+import { useParams } from "react-router-dom";
 
 const CreateLecture = () => {
     // const navigate = useNavigate();
     const [regStatus, setRegStatus] = useState("");
+    const { id } = useParams();
 
     const handleResponse = (
         data: any,
         event: React.FormEvent<HTMLFormElement>
     ) => {
         console.log(data);
-        if (!("course_name" in data) || typeof data["course_name"] !== "string") {
-            setRegStatus("failed");
-            return;
-        } else {
+        if ("ok" in data) {
             setRegStatus("success");
+        }
+        else{
+            setRegStatus("failed");
         }
     };
 
@@ -40,18 +42,23 @@ const CreateLecture = () => {
         const start_time = data.get("start_time")
         const end_time = data.get("end_time")
         
-        console.log(Date.parse(start_time))
-        console.log(Date.parse(end_time))
+        if (start_time == null || end_time == null) return
+        if (start_time == "" || end_time == "") return
 
-        // backend_post(
-        //     "course/create/",
-        //     JSON.stringify({
-        //         course_name: data.get("course_name"),
-        //     })
-        // )
-        //     .then((resp) => (resp.json()))
-        //     .then((data) => handleResponse(data, event))
-        //     .catch((error) => console.log(error));
+        const start_date = new Date(Date.parse(start_time.toString()))
+        const end_date = new Date(Date.parse(end_time.toString()))
+
+        backend_post(
+            "course/lecture/" + id + "/add",
+            JSON.stringify({
+                start_time: start_date.toISOString(),
+                end_time: end_date.toISOString(),
+                lecture_type: data.get("lecture_type"),
+            })
+        )
+            .then((resp) => (resp.json()))
+            .then((data) => handleResponse(data, event))
+            .catch((error) => console.log(error));
     };
 
     return (
@@ -82,10 +89,12 @@ const CreateLecture = () => {
                             <DesktopDateTimePicker 
                                 label="Start time"
                                 name="start_time"
+                                slotProps={{ textField: { required: true,},}}
                             />
                             <DesktopDateTimePicker 
                                 label="End time"
                                 name="end_time"
+                                slotProps={{ textField: { required: true,},}}
                             />
                         </LocalizationProvider>
                         <Select
