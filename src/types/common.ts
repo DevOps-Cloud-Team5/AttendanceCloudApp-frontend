@@ -8,6 +8,7 @@ export interface TokenResponse {
 export interface Course {
     id: number;
     course_name: string;
+    enrolled: boolean;
 }
 
 export interface User {
@@ -29,6 +30,6 @@ export interface CookieJWT {
 }
 export interface AttendanceData {
     [day: string]: {
-      [courseId: string]: boolean;
+        [courseId: string]: boolean;
     };
-  }
+}

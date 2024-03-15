@@ -48,9 +48,9 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                profile[0]["avaterUrl"] =
-                    "https://randomuser.me/api/portraits/men/5.jpg";
-                setProfileData(profile[0]);
+                // profile[0]["avaterUrl"] =
+                //     "https://randomuser.me/api/portraits/men/5.jpg";
+                setProfileData(profile);
             } catch (error) {
                 console.error("Error fetching profile:", error);
                 // Show error on frontend

@@ -24,8 +24,7 @@ const HomePage: FC = () => (
                 Attendunce Dashboard
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
-                Overview of Schedule |
-                Attendence Overview 
+                Overview of Schedule | Attendence Overview
             </Typography>
         </Box>
     </Rootpage>

@@ -31,47 +31,50 @@ export const useAxiosRequest = <TRequest, TResponse>() => {
         return `${baseURL}${route.startsWith("/") ? "" : "/"}${route}`;
     };
 
-    const sendRequest = useCallback(async (options: UseAxiosRequestOptions<TRequest>) => {
-        setLoading(true);
+    const sendRequest = useCallback(
+        async (options: UseAxiosRequestOptions<TRequest>) => {
+            setLoading(true);
 
-        const config: AxiosRequestConfig<TRequest> = {
-            method: options.method,
-            url: combineUrl(apiURL, options.route),
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                ...(options.useJWT && {
-                    Authorization: `JWT ${Cookies.get("token_access")}`
-                }),
-                ...options.headers
-            },
-            ...(options.method !== "GET" && { data: options.data })
-        };
+            const config: AxiosRequestConfig<TRequest> = {
+                method: options.method,
+                url: combineUrl(apiURL, options.route),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    ...(options.useJWT && {
+                        Authorization: `JWT ${Cookies.get("token_access")}`
+                    }),
+                    ...options.headers
+                },
+                ...(options.method !== "GET" && { data: options.data })
+            };
 
-        try {
-            const result = await axios.request<TResponse>(config);
-            setResponse(result.data);
-        } catch (error) {
-            let errorMessage: string = "An unknown error occurred"; // Default error message
-            if (axios.isAxiosError(error)) {
-                // Now we can safely extract error information
-                if (
-                    error.response &&
-                    error.response.data &&
-                    typeof error.response.data.message === "string"
-                ) {
-                    // Use the error message from the response if available and is a string
-                    errorMessage = error.response.data.message;
-                } else if (typeof error.message === "string") {
-                    // Fallback to Axios error message
-                    errorMessage = error.message;
+            try {
+                const result = await axios.request<TResponse>(config);
+                setResponse(result.data);
+            } catch (error) {
+                let errorMessage: string = "An unknown error occurred"; // Default error message
+                if (axios.isAxiosError(error)) {
+                    // Now we can safely extract error information
+                    if (
+                        error.response &&
+                        error.response.data &&
+                        typeof error.response.data.message === "string"
+                    ) {
+                        // Use the error message from the response if available and is a string
+                        errorMessage = error.response.data.message;
+                    } else if (typeof error.message === "string") {
+                        // Fallback to Axios error message
+                        errorMessage = error.message;
+                    }
                 }
+                setError(errorMessage);
+            } finally {
+                setLoading(false);
             }
-            setError(errorMessage);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+        },
+        []
+    );
 
     return { response, error, loading, sendRequest };
 };
@@ -159,6 +162,12 @@ export const getDecodedJWT = () => {
     const decoded: CookieJWT = jwtDecode(jwt_token);
     if (!("username" in decoded)) return { code: "broken access token" };
     return decoded;
+};
+
+export const IsTeacher = () => {
+    const jwt_token = getDecodedJWT();
+    if ("code" in jwt_token) return false;
+    return jwt_token["role"] == "teacher";
 };
 
 export const IsAdmin = () => {

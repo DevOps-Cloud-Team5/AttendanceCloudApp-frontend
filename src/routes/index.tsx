@@ -5,11 +5,11 @@ import HomePage from "../pages/home";
 import Profile from "../pages/profile";
 import People from "../pages/people";
 import Courses from "../pages/courses";
-import Schedule from "../pages/schedule"
-import { IsAdmin, isLoggedIn } from "../utils";
+import Schedule from "../pages/schedule";
+import { IsAdmin, isLoggedIn, IsTeacher } from "../utils";
 import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
-
+import CreateCourse from "../pages/create_course";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -36,6 +36,15 @@ const AppRouter = createBrowserRouter([
     {
         path: "/profile/:id",
         element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/create_course",
+        element:
+            isLoggedIn() && (IsTeacher() || IsAdmin()) ? (
+                <CreateCourse />
+            ) : (
+                <Navigate to="/login" replace />
+            )
     },
     {
         path: "/create_user",
