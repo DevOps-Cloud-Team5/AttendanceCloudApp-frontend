@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { deleteAuthCookies, backend_get, IsAdmin } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Typography, capitalize } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -15,9 +15,10 @@ const People = () => {
     const navigate = useNavigate();
     const [allUsers, setAllUsers] = useState<User[]>();
     const alternatingColor = [
-        "rgba(255, 255, 255, 0.5)",
-        "rgba(255, 255, 255, 0.3)"
+        "#424242",
+        "#595959"
     ];
+
 
     const getUserRole = async (role: string) => {
         const resp = await backend_get("user/getrole/" + role, true);
@@ -60,13 +61,16 @@ const People = () => {
     const StyledTable = styled("table")({
         borderCollapse: "collapse",
         width: "100%",
-        "& th, & td": {
-            padding: "8px", // Adjust the padding as needed
-            borderBottom: "1px solid #ddd", // Add a border bottom to create a divider effect
-            textAlign: "left" // Align content to the left
+        "& th, & tr": {
+            padding: "8px", 
+            borderBottom: "1px solid #ddd", 
+            textAlign: "left"
+        },
+        "& td":{
+            padding: "8px",
+            textAlign: "left" 
         },
         "& th": {
-            // backgroundColor: '#f2f2f2', // Add background color to header cells if needed
             fontWeight: "bold" // Add bold font weight to header cells if needed
         },
         "& .type-column": {
@@ -132,9 +136,7 @@ const People = () => {
                                 key={user.id}
                                 style={{
                                     backgroundColor:
-                                        alternatingColor[
-                                            index % alternatingColor.length
-                                        ]
+                                        alternatingColor[index%2]
                                 }}
                             >
                                 <td className="avatar-column">
@@ -156,7 +158,7 @@ const People = () => {
                                         {`${user.first_name} ${user.last_name}`}
                                     </Button>
                                 </td>
-                                <td style={{ fontSize: "1em" }}>{user.role}</td>
+                                <td style={{ fontSize: "1em" }}>{capitalize(user.role)}</td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
                                         <IconButton>

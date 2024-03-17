@@ -11,6 +11,16 @@ export interface Course {
     enrolled: boolean;
 }
 
+export interface ScheduleLecture {
+    id: number,
+    start_time: string,
+    end_time: string,
+    lecture_type: string,
+    course: number,
+    attended_student: boolean,
+    attended_teacher: boolean
+}
+
 export interface User {
     id: number;
     password: string;
