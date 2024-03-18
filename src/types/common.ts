@@ -16,9 +16,10 @@ export interface ScheduleLecture {
     start_time: string,
     end_time: string,
     lecture_type: string,
+    course_name: string,
     course: number,
-    attended_student: boolean,
-    attended_teacher: boolean
+    attended_student: boolean | null,
+    attended_teacher: boolean | null
 }
 
 export interface User {
