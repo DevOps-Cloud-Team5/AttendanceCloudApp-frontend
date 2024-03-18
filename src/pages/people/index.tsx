@@ -5,18 +5,20 @@ import { useEffect, useState } from "react";
 import { deleteAuthCookies, backend_get, IsAdmin } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Typography, capitalize } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Avatar from "@mui/material/Avatar";
 
 const People = () => {
     const navigate = useNavigate();
     const [allUsers, setAllUsers] = useState<User[]>();
     const alternatingColor = [
-        "rgba(255, 255, 255, 0.5)",
-        "rgba(255, 255, 255, 0.3)"
+        "#424242",
+        "#595959"
     ];
+
 
     const getUserRole = async (role: string) => {
         const resp = await backend_get("user/getrole/" + role, true);
@@ -26,8 +28,8 @@ const People = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const students_query = await getUserRole("students");
-                const teachers_query = await getUserRole("teachers");
+                const students_query = await getUserRole("student");
+                const teachers_query = await getUserRole("teacher");
                 if ("code" in students_query || "code" in teachers_query) {
                     // Not authenticated anymore
                     deleteAuthCookies();
@@ -40,13 +42,13 @@ const People = () => {
                     "error" in students_query || "detail" in students_query
                 )
                     ? students_query
-                    : {};
+                    : [];
                 const teachers = !(
                     "error" in teachers_query || "detail" in teachers_query
                 )
                     ? teachers_query
-                    : {};
-                setAllUsers(students.concat(teachers));
+                    : [];
+                setAllUsers(teachers.concat(students));
             } catch (error) {
                 console.error("Error fetching profile:", error);
                 // Show error on frontend
@@ -59,13 +61,16 @@ const People = () => {
     const StyledTable = styled("table")({
         borderCollapse: "collapse",
         width: "100%",
-        "& th, & td": {
-            padding: "8px", // Adjust the padding as needed
-            borderBottom: "1px solid #ddd", // Add a border bottom to create a divider effect
-            textAlign: "left" // Align content to the left
+        "& th, & tr": {
+            padding: "8px", 
+            borderBottom: "1px solid #ddd", 
+            textAlign: "left"
+        },
+        "& td":{
+            padding: "8px",
+            textAlign: "left" 
         },
         "& th": {
-            // backgroundColor: '#f2f2f2', // Add background color to header cells if needed
             fontWeight: "bold" // Add bold font weight to header cells if needed
         },
         "& .type-column": {
@@ -87,12 +92,33 @@ const People = () => {
         }
     });
 
+    const handleNewUserClick = () => {
+        navigate(`/create_user`);
+    };
+
+    const handleProfileClick = (username: string) => {
+        navigate(`/profile/${username}`);
+    };
+
     return (
         <RootPage>
-            <Container component="main">
+            <Container component="main" className="mainComponent">
                 <Typography variant="h4" gutterBottom>
                     People
+                    {IsAdmin() ? (
+                        <IconButton
+                            onClick={() => handleNewUserClick()}
+                            style={{
+                                marginLeft: "2%",
+                                color: "white",
+                                backgroundColor: "rgba(255, 255, 255, 0.5)"
+                            }}
+                        >
+                            <AddCircleOutlineIcon style={{ fontSize: "1em" }} />
+                        </IconButton>
+                    ) : null}
                 </Typography>
+
                 <StyledTable>
                     <thead>
                         <tr>
@@ -110,9 +136,7 @@ const People = () => {
                                 key={user.id}
                                 style={{
                                     backgroundColor:
-                                        alternatingColor[
-                                            index % alternatingColor.length
-                                        ]
+                                        alternatingColor[index%2]
                                 }}
                             >
                                 <td className="avatar-column">
@@ -121,9 +145,20 @@ const People = () => {
                                     />
                                 </td>
                                 <td>
-                                    <Button>{`${user.first_name} ${user.last_name}`}</Button>
+                                    <Button
+                                        style={{
+                                            color: "white",
+                                            textTransform: "none",
+                                            fontSize: "1em"
+                                        }}
+                                        onClick={() =>
+                                            handleProfileClick(user.username)
+                                        }
+                                    >
+                                        {`${user.first_name} ${user.last_name}`}
+                                    </Button>
                                 </td>
-                                <td>{user.role}</td>
+                                <td style={{ fontSize: "1em" }}>{capitalize(user.role)}</td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
                                         <IconButton>

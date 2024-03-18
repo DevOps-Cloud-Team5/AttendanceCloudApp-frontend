@@ -7,7 +7,7 @@ const HomePage: FC = () => (
     <Rootpage>
         <Box
             sx={{
-                backgroundImage: `url(${backgroundImage})`,
+                // backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 color: "white",
@@ -21,10 +21,10 @@ const HomePage: FC = () => (
             }}
         >
             <Typography variant="h1" component="h1" gutterBottom>
-                Welcome to Attendunce
+                Attendunce Dashboard
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
-                The ultimate attendance tracking solution
+                Overview of Schedule | Attendence Overview
             </Typography>
         </Box>
     </Rootpage>

@@ -5,10 +5,14 @@ import HomePage from "../pages/home";
 import Profile from "../pages/profile";
 import People from "../pages/people";
 import Courses from "../pages/courses";
-import { isLoggedIn } from "../utils";
+import Schedule from "../pages/schedule";
+import { IsAdmin, isLoggedIn, IsTeacher } from "../utils";
+import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
 import ResetPasswordRequest from "../pages/reset_password_request";
 import ResetPasswordRequested from "../pages/reset_password_requested";
+import CreateCourse from "../pages/create_course";
+import CreateLecture from "../pages/create_lecture";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -33,6 +37,37 @@ const AppRouter = createBrowserRouter([
         element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
     },
     {
+        path: "/profile/:id",
+        element: isLoggedIn() ? <Profile /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/create_course",
+        element:
+            isLoggedIn() && (IsTeacher() || IsAdmin()) ? (
+                <CreateCourse />
+            ) : (
+                <Navigate to="/login" replace />
+            )
+    },
+    {
+        path: "course/:id/create_lecture/",
+        element:
+            isLoggedIn() && (IsTeacher() || IsAdmin()) ? (
+                <CreateLecture />
+            ) : (
+                <Navigate to="/login" replace />
+            )
+    },
+    {
+        path: "/create_user",
+        element:
+            isLoggedIn() && IsAdmin() ? (
+                <CreateUser />
+            ) : (
+                <Navigate to="/login" replace />
+            )
+    },
+    {
         path: "/people",
         element: isLoggedIn() ? <People /> : <Navigate to="/login" replace />
     },
@@ -51,6 +86,10 @@ const AppRouter = createBrowserRouter([
     {
         path: "/reset_password",
         element: <ResetPassword />
+    },
+    {
+        path: "/schedule",
+        element: isLoggedIn() ? <Schedule /> : <Navigate to="/login" replace />
     }
 ]);
 export default AppRouter;

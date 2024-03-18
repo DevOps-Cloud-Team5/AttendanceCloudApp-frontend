@@ -48,9 +48,6 @@ const Navbar = () => {
                         <Link to="/profile" className="text-primary">
                             Profile
                         </Link>
-                        <Link to="/logout" className="text-primary">
-                            Profile
-                        </Link>
                         <a onClick={handleLogout}>Logout</a>
                     </>
                 ) : (

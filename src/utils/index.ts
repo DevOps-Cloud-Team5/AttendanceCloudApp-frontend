@@ -76,7 +76,7 @@ export const useAxiosRequest = <TRequest, TResponse>() => {
         []
     );
 
-    return { response, error, loading, sendRequest };
+    return { response, error, loading, sendRequest, setResponse };
 };
 export const json_request = (
     url: string,
@@ -137,6 +137,7 @@ const shouldRefreshToken = () => {
 export const attemptTokenRefresh = () => {
     if (!shouldRefreshToken()) return;
     console.log("Refreshing access token");
+    
     const refresh_token = Cookies.get("token_refresh");
     if (refresh_token == "undefined") return;
 
@@ -149,7 +150,7 @@ export const attemptTokenRefresh = () => {
         });
     };
 
-    backend_post("token/refresh/", refresh_token)
+    backend_post("token/refresh/", JSON.stringify({"refresh": refresh_token}))
         .then((resp) => resp.json())
         .then((data) => handleRefreshResponse(data))
         .catch((error) => console.log(error));
@@ -157,10 +158,17 @@ export const attemptTokenRefresh = () => {
 
 export const getDecodedJWT = () => {
     const jwt_token = Cookies.get("token_access");
-    if (jwt_token == undefined) return { code: "missing access token" };
+    if (jwt_token == undefined || jwt_token == "undefined")
+        return { code: "missing access token" };
     const decoded: CookieJWT = jwtDecode(jwt_token);
     if (!("username" in decoded)) return { code: "broken access token" };
     return decoded;
+};
+
+export const IsTeacher = () => {
+    const jwt_token = getDecodedJWT();
+    if ("code" in jwt_token) return false;
+    return jwt_token["role"] == "teacher";
 };
 
 export const IsAdmin = () => {
