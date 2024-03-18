@@ -9,6 +9,7 @@ import { backend_get, deleteAuthCookies } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { CookieJWT } from "../../types/common";
+import { Button, capitalize } from "@mui/material";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Profile = () => {
         role: "",
         first_name: "",
         last_name: "",
-        avatarUrl: "https://randomuser.me/api/portraits/men/5.jpg"
+        avatarUrl: ""
     });
 
     const getProfileData = async () => {
@@ -37,6 +38,17 @@ const Profile = () => {
         const resp = await backend_get("user/get/" + username, true);
         return resp.json();
     };
+    
+    const updateProfilePicture = async () => {
+        console.log('Update Profile Picture function triggered');
+    };
+
+    // const [loggedInUsername, setLoggedInUsername] = useState("");
+    //store image inside a storage solution (S3 bucket)!
+    // After, we collect the url from the s3
+    // store url in database
+    // it will be retrieved in getprofile data via url
+    // 1 image per profile, therefore, override the previous one
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -48,8 +60,7 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                // profile[0]["avaterUrl"] =
-                //     "https://randomuser.me/api/portraits/men/5.jpg";
+                profile["avatarUrl"] = "https://randomuser.me/api/portraits/men/5.jpg";
                 setProfileData(profile);
             } catch (error) {
                 console.error("Error fetching profile:", error);
@@ -69,20 +80,30 @@ const Profile = () => {
                         src={profileData.avatarUrl}
                         alt="User Avatar"
                     />
+
+
                     <div className="profile-info">
                         <Typography component="h1" variant="h5">
                             {profileData.first_name} {profileData.last_name}
                         </Typography>
-                        <Typography component="p" variant="body1">
-                            Username: {profileData.username}
-                        </Typography>
-                        <Typography component="p" variant="body1">
-                            Email: {profileData.email}
-                        </Typography>
-                        <Typography component="p" variant="body1">
-                            Role: {profileData.role}
-                        </Typography>
+                        <p><span className="label">Username:</span>{profileData.username}</p>
+                        <p><span className="label">Email:</span>{profileData.email}</p>
+                        <p><span className="label">Role:</span>{capitalize(profileData.role)}</p>
                     </div>
+                    
+                    <div style={{ marginTop:"3%" }} >
+                        <Button variant="contained" sx={{ textTransform:"none" }}>
+                            Change Picture
+                        </Button>
+                        <Button variant="contained" sx={{ textTransform:"none" }}>
+                            Change Password
+                        </Button>
+                    </div>
+
+                    <Button variant="contained" sx={{ marginTop:"3%", textTransform:"none" }}>
+                        Log Out
+                    </Button>
+
                 </div>
             </Container>
         </RootPage>
