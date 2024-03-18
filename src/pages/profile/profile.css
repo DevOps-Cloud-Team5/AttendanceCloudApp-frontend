@@ -11,12 +11,9 @@
     flex-direction: column;
     align-items: center;
     /* Set a min-width and min-height if necessary */
-    
-    
 }
 
 .avatar {
-    
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -33,7 +30,7 @@
     border-radius: 10px;
     padding: 1.5em;
     color: #fff; /* White text for profile info */
-    text-align: left; 
+    text-align: left;
 }
 
 .profile-info h1 {

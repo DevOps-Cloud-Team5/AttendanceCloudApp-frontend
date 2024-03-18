@@ -26,13 +26,9 @@ const Courses = () => {
         Empty,
         ResponseData
     >();
-    const [course_data, setCourseData]  = useState<Course[]>();
+    const [course_data, setCourseData] = useState<Course[]>();
 
-    const alternatingColor = [
-        "#424242",
-        "#595959"
-    ];
-
+    const alternatingColor = ["#424242", "#595959"];
 
     useEffect(() => {
         sendRequest({
@@ -43,7 +39,7 @@ const Courses = () => {
     }, [sendRequest]);
 
     useEffect(() => {
-        if (response) setCourseData(response)
+        if (response) setCourseData(response);
     }, [response]);
 
     if (error) {
@@ -55,13 +51,13 @@ const Courses = () => {
         borderCollapse: "collapse",
         width: "100%",
         "& th, & tr": {
-            padding: "8px", 
-            borderBottom: "1px solid #ddd", 
+            padding: "8px",
+            borderBottom: "1px solid #ddd",
             textAlign: "left"
         },
-        "& td":{
+        "& td": {
             padding: "8px",
-            textAlign: "left" 
+            textAlign: "left"
         },
         "& th": {
             fontWeight: "bold" // Add bold font weight to header cells if needed
@@ -93,7 +89,7 @@ const Courses = () => {
     };
 
     const handleCourseClick = (course_id: number) => {
-        navigate(`/course/${course_id}/create_lecture`);
+        navigate(`/course/${course_id}`);
     };
 
     const handleEnrollment =
@@ -101,9 +97,13 @@ const Courses = () => {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             if (enroll) {
                 backend_post("course/enroll/" + courseId, "", true);
-                if (response == null) return
-                const new_data = course_data?.map((course : Course) => (course.id == courseId ? { ...course, enrolled: true } : course))
-                setCourseData(new_data)
+                if (response == null) return;
+                const new_data = course_data?.map((course: Course) =>
+                    course.id == courseId
+                        ? { ...course, enrolled: true }
+                        : course
+                );
+                setCourseData(new_data);
             }
         };
 
@@ -143,8 +143,7 @@ const Courses = () => {
                             <tr
                                 key={course.id}
                                 style={{
-                                    backgroundColor:
-                                        alternatingColor[index%2]
+                                    backgroundColor: alternatingColor[index % 2]
                                 }}
                             >
                                 <td>
@@ -169,7 +168,8 @@ const Courses = () => {
                                         </IconButton>
                                     </td>
                                 ) : (
-                                    <Checkbox className="actions-icon"
+                                    <Checkbox
+                                        className="actions-icon"
                                         checked={course.enrolled}
                                         onChange={handleEnrollment(
                                             course.id,
