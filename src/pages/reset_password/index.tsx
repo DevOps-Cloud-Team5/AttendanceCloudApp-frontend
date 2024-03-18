@@ -66,17 +66,17 @@ const ResetPassword = () => {
     }, [navigate, token, validateRequest]);
 
     useEffect(() => {
-        if (ValidateToken.error != null){
+        if (ValidateToken.error != null) {
             navigate("/login");
             navigate(0);
         }
-    },[navigate, ValidateToken.error]);
+    }, [navigate, ValidateToken.error]);
 
     useEffect(() => {
-        if (ValidateToken.loading){
+        if (ValidateToken.loading) {
             setLoading(false);
         }
-    },[ValidateToken.loading]);
+    }, [ValidateToken.loading]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
