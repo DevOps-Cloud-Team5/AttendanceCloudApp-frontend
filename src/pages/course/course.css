@@ -1,24 +1,12 @@
-/* profile.css */
+/* course.css */
 
-/* body {
-    font-family: 'Arial', sans-serif;
-    background-color: #000; 
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-} */
-
-.profile {
+.course {
     background: rgba(
         255,
         255,
         255,
         0.1
-    ); /* Semi-transparent white for profile background */
+    ); /* Semi-transparent white for course background */
     backdrop-filter: blur(5px); /* Blur effect for the background */
     border-radius: 15px;
     display: flex;
@@ -28,29 +16,21 @@
     gap: 1em;
 }
 
-.avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 3px solid #fff; /* White border for the avatar */
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* subtle glow to the avatar */
-}
-
-.profile-info {
+.course-info {
     color: #fff; /* Light text for readability */
 }
 
-.profile-info h1,
-.profile-info p {
+.course-info h1,
+.course-info p {
     margin: 0.3em 0; /* Add some vertical spacing between text elements */
 }
 
-.profile-info h1 {
+.course-info h1 {
     color: #29b6f6; /* A brighter color for the user's name */
     font-size: 1.5em;
 }
 
-.profile-info p {
+.course-info p {
     font-size: 1em;
     color: #bbb; /* Slightly dimmed color for less important text */
 }

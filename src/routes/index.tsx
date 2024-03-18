@@ -11,6 +11,7 @@ import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
 import CreateCourse from "../pages/create_course";
 import CreateLecture from "../pages/create_lecture";
+import Course from "../pages/course";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -68,6 +69,10 @@ const AppRouter = createBrowserRouter([
     {
         path: "/people",
         element: isLoggedIn() ? <People /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/course/:id",
+        element: isLoggedIn() ? <Course /> : <Navigate to="/login" replace />
     },
     {
         path: "/courses",

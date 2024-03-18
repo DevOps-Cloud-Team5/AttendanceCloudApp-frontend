@@ -137,7 +137,7 @@ const shouldRefreshToken = () => {
 export const attemptTokenRefresh = () => {
     if (!shouldRefreshToken()) return;
     console.log("Refreshing access token");
-    
+
     const refresh_token = Cookies.get("token_refresh");
     if (refresh_token == "undefined") return;
 
@@ -150,7 +150,7 @@ export const attemptTokenRefresh = () => {
         });
     };
 
-    backend_post("token/refresh/", JSON.stringify({"refresh": refresh_token}))
+    backend_post("token/refresh/", JSON.stringify({ refresh: refresh_token }))
         .then((resp) => resp.json())
         .then((data) => handleRefreshResponse(data))
         .catch((error) => console.log(error));
@@ -163,6 +163,12 @@ export const getDecodedJWT = () => {
     const decoded: CookieJWT = jwtDecode(jwt_token);
     if (!("username" in decoded)) return { code: "broken access token" };
     return decoded;
+};
+
+export const IsStudent = () => {
+    const jwt_token = getDecodedJWT();
+    if ("code" in jwt_token) return false;
+    return jwt_token["role"] == "student";
 };
 
 export const IsTeacher = () => {
