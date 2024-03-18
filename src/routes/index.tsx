@@ -9,6 +9,8 @@ import Schedule from "../pages/schedule";
 import { IsAdmin, isLoggedIn, IsTeacher } from "../utils";
 import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
+import ResetPasswordRequest from "../pages/reset_password_request";
+import ResetPasswordRequested from "../pages/reset_password_requested";
 import CreateCourse from "../pages/create_course";
 import CreateLecture from "../pages/create_lecture";
 
@@ -74,16 +76,20 @@ const AppRouter = createBrowserRouter([
         element: isLoggedIn() ? <Courses /> : <Navigate to="/login" replace />
     },
     {
-        path: "/schedule",
-        element: isLoggedIn() ? <Schedule /> : <Navigate to="/login" replace />
+        path: "/password_reset_requested",
+        element: <ResetPasswordRequested />
+    },
+    {
+        path: "/reset_password_request",
+        element: <ResetPasswordRequest />
     },
     {
         path: "/reset_password",
-        element: isLoggedIn() ? (
-            <ResetPassword />
-        ) : (
-            <Navigate to="/login" replace />
-        )
+        element: <ResetPassword />
+    },
+    {
+        path: "/schedule",
+        element: isLoggedIn() ? <Schedule /> : <Navigate to="/login" replace />
     }
 ]);
 export default AppRouter;
