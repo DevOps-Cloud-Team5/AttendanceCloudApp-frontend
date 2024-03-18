@@ -7,6 +7,8 @@ import People from "../pages/people";
 import Courses from "../pages/courses";
 import { isLoggedIn } from "../utils";
 import ResetPassword from "../pages/reset_password";
+import ResetPasswordRequest from "../pages/reset_password_request";
+import ResetPasswordRequested from "../pages/reset_password_requested";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -39,12 +41,16 @@ const AppRouter = createBrowserRouter([
         element: isLoggedIn() ? <Courses /> : <Navigate to="/login" replace />
     },
     {
+        path: "/password_reset_requested",
+        element: <ResetPasswordRequested />
+    },
+    {
+        path: "/reset_password_request",
+        element: <ResetPasswordRequest />
+    },
+    {
         path: "/reset_password",
-        element: isLoggedIn() ? (
-            <ResetPassword />
-        ) : (
-            <Navigate to="/login" replace />
-        )
+        element: <ResetPassword />
     }
 ]);
 export default AppRouter;
