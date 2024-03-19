@@ -1,7 +1,6 @@
 import { FC } from "react";
 import Rootpage from "../root";
 import { Box, Typography } from "@mui/material";
-import backgroundImage from "../../assets/logo-clear.png";
 
 const HomePage: FC = () => (
     <Rootpage>

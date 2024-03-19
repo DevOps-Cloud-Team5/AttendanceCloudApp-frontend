@@ -1,4 +1,4 @@
-name: s3-depl-test
+name: Auto Test Deployment
 
 on:
     push:
@@ -22,6 +22,11 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ${{ secrets.AWS_REGION }}
             - name: Build React App
-              run: npm install && npm run build
+              env:
+                  VITE_API_URL: ${{ secrets.VITE_API_URL }}
+              run: |
+                  npm install
+                  npm run build
+
             - name: Deploy app build to S3 bucket
-              run: aws s3 sync ./dist/ s3://attendunce-frontend-test --delete
+              run: aws s3 sync ./dist/ ${{ secrets.S3_BUCKET_TEST }} --delete

@@ -9,6 +9,8 @@ export interface Course {
     id: number;
     course_name: string;
     enrolled: boolean;
+    num_students: number;
+    num_teachers: number;
 }
 
 export interface FullCourseUser {
@@ -57,8 +59,22 @@ export interface User {
     role: string;
 }
 
+export interface UserCSV {
+    first_name: string;
+    last_name: string;
+    password: string | null;
+    username: string | null;
+    email: string | null;
+    role: string | null;
+}
+
 export interface CookieJWT {
     username: string;
     email: string;
     role: string;
+}
+
+export interface ConfirmUserCSV {
+    name: string;
+    success: boolean;
 }
