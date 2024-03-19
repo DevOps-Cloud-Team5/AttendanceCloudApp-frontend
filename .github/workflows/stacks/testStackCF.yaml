@@ -7,5 +7,5 @@ Resources:
   S3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: !Sub '${ProjectName}-blablabla-attendunce-bucket'
+      BucketName: !Sub '${ProjectName}-group5-attendunce-bucket'
       # AccessControl: PublicRead

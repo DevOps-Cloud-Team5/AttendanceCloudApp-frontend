@@ -25,5 +25,12 @@ jobs:
           --stack-name ${{ github.event.inputs.project_name }}-stack \
           --parameter-overrides ProjectName=${{ github.event.inputs.project_name }} \
           --capabilities CAPABILITY_IAM
+    - name: Build React App
+      env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      run: |
+          npm install
+          npm run build
+
     - name: Deploy frontend to S3
-      run: aws s3 sync ./dist/ ${{ secrets.S3_BUCKET }} --delete
+      run: aws s3 sync ./dist/ ${{ github.event.inputs.project_name }}-group5-attendunce-bucket --delete
