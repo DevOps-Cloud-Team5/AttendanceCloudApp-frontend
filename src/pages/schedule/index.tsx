@@ -63,7 +63,7 @@ const AttendancePage: React.FC = () => {
             for (const lec of response) {
                 if (id != undefined && lec["course"] != +id) continue;
                 const day =
-                    new Date(Date.parse(lec["start_time"])).getDay() - 1;
+                    new Date(Date.parse(lec["start_time"])).getDay();
                 all_lectures[day] = all_lectures[day].concat([lec]);
             }
             setLectures(all_lectures);
