@@ -17,19 +17,6 @@ const CreateCourse = () => {
     // const navigate = useNavigate();
     const [regStatus, setRegStatus] = useState("");
 
-    const handleResponse = (data: any) => {
-        console.log(data);
-        if (
-            !("course_name" in data) ||
-            typeof data["course_name"] !== "string"
-        ) {
-            setRegStatus("failed");
-            return;
-        } else {
-            setRegStatus("success");
-        }
-    };
-
     // TODO: Add first and last name validation
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setRegStatus("submitting");
@@ -43,7 +30,17 @@ const CreateCourse = () => {
             })
         )
             .then((resp) => resp.json())
-            .then((data) => handleResponse(data))
+            .then((data) => {
+                if (
+                    !("course_name" in data) ||
+                    typeof data["course_name"] !== "string"
+                ) {
+                    setRegStatus("failed");
+                    return;
+                } else {
+                    setRegStatus("success");
+                }
+            })
             .catch((error) => console.log(error));
     };
 

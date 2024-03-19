@@ -16,19 +16,6 @@ const CreateUser = () => {
     // const navigate = useNavigate();
     const [regStatus, setRegStatus] = useState("");
 
-    const handleTokenResponse = (data: any) => {
-        console.log(data);
-        if (!("username" in data) || typeof data["username"] !== "string") {
-            setRegStatus("failed");
-            return;
-        } else {
-            setRegStatus("success");
-        }
-        // event.currentTarget.reset()
-        // navigate(0);
-        // navigate("/home", { replace: true });
-    };
-
     // TODO: Add first and last name validation
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setRegStatus("submitting");
@@ -58,7 +45,17 @@ const CreateUser = () => {
             })
         )
             .then((resp) => resp.json())
-            .then((data) => handleTokenResponse(data))
+            .then((data) => {
+                if (
+                    !("username" in data) ||
+                    typeof data["username"] !== "string"
+                ) {
+                    setRegStatus("failed");
+                    return;
+                } else {
+                    setRegStatus("success");
+                }
+            })
             .catch((error) => console.log(error));
     };
 

@@ -20,15 +20,6 @@ const CreateLecture = () => {
     const [regStatus, setRegStatus] = useState("");
     const { id } = useParams();
 
-    const handleResponse = (data: any) => {
-        console.log(data);
-        if ("ok" in data) {
-            setRegStatus("success");
-        } else {
-            setRegStatus("failed");
-        }
-    };
-
     // TODO: Add first and last name validation
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setRegStatus("submitting");
@@ -52,7 +43,13 @@ const CreateLecture = () => {
             })
         )
             .then((resp) => resp.json())
-            .then((data) => handleResponse(data))
+            .then((data) => {
+                if (data.ok) {
+                    setRegStatus("success");
+                } else {
+                    setRegStatus("failed");
+                }
+            })
             .catch((error) => console.log(error));
     };
 
