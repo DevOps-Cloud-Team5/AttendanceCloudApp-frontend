@@ -1,5 +1,26 @@
 /* profile.css */
 
+.content-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if needed */
+    width: 100%; /* Take full width of the parent */
+}
+
+.prof {
+    display: flex; /* Use flexbox to center the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100px; /* Give it a fixed height or as much as needed */
+    font-size: 30px; /* Adjust the font size as desired */
+    font-weight: bold; /* Make the text bold */
+    margin: 0; /* Remove any default margin */
+    color: #FFF; /* Adjust the text color as needed */
+    width: 100%; /* Ensure it spans the full width */
+}
+
+
 .profile {
     margin: 0px 1em 1em -100px; /* Top, Right, Bottom, Left */
     min-width: 550px;
@@ -68,3 +89,5 @@
 .update-btn:hover {
     background-color: #1c85c7; /* Darker shade for hover effect */
 }
+
+
