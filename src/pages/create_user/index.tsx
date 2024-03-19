@@ -5,14 +5,7 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import {
-    Box,
-    List,
-    ListItemText,
-    MenuItem,
-    Select,
-    capitalize
-} from "@mui/material";
+import { Box, MenuItem, Select, capitalize } from "@mui/material";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 
 import RootPage from "../root";
@@ -20,7 +13,7 @@ import "./create.css"; // Import CSS file for additional styling
 import { backend_post } from "../../utils";
 import { MuiFileInput } from "mui-file-input";
 import * as Papa from "papaparse";
-import { ConfirmUserCSV, User, UserCSV } from "../../types/common";
+import { UserCSV } from "../../types/common";
 
 const CreateUser = () => {
     // const navigate = useNavigate();

@@ -78,3 +78,20 @@ export interface ConfirmUserCSV {
     name: string;
     success: boolean;
 }
+
+export interface FullLectureUser {
+    first_name: string;
+    last_name: string;
+    username: string;
+    attended: boolean;
+}
+
+export interface FullLecture {
+    id: number;
+    start_time: string;
+    end_time: string;
+    lecture_type: string;
+    course: number;
+    course_name: string;
+    students: FullLectureUser[];
+}

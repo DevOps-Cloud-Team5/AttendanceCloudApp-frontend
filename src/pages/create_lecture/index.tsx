@@ -4,7 +4,13 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Box, Checkbox, FormControlLabel, MenuItem, Select } from "@mui/material";
+import {
+    Box,
+    Checkbox,
+    FormControlLabel,
+    MenuItem,
+    Select
+} from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -43,7 +49,6 @@ const CreateLecture = () => {
                 lecture_series: data.get("lecture_series") == "on"
             })
         )
-
             .then((resp) => {
                 if (resp.ok) {
                     setRegStatus("success");
@@ -105,7 +110,15 @@ const CreateLecture = () => {
                             <MenuItem value="workshop">Workshop</MenuItem>
                             <MenuItem value="exam">Exam</MenuItem>
                         </Select>
-                        <FormControlLabel control={<Checkbox id="lecture_series" name="lecture_series" />} label="Create Lecture Series" />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    id="lecture_series"
+                                    name="lecture_series"
+                                />
+                            }
+                            label="Create Lecture Series"
+                        />
 
                         {regStatus === "success" && (
                             <Typography variant="body1" color="success">

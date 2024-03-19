@@ -1,13 +1,14 @@
 name: Deploy Frontend with new AWS Services
 
 on:
-  workflow_dispatch:
-    inputs:
-      project_name:
-        description: 'Project Name'
-        required: true
+    workflow_dispatch:
+        inputs:
+            project_name:
+                description: "Project Name"
+                required: true
 
 jobs:
+
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +35,4 @@ jobs:
 
     - name: Deploy frontend to S3
       run: aws s3 sync ./dist/ ${{ github.event.inputs.project_name }}-group5-attendunce-bucket --delete
+
