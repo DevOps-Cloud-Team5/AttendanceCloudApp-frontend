@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Box, MenuItem, Select } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, MenuItem, Select } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -39,12 +39,13 @@ const CreateLecture = () => {
             JSON.stringify({
                 start_time: start_date.toISOString(),
                 end_time: end_date.toISOString(),
-                lecture_type: data.get("lecture_type")
+                lecture_type: data.get("lecture_type"),
+                lecture_series: data.get("lecture_series") == "on"
             })
         )
-            .then((resp) => resp.json())
-            .then((data) => {
-                if (data.ok) {
+
+            .then((resp) => {
+                if (resp.ok) {
                     setRegStatus("success");
                 } else {
                     setRegStatus("failed");
@@ -97,7 +98,6 @@ const CreateLecture = () => {
                             name="lecture_type"
                             autoComplete="lecture_type"
                             autoFocus
-                            // label="Lecture Type"
                             defaultValue="lecture"
                         >
                             <MenuItem value="lecture">Lecture</MenuItem>
@@ -105,6 +105,7 @@ const CreateLecture = () => {
                             <MenuItem value="workshop">Workshop</MenuItem>
                             <MenuItem value="exam">Exam</MenuItem>
                         </Select>
+                        <FormControlLabel control={<Checkbox id="lecture_series" name="lecture_series" />} label="Create Lecture Series" />
 
                         {regStatus === "success" && (
                             <Typography variant="body1" color="success">
