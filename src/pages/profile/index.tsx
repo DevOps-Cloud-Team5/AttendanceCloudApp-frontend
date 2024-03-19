@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import RootPage from "../root";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -24,7 +24,7 @@ const Profile = () => {
         avatarUrl: ""
     });
 
-    const getProfileData = async () => {
+    const getProfileData = useCallback(async () => {
         let username = "";
         if (id != undefined) username = id;
         else {
@@ -37,7 +37,7 @@ const Profile = () => {
         }
         const resp = await backend_get("user/get/" + username, true);
         return resp.json();
-    };
+    }, [id]);
 
     // const [loggedInUsername, setLoggedInUsername] = useState("");
     //store image inside a storage solution (S3 bucket)!
@@ -66,7 +66,7 @@ const Profile = () => {
         };
 
         fetchUserProfile();
-    }, [navigate]);
+    }, [getProfileData, navigate]);
 
     return (
         <RootPage>

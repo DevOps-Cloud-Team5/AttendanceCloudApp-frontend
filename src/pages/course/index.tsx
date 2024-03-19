@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import RootPage from "../root";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -11,26 +11,23 @@ import { Avatar, Button, IconButton, capitalize, styled } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 const Course = () => {
-    const { response, error, loading, sendRequest } = useAxiosRequest<
-        Empty,
-        FullCourse
-    >();
+    const { response, sendRequest } = useAxiosRequest<Empty, FullCourse>();
     const navigate = useNavigate();
     const { id } = useParams();
 
     const [courseData, setCourseData] = useState<FullCourse>();
 
-    const getCourseData = () => {
+    const getCourseData = useCallback(() => {
         sendRequest({
             method: "GET",
             route: `/course/get/${id}`,
             useJWT: true
         });
-    };
+    }, [id, sendRequest]);
 
     useEffect(() => {
         getCourseData();
-    }, [sendRequest]);
+    }, [getCourseData]);
 
     useEffect(() => {
         if (response) setCourseData(response);
@@ -76,13 +73,8 @@ const Course = () => {
         navigate(`/profile/${username}`);
     };
 
-    const showAttendenceStats = () => {
-        return (
-            IsStudent() &&
-            courseData?.attended != -1 &&
-            courseData?.missed != -1
-        );
-    };
+    const showAttendenceStats = () =>
+        IsStudent() && courseData?.attended != -1 && courseData?.missed != -1;
 
     const handleEnrollment = (enroll: boolean, username: string = "") => {
         let url = "course/enroll/" + id;
