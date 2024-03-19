@@ -48,6 +48,8 @@ const Profile = () => {
     // store url in database
     // it will be retrieved in getprofile data via url
     // 1 image per profile, therefore, override the previous one
+    //https://www.youtube.com/watch?v=yGYeYJpRWPM
+    
 
     useEffect(() => {
         const fetchUserProfile = async () => {
