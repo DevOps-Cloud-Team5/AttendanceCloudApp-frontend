@@ -1,10 +1,10 @@
-name: Deploy Frontend with CloudFormation
+name: Deploy Frontend with new AWS Services
 
 on:
   workflow_dispatch:
     inputs:
       project_name:
-        description: 'Frontend of Attendunce v0.1'
+        description: 'Project Name'
         required: true
 
 jobs:
