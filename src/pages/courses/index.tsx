@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import "./courses.css"; // Import CSS file for additional styling
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { backend_delete, backend_post, useAxiosRequest } from "../../utils";
+import { backend_delete, useAxiosRequest } from "../../utils";
 import { Course, Empty } from "../../types/common";
 import { IsAdmin } from "../../utils";
 import {
@@ -22,7 +22,7 @@ type ResponseData = Course[];
 
 const Courses = () => {
     const navigate = useNavigate();
-    const { response, error, loading, sendRequest } = useAxiosRequest<
+    const { response, error, sendRequest } = useAxiosRequest<
         Empty,
         ResponseData
     >();
@@ -97,7 +97,7 @@ const Courses = () => {
         backend_delete("/course/delete/" + course_id, true).then((resp) => {
             if (resp.ok) {
                 if (course_data == undefined) return;
-                let tempCourses: Course[] = [...course_data];
+                const tempCourses: Course[] = [...course_data];
                 for (let i = 0; i < tempCourses.length; i++) {
                     if (tempCourses[i].id === course_id) {
                         tempCourses.splice(i, 1);
