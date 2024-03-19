@@ -6,7 +6,6 @@ on:
       project_name:
         description: 'Frontend of Attendunce v0.1'
         required: true
-        default: 'AttendanceCloudApp-frontend' # Default value if none is provided #default was my-project
 
 jobs:
   deploy:
