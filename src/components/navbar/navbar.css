@@ -1,0 +1,27 @@
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: black; /* Darker shade for the navbar */
+}
+
+.logo {
+    height: 40px; /* Adjust as needed */
+}
+
+.navbar-right a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin-left: 10px;
+    background-color: #0a84ff; /* Dark background for buttons */
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.navbar-right a:hover {
+    background-color: #00d5ff; /* Highlight color for buttons on hover */
+}

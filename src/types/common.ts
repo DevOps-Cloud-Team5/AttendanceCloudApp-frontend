@@ -1,14 +1,13 @@
+export interface Empty {}
+
 export interface TokenResponse {
     access: string;
     refresh: string;
 }
 
 export interface Course {
-    course_id: string;
+    id: number;
     course_name: string;
-    schedule: string[];
-    enrolled_students: string[];
-    teachers: string[];
 }
 
 export interface User {
@@ -28,3 +27,8 @@ export interface CookieJWT {
     email: string;
     role: string;
 }
+export interface AttendanceData {
+    [day: string]: {
+      [courseId: string]: boolean;
+    };
+  }
