@@ -23,6 +23,7 @@ export interface FullCourse {
     course_name: string;
     num_teachers: number;
     num_students: number;
+    enrolled: boolean;
     attended: number;
     missed: number;
     users: FullCourseUser[];

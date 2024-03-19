@@ -29,6 +29,7 @@ const AttendancePage: React.FC = () => {
     const [lectures, setLectures] = useState<ScheduleLecture[][]>();
     const [schedule_date, setScheduleDate] = useState<moment.Moment>(moment());
     const alternatingColor = ["#424242", "#595959"];
+    const { id } = useParams();
 
     const updateSchedule = () => {
         sendRequest({
@@ -40,12 +41,14 @@ const AttendancePage: React.FC = () => {
 
     useEffect(() => {
         updateSchedule();
+        console.log(id);
     }, [sendRequest]);
 
     useEffect(() => {
         if (response) {
             let all_lectures: ScheduleLecture[][] = Array(7).fill([]);
             for (const lec of response) {
+                if (id != undefined && lec["course"] != +id) continue;
                 const day = new Date(Date.parse(lec["start_time"])).getDay();
                 all_lectures[day] = all_lectures[day].concat([lec]);
             }
@@ -123,7 +126,7 @@ const AttendancePage: React.FC = () => {
 
     const getCheckboxColor = (
         lecture: ScheduleLecture,
-        attended_box: boolean
+        attended_box: boolean | null
     ) => {
         if (lecture.attended_student && lecture.attended_teacher)
             return "green";
@@ -135,6 +138,13 @@ const AttendancePage: React.FC = () => {
     const getDateDay = (dayIndex: number) => {
         const new_date = schedule_date.weekday(dayIndex);
         return new_date.date();
+    };
+
+    const getCourseName = () => {
+        if (lectures == undefined) return "";
+        for (const day of lectures)
+            for (const lec of day) return `| ${lec.course_name}`;
+        return "";
     };
 
     return (
@@ -155,7 +165,10 @@ const AttendancePage: React.FC = () => {
                         }}
                     >
                         <div>
-                            <h2>{`Week ${schedule_date.week()} overview`}</h2>
+                            <h2>
+                                {`Week ${schedule_date.week()} overview`}{" "}
+                                {id != undefined ? getCourseName() : ""}
+                            </h2>
                             <h3>{`${monthConvert[schedule_date.month()]} ${schedule_date.year()}`}</h3>
                         </div>
                         <div>
