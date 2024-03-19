@@ -21,7 +21,7 @@ jobs:
     - name: Deploy CloudFormation Stack
       run: |
         aws cloudformation deploy \
-          --template-file testStackCF.yml \
+          --template-file .github/workflows/stacks/testStackCF.yml \
           --stack-name ${{ github.event.inputs.project_name }}-stack \
           --parameter-overrides ProjectName=${{ github.event.inputs.project_name }} \
           --capabilities CAPABILITY_IAM
