@@ -1,5 +1,5 @@
 import RootPage from "../root";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -34,7 +34,7 @@ moment.updateLocale("en", { week: { dow: 1 } });
 
 const AttendancePage: React.FC = () => {
     const navigate = useNavigate();
-    const { response, error, loading, sendRequest } = useAxiosRequest<
+    const { response, sendRequest } = useAxiosRequest<
         Empty,
         ScheduleLecture[]
     >();
@@ -43,7 +43,7 @@ const AttendancePage: React.FC = () => {
     const alternatingColor = ["#424242", "#595959"];
     const { id } = useParams();
 
-    const updateSchedule = () => {
+    const updateSchedule = useCallback(() => {
         let url = `/schedule/get/${schedule_date.year()}/${schedule_date.week()}`;
         if (id != undefined) url += "/" + id;
         sendRequest({
@@ -51,15 +51,15 @@ const AttendancePage: React.FC = () => {
             route: url,
             useJWT: true
         });
-    };
+    }, [sendRequest, id, schedule_date]);
 
     useEffect(() => {
         updateSchedule();
-    }, [sendRequest]);
+    }, [sendRequest, updateSchedule]);
 
     useEffect(() => {
         if (response) {
-            let all_lectures: ScheduleLecture[][] = Array(7).fill([]);
+            const all_lectures: ScheduleLecture[][] = Array(7).fill([]);
             for (const lec of response) {
                 if (id != undefined && lec["course"] != +id) continue;
                 const day = new Date(Date.parse(lec["start_time"])).getDay();
@@ -67,9 +67,9 @@ const AttendancePage: React.FC = () => {
             }
             setLectures(all_lectures);
         }
-    }, [response]);
+    }, [id, response]);
 
-    const setStudentAttendence = (lecture_id: number, attended: boolean) => {
+    const setStudentAttendance = (lecture_id: number, attended: boolean) => {
         const new_lectures = lectures?.map((lectures: ScheduleLecture[]) =>
             lectures.map((lecture: ScheduleLecture) =>
                 lecture.id == lecture_id
@@ -92,7 +92,7 @@ const AttendancePage: React.FC = () => {
         backend_post(url, "", true)
             .then((resp) => {
                 if (resp.status == 200)
-                    setStudentAttendence(lecture.id, attended);
+                    setStudentAttendance(lecture.id, attended);
             })
             .catch((error) => console.log(error));
     };
@@ -126,14 +126,13 @@ const AttendancePage: React.FC = () => {
         "July",
         "August",
         "September",
-        "Octobor",
+        "October",
         "November",
         "December"
     ];
 
-    const convertToScheduleTime = (time: string) => {
-        return moment(Date.parse(time)).format("HH:mm");
-    };
+    const convertToScheduleTime = (time: string) =>
+        moment(Date.parse(time)).format("HH:mm");
 
     const getCheckboxColor = (
         lecture: ScheduleLecture,
@@ -277,7 +276,6 @@ const AttendancePage: React.FC = () => {
                                             />
                                         </div>
                                         <Button
-                                            variant="string"
                                             color="inherit"
                                             disableTouchRipple
                                             onClick={() =>

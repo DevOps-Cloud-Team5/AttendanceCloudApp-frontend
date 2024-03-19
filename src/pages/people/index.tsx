@@ -1,12 +1,11 @@
 import RootPage from "../root";
 import Container from "@mui/material/Container";
 import "./people.css"; // Import CSS file for additional styling
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     deleteAuthCookies,
     backend_get,
     IsAdmin,
-    json_request,
     backend_delete
 } from "../../utils";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +26,7 @@ const People = () => {
         return resp.json();
     };
 
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const students_query = await getUserRole("student");
             const teachers_query = await getUserRole("teacher");
@@ -54,11 +53,11 @@ const People = () => {
             console.error("Error fetching profile:", error);
             // Show error on frontend
         }
-    };
+    }, [navigate]);
 
     useEffect(() => {
         fetchUsers();
-    }, [navigate]);
+    }, [fetchUsers, navigate]);
 
     const StyledTable = styled("table")({
         borderCollapse: "collapse",
@@ -106,7 +105,7 @@ const People = () => {
         backend_delete("/user/delete/" + username, true).then((resp) => {
             if (resp.ok) {
                 if (allUsers == undefined) return;
-                let tempUsers: User[] = [...allUsers];
+                const tempUsers: User[] = [...allUsers];
                 for (let i = 0; i < tempUsers.length; i++) {
                     if (tempUsers[i].username === username) {
                         tempUsers.splice(i, 1);

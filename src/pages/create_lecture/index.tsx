@@ -43,6 +43,7 @@ const CreateLecture = () => {
                 lecture_series: data.get("lecture_series") == "on"
             })
         )
+
             .then((resp) => {
                 if (resp.ok) {
                     setRegStatus("success");
