@@ -23,6 +23,22 @@ const Profile = () => {
     const { id } = useParams();
 
     const [flag, setFlag] = useState(false);
+    const randomNumber = Math.random();
+
+    // const [gender, getGender] = useState(false)
+    const generateRandomInteger = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    var gender = "";
+    
+    if (generateRandomInteger(1,2) == 1) {
+        gender = "men";
+    }
+    else{
+        gender = "women";
+    }
+
 
     const [profileData, setProfileData] = useState({
         username: "",
@@ -102,7 +118,7 @@ const Profile = () => {
                     return;
                 }
                 profile["avatarUrl"] =
-                    "https://randomuser.me/api/portraits/men/5.jpg";
+                    "https://randomuser.me/api/portraits/"+ gender +"/" + generateRandomInteger(1,99).toString() + ".jpg";
                 setProfileData(profile);
             } catch (error) {
                 console.error("Error fetching profile:", error);
