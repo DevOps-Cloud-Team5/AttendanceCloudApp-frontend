@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { backend_post, useAxiosRequest } from "../../utils";
 import { Course, Empty } from "../../types/common";
 import { IsAdmin } from "../../utils";
-import { User } from "../../types/common";
 import {
     Button,
     Checkbox,
@@ -16,7 +15,6 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Avatar from "@mui/material/Avatar";
 
 type ResponseData = Course[];
 
@@ -152,6 +150,12 @@ const Courses = () => {
                                             color: "white",
                                             textTransform: "none",
                                             fontSize: "1em"
+                                        }}
+                                        sx={{
+                                            "&.MuiButtonBase-root:hover": {
+                                                bgcolor: "transparent",
+                                                textDecoration: "underline"
+                                            }
                                         }}
                                         onClick={() =>
                                             handleCourseClick(course.id)

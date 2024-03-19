@@ -146,6 +146,12 @@ const People = () => {
                                             textTransform: "none",
                                             fontSize: "1em"
                                         }}
+                                        sx={{
+                                            "&.MuiButtonBase-root:hover": {
+                                                bgcolor: "transparent",
+                                                textDecoration: "underline"
+                                            }
+                                        }}
                                         onClick={() =>
                                             handleProfileClick(user.username)
                                         }
