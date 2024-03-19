@@ -106,6 +106,9 @@ export const json_request = (
 export const backend_get = (endpoint: string, useJWT: boolean = false) =>
     json_request(backend_url + endpoint, "GET", "", useJWT);
 
+export const backend_delete = (endpoint: string, useJWT: boolean = false) =>
+    json_request(backend_url + endpoint, "DELETE", "", useJWT);
+
 export const backend_post = (
     endpoint: string,
     body_json: string = "",

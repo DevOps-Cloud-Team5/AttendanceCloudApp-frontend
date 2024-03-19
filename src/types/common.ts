@@ -9,6 +9,8 @@ export interface Course {
     id: number;
     course_name: string;
     enrolled: boolean;
+    num_students: number;
+    num_teachers: number;
 }
 
 export interface FullCourseUser {

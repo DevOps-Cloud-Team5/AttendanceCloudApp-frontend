@@ -8,7 +8,7 @@ import { IsStudent, IsAdmin, useAxiosRequest, backend_post } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { Empty, FullCourse, FullCourseUser } from "../../types/common";
 import { Avatar, Button, IconButton, capitalize, styled } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const Course = () => {
     const { response, error, loading, sendRequest } = useAxiosRequest<
@@ -84,9 +84,10 @@ const Course = () => {
         );
     };
 
-    const handleEnrollment = (enroll: boolean) => {
+    const handleEnrollment = (enroll: boolean, username: string = "") => {
         let url = "course/enroll/" + id;
         if (!enroll) url = "course/disenroll/" + id;
+        if (username != "") url = `${url}/${username}`;
         backend_post(url, "", true).then((resp) => {
             if (resp.status == 200) {
                 getCourseData();
@@ -209,7 +210,9 @@ const Course = () => {
                                 <th>Name</th>
                                 <th className="type-column">Role</th>
                                 {IsAdmin() ? (
-                                    <th className="actions-column">Actions</th>
+                                    <th className="actions-column">
+                                        Disenroll
+                                    </th>
                                 ) : null}
                             </tr>
                         </thead>
@@ -259,8 +262,23 @@ const Course = () => {
                                         </td>
                                         {IsAdmin() ? (
                                             <td className="actions-icon">
-                                                <IconButton>
-                                                    <MoreVertIcon />
+                                                <IconButton
+                                                    onClick={() => {
+                                                        handleEnrollment(
+                                                            false,
+                                                            user.username
+                                                        );
+                                                    }}
+                                                    sx={{
+                                                        "&.MuiButtonBase-root:hover":
+                                                            {
+                                                                bgcolor:
+                                                                    "transparent",
+                                                                color: "red"
+                                                            }
+                                                    }}
+                                                >
+                                                    <CancelIcon />
                                                 </IconButton>
                                             </td>
                                         ) : null}

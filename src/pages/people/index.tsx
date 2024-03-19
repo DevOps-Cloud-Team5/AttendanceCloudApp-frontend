@@ -2,14 +2,20 @@ import RootPage from "../root";
 import Container from "@mui/material/Container";
 import "./people.css"; // Import CSS file for additional styling
 import { useEffect, useState } from "react";
-import { deleteAuthCookies, backend_get, IsAdmin } from "../../utils";
+import {
+    deleteAuthCookies,
+    backend_get,
+    IsAdmin,
+    json_request,
+    backend_delete
+} from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/common";
 import { Button, IconButton, Typography, capitalize } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Avatar from "@mui/material/Avatar";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const People = () => {
     const navigate = useNavigate();
@@ -21,36 +27,36 @@ const People = () => {
         return resp.json();
     };
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const students_query = await getUserRole("student");
-                const teachers_query = await getUserRole("teacher");
-                if ("code" in students_query || "code" in teachers_query) {
-                    // Not authenticated anymore
-                    deleteAuthCookies();
-                    navigate("/login");
-                    navigate(0);
-                    return;
-                }
-
-                const students = !(
-                    "error" in students_query || "detail" in students_query
-                )
-                    ? students_query
-                    : [];
-                const teachers = !(
-                    "error" in teachers_query || "detail" in teachers_query
-                )
-                    ? teachers_query
-                    : [];
-                setAllUsers(teachers.concat(students));
-            } catch (error) {
-                console.error("Error fetching profile:", error);
-                // Show error on frontend
+    const fetchUsers = async () => {
+        try {
+            const students_query = await getUserRole("student");
+            const teachers_query = await getUserRole("teacher");
+            if ("code" in students_query || "code" in teachers_query) {
+                // Not authenticated anymore
+                deleteAuthCookies();
+                navigate("/login");
+                navigate(0);
+                return;
             }
-        };
 
+            const students = !(
+                "error" in students_query || "detail" in students_query
+            )
+                ? students_query
+                : [];
+            const teachers = !(
+                "error" in teachers_query || "detail" in teachers_query
+            )
+                ? teachers_query
+                : [];
+            setAllUsers(teachers.concat(students));
+        } catch (error) {
+            console.error("Error fetching profile:", error);
+            // Show error on frontend
+        }
+    };
+
+    useEffect(() => {
         fetchUsers();
     }, [navigate]);
 
@@ -94,6 +100,22 @@ const People = () => {
 
     const handleProfileClick = (username: string) => {
         navigate(`/profile/${username}`);
+    };
+
+    const deleteUser = (username: string) => {
+        backend_delete("/user/delete/" + username, true).then((resp) => {
+            if (resp.ok) {
+                if (allUsers == undefined) return;
+                let tempUsers: User[] = [...allUsers];
+                for (let i = 0; i < tempUsers.length; i++) {
+                    if (tempUsers[i].username === username) {
+                        tempUsers.splice(i, 1);
+                        break;
+                    }
+                }
+                setAllUsers(tempUsers);
+            }
+        });
     };
 
     return (
@@ -164,8 +186,18 @@ const People = () => {
                                 </td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
-                                        <IconButton>
-                                            <MoreVertIcon />
+                                        <IconButton
+                                            onClick={() => {
+                                                deleteUser(user.username);
+                                            }}
+                                            sx={{
+                                                "&.MuiButtonBase-root:hover": {
+                                                    bgcolor: "transparent",
+                                                    color: "red"
+                                                }
+                                            }}
+                                        >
+                                            <CancelIcon />
                                         </IconButton>
                                     </td>
                                 ) : null}
