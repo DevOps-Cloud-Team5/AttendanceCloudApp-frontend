@@ -38,9 +38,9 @@ const Profile = () => {
         const resp = await backend_get("user/get/" + username, true);
         return resp.json();
     };
-    
+
     const updateProfilePicture = async () => {
-        console.log('Update Profile Picture function triggered');
+        console.log("Update Profile Picture function triggered");
     };
 
     // const [loggedInUsername, setLoggedInUsername] = useState("");
@@ -60,7 +60,8 @@ const Profile = () => {
                     navigate(0);
                     return;
                 }
-                profile["avatarUrl"] = "https://randomuser.me/api/portraits/men/5.jpg";
+                profile["avatarUrl"] =
+                    "https://randomuser.me/api/portraits/men/5.jpg";
                 setProfileData(profile);
             } catch (error) {
                 console.error("Error fetching profile:", error);
@@ -81,29 +82,45 @@ const Profile = () => {
                         alt="User Avatar"
                     />
 
-
                     <div className="profile-info">
                         <Typography component="h1" variant="h5">
                             {profileData.first_name} {profileData.last_name}
                         </Typography>
-                        <p><span className="label">Username:</span>{profileData.username}</p>
-                        <p><span className="label">Email:</span>{profileData.email}</p>
-                        <p><span className="label">Role:</span>{capitalize(profileData.role)}</p>
+                        <p>
+                            <span className="label">Username:</span>
+                            {profileData.username}
+                        </p>
+                        <p>
+                            <span className="label">Email:</span>
+                            {profileData.email}
+                        </p>
+                        <p>
+                            <span className="label">Role:</span>
+                            {capitalize(profileData.role)}
+                        </p>
                     </div>
-                    
-                    <div style={{ marginTop:"3%" }} >
-                        <Button variant="contained" sx={{ textTransform:"none" }}>
+
+                    <div style={{ marginTop: "3%" }}>
+                        <Button
+                            variant="contained"
+                            sx={{ textTransform: "none" }}
+                        >
                             Change Picture
                         </Button>
-                        <Button variant="contained" sx={{ textTransform:"none" }}>
+                        <Button
+                            variant="contained"
+                            sx={{ textTransform: "none" }}
+                        >
                             Change Password
                         </Button>
                     </div>
 
-                    <Button variant="contained" sx={{ marginTop:"3%", textTransform:"none" }}>
+                    <Button
+                        variant="contained"
+                        sx={{ marginTop: "3%", textTransform: "none" }}
+                    >
                         Log Out
                     </Button>
-
                 </div>
             </Container>
         </RootPage>

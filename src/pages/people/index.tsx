@@ -14,11 +14,7 @@ import Avatar from "@mui/material/Avatar";
 const People = () => {
     const navigate = useNavigate();
     const [allUsers, setAllUsers] = useState<User[]>();
-    const alternatingColor = [
-        "#424242",
-        "#595959"
-    ];
-
+    const alternatingColor = ["#424242", "#595959"];
 
     const getUserRole = async (role: string) => {
         const resp = await backend_get("user/getrole/" + role, true);
@@ -62,13 +58,13 @@ const People = () => {
         borderCollapse: "collapse",
         width: "100%",
         "& th, & tr": {
-            padding: "8px", 
-            borderBottom: "1px solid #ddd", 
+            padding: "8px",
+            borderBottom: "1px solid #ddd",
             textAlign: "left"
         },
-        "& td":{
+        "& td": {
             padding: "8px",
-            textAlign: "left" 
+            textAlign: "left"
         },
         "& th": {
             fontWeight: "bold" // Add bold font weight to header cells if needed
@@ -135,8 +131,7 @@ const People = () => {
                             <tr
                                 key={user.id}
                                 style={{
-                                    backgroundColor:
-                                        alternatingColor[index%2]
+                                    backgroundColor: alternatingColor[index % 2]
                                 }}
                             >
                                 <td className="avatar-column">
@@ -158,7 +153,9 @@ const People = () => {
                                         {`${user.first_name} ${user.last_name}`}
                                     </Button>
                                 </td>
-                                <td style={{ fontSize: "1em" }}>{capitalize(user.role)}</td>
+                                <td style={{ fontSize: "1em" }}>
+                                    {capitalize(user.role)}
+                                </td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
                                         <IconButton>

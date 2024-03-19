@@ -11,15 +11,38 @@ export interface Course {
     enrolled: boolean;
 }
 
+export interface FullCourseUser {
+    username: string;
+    first_name: string;
+    last_name: string;
+    role: string;
+}
+
+export interface FullCourse {
+    id: number;
+    course_name: string;
+    num_teachers: number;
+    num_students: number;
+    enrolled: boolean;
+    attended: number;
+    missed: number;
+    users: FullCourseUser[];
+}
+
+export interface AttendenceStats {
+    attended: string;
+    missed: string;
+}
+
 export interface ScheduleLecture {
-    id: number,
-    start_time: string,
-    end_time: string,
-    lecture_type: string,
-    course_name: string,
-    course: number,
-    attended_student: boolean | null,
-    attended_teacher: boolean | null
+    id: number;
+    start_time: string;
+    end_time: string;
+    lecture_type: string;
+    course_name: string;
+    course: number;
+    attended_student: boolean | null;
+    attended_teacher: boolean | null;
 }
 
 export interface User {
@@ -38,9 +61,4 @@ export interface CookieJWT {
     username: string;
     email: string;
     role: string;
-}
-export interface AttendanceData {
-    [day: string]: {
-        [courseId: string]: boolean;
-    };
 }
