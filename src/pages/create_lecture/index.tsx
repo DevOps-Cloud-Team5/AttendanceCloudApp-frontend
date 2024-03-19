@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
@@ -21,10 +20,7 @@ const CreateLecture = () => {
     const [regStatus, setRegStatus] = useState("");
     const { id } = useParams();
 
-    const handleResponse = (
-        data: any,
-        event: React.FormEvent<HTMLFormElement>
-    ) => {
+    const handleResponse = (data: any) => {
         console.log(data);
         if ("ok" in data) {
             setRegStatus("success");
@@ -56,7 +52,7 @@ const CreateLecture = () => {
             })
         )
             .then((resp) => resp.json())
-            .then((data) => handleResponse(data, event))
+            .then((data) => handleResponse(data))
             .catch((error) => console.log(error));
     };
 
