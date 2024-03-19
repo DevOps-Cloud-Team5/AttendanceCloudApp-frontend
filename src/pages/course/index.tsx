@@ -41,10 +41,10 @@ const Course = () => {
             route: `/course/get/${id}`,
             useJWT: true
         });
-    }
+    };
 
     useEffect(() => {
-        getCourseData()
+        getCourseData();
     }, [sendRequest]);
 
     useEffect(() => {
@@ -99,16 +99,15 @@ const Course = () => {
         );
     };
 
-    const handleEnrollment =
-        (enroll: boolean) => {
-            let url = "course/enroll/" + id
-            if (!enroll) url = "course/disenroll/" + id
-            backend_post(url, "", true).then((resp) => {
-                if (resp.status == 200) { 
-                    getCourseData()
-                }
-            });
-        };
+    const handleEnrollment = (enroll: boolean) => {
+        let url = "course/enroll/" + id;
+        if (!enroll) url = "course/disenroll/" + id;
+        backend_post(url, "", true).then((resp) => {
+            if (resp.status == 200) {
+                getCourseData();
+            }
+        });
+    };
 
     return (
         <RootPage>
@@ -152,32 +151,41 @@ const Course = () => {
                             marginRight: "5%"
                         }}
                     >
-                        {courseData?.enrolled == true ? (
-                            <Button
-                                variant="contained"
-                                onClick={() => {handleEnrollment(false)}}
-                                style={{
-                                    marginBottom: "5%",
-                                    textTransform: "none"
-                                }}
-                                sx={{
-                                    "&.MuiButton-root:hover": { bgcolor: "red" }
-                                }}
-                            >
-                                Enrolled
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="contained"
-                                onClick={() => {handleEnrollment(true)}}
-                                style={{
-                                    marginBottom: "5%",
-                                    textTransform: "none"
-                                }}
-                            >
-                                Enroll
-                            </Button>
-                        )}
+                        {!IsAdmin() ? (
+                            courseData?.enrolled == true ? (
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        handleEnrollment(false);
+                                    }}
+                                    style={{
+                                        marginBottom: "5%",
+                                        textTransform: "none"
+                                    }}
+                                    sx={{
+                                        "&.MuiButton-root:hover": {
+                                            bgcolor: "red"
+                                        }
+                                    }}
+                                >
+                                    Enrolled
+                                </Button>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        handleEnrollment(true);
+                                    }}
+                                    style={{
+                                        marginBottom: "5%",
+                                        textTransform: "none"
+                                    }}
+                                >
+                                    Enroll
+                                </Button>
+                            )
+                        ) : null}
+
                         <Button
                             variant="contained"
                             style={{ textTransform: "none" }}
