@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Box, MenuItem, Select } from "@mui/material";
+import { Box } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 import RootPage from "../root";
@@ -17,10 +17,7 @@ const CreateCourse = () => {
     // const navigate = useNavigate();
     const [regStatus, setRegStatus] = useState("");
 
-    const handleResponse = (
-        data: any,
-        event: React.FormEvent<HTMLFormElement>
-    ) => {
+    const handleResponse = (data: any) => {
         console.log(data);
         if (
             !("course_name" in data) ||
@@ -46,7 +43,7 @@ const CreateCourse = () => {
             })
         )
             .then((resp) => resp.json())
-            .then((data) => handleResponse(data, event))
+            .then((data) => handleResponse(data))
             .catch((error) => console.log(error));
     };
 

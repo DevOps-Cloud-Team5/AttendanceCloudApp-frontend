@@ -7,14 +7,26 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate, useParams } from "react-router-dom";
 import { ScheduleLecture, Empty } from "../../types/common";
-import { backend_post, useAxiosRequest } from "../../utils";
+import {
+    IsStudent,
+    backend_delete,
+    backend_post,
+    useAxiosRequest
+} from "../../utils";
 import moment from "moment";
-import { Button, Divider, capitalize } from "@mui/material";
+import {
+    Button,
+    Divider,
+    IconButton,
+    Tooltip,
+    capitalize
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CancelIcon from "@mui/icons-material/Cancel";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import "./schedule.css";
 
 // Set monday to the first day of the week
@@ -32,16 +44,17 @@ const AttendancePage: React.FC = () => {
     const { id } = useParams();
 
     const updateSchedule = () => {
+        let url = `/schedule/get/${schedule_date.year()}/${schedule_date.week()}`;
+        if (id != undefined) url += "/" + id;
         sendRequest({
             method: "GET",
-            route: `/schedule/get/${schedule_date.year()}/${schedule_date.week()}`,
+            route: url,
             useJWT: true
         });
     };
 
     useEffect(() => {
         updateSchedule();
-        console.log(id);
     }, [sendRequest]);
 
     useEffect(() => {
@@ -67,34 +80,32 @@ const AttendancePage: React.FC = () => {
         setLectures(new_lectures);
     };
 
-    const handleAttendanceChange =
-        (lecture: ScheduleLecture) =>
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            var url = `lecture/${lecture.id}/student_set_att`;
-            var attended = true;
+    const handleAttendanceChange = (lecture: ScheduleLecture) => {
+        let url = `lecture/${lecture.id}/student_set_att`;
+        let attended = true;
 
-            if (lecture.attended_student == true) {
-                url = `lecture/${lecture.id}/student_unset_att`;
-                attended = false;
-            }
+        if (lecture.attended_student == true) {
+            url = `lecture/${lecture.id}/student_unset_att`;
+            attended = false;
+        }
 
-            backend_post(url, "", true)
-                .then((resp) => {
-                    if (resp.status == 200)
-                        setStudentAttendence(lecture.id, attended);
-                })
-                .catch((error) => console.log(error));
-        };
+        backend_post(url, "", true)
+            .then((resp) => {
+                if (resp.status == 200)
+                    setStudentAttendence(lecture.id, attended);
+            })
+            .catch((error) => console.log(error));
+    };
 
-    function goBackWeek() {
+    const goBackWeek = () => {
         setScheduleDate(schedule_date.subtract(7, "days"));
         updateSchedule();
-    }
+    };
 
-    function goForwardWeek() {
+    const goForwardWeek = () => {
         setScheduleDate(schedule_date.add(7, "days"));
         updateSchedule();
-    }
+    };
 
     const dayConvert = [
         "Monday",
@@ -145,6 +156,23 @@ const AttendancePage: React.FC = () => {
         for (const day of lectures)
             for (const lec of day) return `| ${lec.course_name}`;
         return "";
+    };
+
+    const deleteLecture = (lecture_id: number) => {
+        backend_delete(`course/lecture/${lecture_id}/delete`, true).then(
+            (resp) => {
+                if (resp.ok) {
+                    const new_lectures = lectures?.map(
+                        (lectureGroup: ScheduleLecture[]) =>
+                            lectureGroup.filter(
+                                (lecture: ScheduleLecture) =>
+                                    lecture.id !== lecture_id
+                            )
+                    );
+                    setLectures(new_lectures);
+                }
+            }
+        );
     };
 
     return (
@@ -228,7 +256,7 @@ const AttendancePage: React.FC = () => {
                             ) : null}
 
                             <List>
-                                {day.map((lecture, lectureIndex) => (
+                                {day.map((lecture) => (
                                     <ListItem
                                         key={lecture.id}
                                         style={{
@@ -275,51 +303,106 @@ const AttendancePage: React.FC = () => {
                                         </Button>
 
                                         <ListItemText primary={""} />
-
-                                        <Checkbox
-                                            indeterminateIcon={
-                                                <CheckBoxOutlineBlankIcon />
-                                            }
-                                            icon={<IndeterminateCheckBoxIcon />}
-                                            indeterminate={
-                                                lecture.attended_student == null
-                                            }
-                                            checked={
-                                                lecture.attended_student == true
-                                            }
-                                            onChange={handleAttendanceChange(
-                                                lecture
-                                            )}
-                                            sx={{
-                                                "& .MuiSvgIcon-root": {
-                                                    color: getCheckboxColor(
-                                                        lecture,
-                                                        lecture.attended_student
-                                                    )
-                                                }
-                                            }}
-                                        />
-                                        <Checkbox
-                                            indeterminateIcon={
-                                                <CheckBoxOutlineBlankIcon />
-                                            }
-                                            icon={<IndeterminateCheckBoxIcon />}
-                                            indeterminate={
-                                                lecture.attended_teacher == null
-                                            }
-                                            checked={
-                                                lecture.attended_teacher == true
-                                            }
-                                            disabled={true}
-                                            sx={{
-                                                "& .MuiSvgIcon-root": {
-                                                    color: getCheckboxColor(
-                                                        lecture,
-                                                        lecture.attended_teacher
-                                                    )
-                                                }
-                                            }}
-                                        />
+                                        {IsStudent() ? (
+                                            <>
+                                                <Checkbox
+                                                    indeterminateIcon={
+                                                        <CheckBoxOutlineBlankIcon />
+                                                    }
+                                                    icon={
+                                                        <IndeterminateCheckBoxIcon />
+                                                    }
+                                                    indeterminate={
+                                                        lecture.attended_student ==
+                                                        null
+                                                    }
+                                                    checked={
+                                                        lecture.attended_student ==
+                                                        true
+                                                    }
+                                                    onChange={() =>
+                                                        handleAttendanceChange(
+                                                            lecture
+                                                        )
+                                                    }
+                                                    sx={{
+                                                        "& .MuiSvgIcon-root": {
+                                                            color: getCheckboxColor(
+                                                                lecture,
+                                                                lecture.attended_student
+                                                            )
+                                                        }
+                                                    }}
+                                                />
+                                                <Checkbox
+                                                    indeterminateIcon={
+                                                        <CheckBoxOutlineBlankIcon />
+                                                    }
+                                                    icon={
+                                                        <IndeterminateCheckBoxIcon />
+                                                    }
+                                                    indeterminate={
+                                                        lecture.attended_teacher ==
+                                                        null
+                                                    }
+                                                    checked={
+                                                        lecture.attended_teacher ==
+                                                        true
+                                                    }
+                                                    disabled={true}
+                                                    sx={{
+                                                        "& .MuiSvgIcon-root": {
+                                                            color: getCheckboxColor(
+                                                                lecture,
+                                                                lecture.attended_teacher
+                                                            )
+                                                        }
+                                                    }}
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Tooltip title="Set Attendence">
+                                                    <IconButton
+                                                        // onClick={() => {
+                                                        //     (
+                                                        //         false,
+                                                        //         user.username
+                                                        //     );
+                                                        // }}
+                                                        sx={{
+                                                            "&.MuiButtonBase-root:hover":
+                                                                {
+                                                                    bgcolor:
+                                                                        "transparent",
+                                                                    color: "gray"
+                                                                }
+                                                        }}
+                                                    >
+                                                        <GroupAddIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Delete Lecture">
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            deleteLecture(
+                                                                lecture.id
+                                                            );
+                                                        }}
+                                                        sx={{
+                                                            "&.MuiButtonBase-root:hover":
+                                                                {
+                                                                    bgcolor:
+                                                                        "transparent",
+                                                                    color: "red"
+                                                                }
+                                                        }}
+                                                    >
+                                                        <CancelIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
+                                        )}
                                     </ListItem>
                                 ))}
                             </List>

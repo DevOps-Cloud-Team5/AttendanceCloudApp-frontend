@@ -16,10 +16,7 @@ const CreateUser = () => {
     // const navigate = useNavigate();
     const [regStatus, setRegStatus] = useState("");
 
-    const handleTokenResponse = (
-        data: any,
-        event: React.FormEvent<HTMLFormElement>
-    ) => {
+    const handleTokenResponse = (data: any) => {
         console.log(data);
         if (!("username" in data) || typeof data["username"] !== "string") {
             setRegStatus("failed");
@@ -61,7 +58,7 @@ const CreateUser = () => {
             })
         )
             .then((resp) => resp.json())
-            .then((data) => handleTokenResponse(data, event))
+            .then((data) => handleTokenResponse(data))
             .catch((error) => console.log(error));
     };
 

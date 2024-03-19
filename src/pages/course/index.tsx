@@ -2,28 +2,13 @@ import { useState, useEffect } from "react";
 import RootPage from "../root";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Cookies from "js-cookie";
 import "./course.css"; // Import CSS file for additional styling
 
-import {
-    IsStudent,
-    IsAdmin,
-    backend_get,
-    deleteAuthCookies,
-    useAxiosRequest,
-    backend_post
-} from "../../utils";
+import { IsStudent, IsAdmin, useAxiosRequest, backend_post } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import { JwtPayload, jwtDecode } from "jwt-decode";
-import {
-    CookieJWT,
-    Empty,
-    FullCourse,
-    FullCourseUser
-} from "../../types/common";
+import { Empty, FullCourse, FullCourseUser } from "../../types/common";
 import { Avatar, Button, IconButton, capitalize, styled } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { render } from "@testing-library/react";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const Course = () => {
     const { response, error, loading, sendRequest } = useAxiosRequest<
@@ -99,9 +84,10 @@ const Course = () => {
         );
     };
 
-    const handleEnrollment = (enroll: boolean) => {
+    const handleEnrollment = (enroll: boolean, username: string = "") => {
         let url = "course/enroll/" + id;
         if (!enroll) url = "course/disenroll/" + id;
+        if (username != "") url = `${url}/${username}`;
         backend_post(url, "", true).then((resp) => {
             if (resp.status == 200) {
                 getCourseData();
@@ -151,6 +137,32 @@ const Course = () => {
                             marginRight: "5%"
                         }}
                     >
+                        <Button
+                            variant="contained"
+                            style={{
+                                marginBottom: "5%",
+                                textTransform: "none"
+                            }}
+                            onClick={() => navigate(`/course/${id}/schedule`)}
+                        >
+                            Schedule
+                        </Button>
+
+                        {!IsStudent() ? (
+                            <Button
+                                variant="contained"
+                                style={{
+                                    marginBottom: "5%",
+                                    textTransform: "none"
+                                }}
+                                onClick={() =>
+                                    navigate(`/course/${id}/create_lecture`)
+                                }
+                            >
+                                Create Lecture
+                            </Button>
+                        ) : null}
+
                         {!IsAdmin() ? (
                             courseData?.enrolled == true ? (
                                 <Button
@@ -159,7 +171,6 @@ const Course = () => {
                                         handleEnrollment(false);
                                     }}
                                     style={{
-                                        marginBottom: "5%",
                                         textTransform: "none"
                                     }}
                                     sx={{
@@ -177,7 +188,6 @@ const Course = () => {
                                         handleEnrollment(true);
                                     }}
                                     style={{
-                                        marginBottom: "5%",
                                         textTransform: "none"
                                     }}
                                 >
@@ -185,14 +195,6 @@ const Course = () => {
                                 </Button>
                             )
                         ) : null}
-
-                        <Button
-                            variant="contained"
-                            style={{ textTransform: "none" }}
-                            onClick={() => navigate(`/course/${id}/schedule`)}
-                        >
-                            Schedule
-                        </Button>
                     </div>
                 </div>
 
@@ -208,7 +210,9 @@ const Course = () => {
                                 <th>Name</th>
                                 <th className="type-column">Role</th>
                                 {IsAdmin() ? (
-                                    <th className="actions-column">Actions</th>
+                                    <th className="actions-column">
+                                        Disenroll
+                                    </th>
                                 ) : null}
                             </tr>
                         </thead>
@@ -235,6 +239,15 @@ const Course = () => {
                                                     textTransform: "none",
                                                     fontSize: "1em"
                                                 }}
+                                                sx={{
+                                                    "&.MuiButtonBase-root:hover":
+                                                        {
+                                                            bgcolor:
+                                                                "transparent",
+                                                            textDecoration:
+                                                                "underline"
+                                                        }
+                                                }}
                                                 onClick={() =>
                                                     handleProfileClick(
                                                         user.username
@@ -249,8 +262,23 @@ const Course = () => {
                                         </td>
                                         {IsAdmin() ? (
                                             <td className="actions-icon">
-                                                <IconButton>
-                                                    <MoreVertIcon />
+                                                <IconButton
+                                                    onClick={() => {
+                                                        handleEnrollment(
+                                                            false,
+                                                            user.username
+                                                        );
+                                                    }}
+                                                    sx={{
+                                                        "&.MuiButtonBase-root:hover":
+                                                            {
+                                                                bgcolor:
+                                                                    "transparent",
+                                                                color: "red"
+                                                            }
+                                                    }}
+                                                >
+                                                    <CancelIcon />
                                                 </IconButton>
                                             </td>
                                         ) : null}

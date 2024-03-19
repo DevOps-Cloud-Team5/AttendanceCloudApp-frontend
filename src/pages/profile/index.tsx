@@ -7,7 +7,7 @@ import "./profile.css"; // Import CSS file for additional styling
 
 import { backend_get, deleteAuthCookies } from "../../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { CookieJWT } from "../../types/common";
 import { Button, capitalize } from "@mui/material";
 
@@ -37,10 +37,6 @@ const Profile = () => {
         }
         const resp = await backend_get("user/get/" + username, true);
         return resp.json();
-    };
-
-    const updateProfilePicture = async () => {
-        console.log("Update Profile Picture function triggered");
     };
 
     // const [loggedInUsername, setLoggedInUsername] = useState("");
