@@ -4,8 +4,10 @@ Parameters:
         Type: String
         Description: "Name of Project"
 Resources:
-    S3Bucket:
-        Type: "AWS::S3::Bucket"
-        Properties:
-            BucketName: !Sub "${ProjectName}-blablabla-attendunce-bucket"
-            # AccessControl: PublicRead
+
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub '${ProjectName}-group5-attendunce-bucket'
+      # AccessControl: PublicRead
+
