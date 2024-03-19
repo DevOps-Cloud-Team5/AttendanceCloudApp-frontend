@@ -5,16 +5,63 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Box, MenuItem, Select } from "@mui/material";
+import { Box, List, ListItemText, MenuItem, Select, capitalize } from "@mui/material";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 
 import RootPage from "../root";
 import "./create.css"; // Import CSS file for additional styling
 import { backend_post } from "../../utils";
+import { MuiFileInput } from "mui-file-input";
+import * as Papa from 'papaparse';
+import { ConfirmUserCSV, User, UserCSV } from "../../types/common";
 
 const CreateUser = () => {
     // const navigate = useNavigate();
     const [regStatus, setRegStatus] = useState("");
+    const [file, setFile] = useState<File | null>();
+
+    const addUsersCSV = (parsed_users : any) => {
+        const users : UserCSV[] = parsed_users.data
+        for (const user of users) {
+            const first_name = capitalize(user.first_name);
+            const last_name = capitalize(user.last_name);
+    
+            let password = user.password;
+            let username = user.username;
+            let email = user.email;
+            let role = user.role;
+    
+            if (username == "" || username == null) username = first_name + "." + last_name;
+            if (email == "" || email == null) email = first_name + "." + last_name + "@uni.org";
+    
+            if (username !== null) username = username.toString().toLowerCase();
+            if (email !== null) email = email.toString().toLowerCase();
+            if (role !== null) role = role.toString().toLowerCase();
+
+            if (password == "" || password == null) password = "defaultpassword";
+            if (role == "" || role == null) role = "student";
+
+            backend_post(
+                "user/register/",
+                JSON.stringify({
+                    username: username,
+                    password: password,
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    role: role
+                })
+            )
+        }
+    }
+
+    const handleFileUpload = (newFile: File | null) => {
+        if (newFile == null) return;
+        setFile(newFile);
+        Papa.parse(newFile, {
+            complete: addUsersCSV, header: true
+        });
+    };
 
     const handleTokenResponse = (data: any) => {
         console.log(data);
@@ -173,6 +220,13 @@ const CreateUser = () => {
                         >
                             Create
                         </Button>
+                        <MuiFileInput
+                            label="Import Users CSV"
+                            value={file}
+                            onChange={handleFileUpload}
+                            style={{ textDecorationColor: "white" }}
+                            inputProps={{ accept: ".csv" }}
+                        />
                     </Box>
                 </Box>
             </Container>

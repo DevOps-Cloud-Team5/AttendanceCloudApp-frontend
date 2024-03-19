@@ -59,8 +59,22 @@ export interface User {
     role: string;
 }
 
+export interface UserCSV {
+    first_name: string;
+    last_name: string;
+    password: string | null;
+    username: string | null;
+    email: string | null;
+    role: string | null;
+}
+
 export interface CookieJWT {
     username: string;
     email: string;
     role: string;
+}
+
+export interface ConfirmUserCSV {
+    name: string;
+    success: boolean;
 }
