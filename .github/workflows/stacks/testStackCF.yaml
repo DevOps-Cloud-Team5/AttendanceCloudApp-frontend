@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   ProjectName:
     Type: String
-    Description: 'Frontend of Attendunce v0.1'
+    Description: 'Name of Project'
 Resources:
   S3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: !Sub '${ProjectName}-bucket' # Dynamically sets bucket name
+      BucketName: !Sub '${ProjectName}-bucket'
       AccessControl: PublicRead
