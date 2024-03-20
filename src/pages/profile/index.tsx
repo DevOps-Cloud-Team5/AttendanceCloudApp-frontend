@@ -12,10 +12,22 @@ import { CookieJWT } from "../../types/common";
 import { Button, capitalize } from "@mui/material";
 
 
-//TODO: 2 things:
-// 1. Make sure the buttons appear only to the owner of the profile
-// 2. Apply the support for uploading and storing the images via S3.
-// 2.1. How to do it?>
+//TODO:
+// 1. Apply the support for uploading and storing the images via S3.
+/**
+ * The idea is 
+ * store image inside a storage solution (S3 bucket)!
+ * After, we collect the url from the s3
+ * store url in database
+ * it will be retrieved in getprofile data via url
+ * 1 image per profile, therefore, override the previous one
+ * 
+ * How to send an image to S3 bucket?
+ * Frontend -> Backend -> S3 Bucket
+ * url from S3 Bucket -> database -> fetch it via 
+ * Cloud formation should be in backend.
+ * 
+ */
 
 const Profile = () => {
     const { sendRequest } = useAxiosRequest<Empty, Empty>();
@@ -86,12 +98,7 @@ const Profile = () => {
             });
     }
     // const [loggedInUsername, setLoggedInUsername] = useState("");
-    //store image inside a storage solution (S3 bucket)!
-    // After, we collect the url from the s3
-    // store url in database
-    // it will be retrieved in getprofile data via url
-    // 1 image per profile, therefore, override the previous one
-
+    
     const updateProfilePicture = async () => {
         console.log('Update Profile Picture function triggered');
     };
