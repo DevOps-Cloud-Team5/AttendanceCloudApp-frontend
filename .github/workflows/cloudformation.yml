@@ -33,4 +33,4 @@ jobs:
                   npm run build
 
             - name: Deploy frontend to S3
-              run: aws s3 sync ./dist/ ${{ github.event.inputs.project_name }}-group5-attendunce-bucket --delete
+              run: aws s3 sync ./dist/ s3://${{ github.event.inputs.project_name }}-group5-attendunce-bucket --delete
