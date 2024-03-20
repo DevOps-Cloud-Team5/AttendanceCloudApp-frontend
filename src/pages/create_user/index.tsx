@@ -20,6 +20,7 @@ const CreateUser = () => {
     const [regStatus, setRegStatus] = useState("");
     const [file, setFile] = useState<File | null>();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const addUsersCSV = (parsed_users: any) => {
         const users: UserCSV[] = parsed_users.data;
         for (const user of users) {
