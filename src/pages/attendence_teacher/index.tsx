@@ -31,7 +31,7 @@ const LectureAttendence = () => {
 
     useEffect(() => {
         getLectureData();
-    }, [sendRequest]);
+    }, [sendRequest, getLectureData]);
 
     useEffect(() => {
         if (response) setLectureData(response);

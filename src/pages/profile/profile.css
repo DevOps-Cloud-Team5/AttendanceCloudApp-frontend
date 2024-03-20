@@ -16,10 +16,9 @@
     font-size: 30px; /* Adjust the font size as desired */
     font-weight: bold; /* Make the text bold */
     margin: 0; /* Remove any default margin */
-    color: #FFF; /* Adjust the text color as needed */
+    color: #fff; /* Adjust the text color as needed */
     width: 100%; /* Ensure it spans the full width */
 }
-
 
 .profile {
     margin: 0px 1em 1em -100px; /* Top, Right, Bottom, Left */
@@ -89,5 +88,3 @@
 .update-btn:hover {
     background-color: #1c85c7; /* Darker shade for hover effect */
 }
-
-
