@@ -6,7 +6,7 @@ import Profile from "../pages/profile";
 import People from "../pages/people";
 import Courses from "../pages/courses";
 import Schedule from "../pages/schedule";
-import { IsAdmin, isLoggedIn, IsTeacher } from "../utils";
+import { IsAdmin, isLoggedIn, IsStudent, IsTeacher } from "../utils";
 import CreateUser from "../pages/create_user";
 import ResetPassword from "../pages/reset_password";
 import ResetPasswordRequest from "../pages/reset_password_request";
@@ -14,6 +14,7 @@ import ResetPasswordRequested from "../pages/reset_password_requested";
 import CreateCourse from "../pages/create_course";
 import CreateLecture from "../pages/create_lecture";
 import Course from "../pages/course";
+import LectureAttendence from "../pages/attendence_teacher";
 
 // Create router
 const AppRouter = createBrowserRouter([
@@ -83,6 +84,15 @@ const AppRouter = createBrowserRouter([
     {
         path: "/courses",
         element: isLoggedIn() ? <Courses /> : <Navigate to="/login" replace />
+    },
+    {
+        path: "/lecture/:id/attendence",
+        element:
+            isLoggedIn() && !IsStudent() ? (
+                <LectureAttendence />
+            ) : (
+                <Navigate to="/login" replace />
+            )
     },
     {
         path: "/password_reset_requested",

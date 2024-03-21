@@ -3,26 +3,26 @@ import Container from "@mui/material/Container";
 import "./courses.css"; // Import CSS file for additional styling
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { backend_post, useAxiosRequest } from "../../utils";
+import { backend_delete, useAxiosRequest } from "../../utils";
 import { Course, Empty } from "../../types/common";
 import { IsAdmin } from "../../utils";
-import { User } from "../../types/common";
 import {
     Button,
     Checkbox,
+    Icon,
     IconButton,
     Typography,
     styled
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Avatar from "@mui/material/Avatar";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 type ResponseData = Course[];
 
 const Courses = () => {
     const navigate = useNavigate();
-    const { response, error, loading, sendRequest } = useAxiosRequest<
+    const { response, error, sendRequest } = useAxiosRequest<
         Empty,
         ResponseData
     >();
@@ -39,6 +39,7 @@ const Courses = () => {
     }, [sendRequest]);
 
     useEffect(() => {
+        console.log(response);
         if (response) setCourseData(response);
     }, [response]);
 
@@ -92,20 +93,21 @@ const Courses = () => {
         navigate(`/course/${course_id}`);
     };
 
-    const handleEnrollment =
-        (courseId: number, enroll: boolean) =>
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            if (enroll) {
-                backend_post("course/enroll/" + courseId, "", true);
-                if (response == null) return;
-                const new_data = course_data?.map((course: Course) =>
-                    course.id == courseId
-                        ? { ...course, enrolled: true }
-                        : course
-                );
-                setCourseData(new_data);
+    const deleteCourse = (course_id: number) => {
+        backend_delete("/course/delete/" + course_id, true).then((resp) => {
+            if (resp.ok) {
+                if (course_data == undefined) return;
+                const tempCourses: Course[] = [...course_data];
+                for (let i = 0; i < tempCourses.length; i++) {
+                    if (tempCourses[i].id === course_id) {
+                        tempCourses.splice(i, 1);
+                        break;
+                    }
+                }
+                setCourseData(tempCourses);
             }
-        };
+        });
+    };
 
     return (
         <RootPage>
@@ -131,10 +133,11 @@ const Courses = () => {
                         <tr>
                             <th>Course Name</th>
                             <th className="type-column">Students</th>
+                            <th className="type-column">Teachers</th>
                             {IsAdmin() ? (
                                 <th className="actions-column">Actions</th>
                             ) : (
-                                <th className="enroll-column">Enroll</th>
+                                <th className="enroll-column">Enrolled</th>
                             )}
                         </tr>
                     </thead>
@@ -153,6 +156,12 @@ const Courses = () => {
                                             textTransform: "none",
                                             fontSize: "1em"
                                         }}
+                                        sx={{
+                                            "&.MuiButtonBase-root:hover": {
+                                                bgcolor: "transparent",
+                                                textDecoration: "underline"
+                                            }
+                                        }}
                                         onClick={() =>
                                             handleCourseClick(course.id)
                                         }
@@ -160,21 +169,31 @@ const Courses = () => {
                                         {`${course.course_name}`}
                                     </Button>
                                 </td>
-                                <td></td>
+                                <td>{course.num_students}</td>
+                                <td>{course.num_teachers}</td>
                                 {IsAdmin() ? (
                                     <td className="actions-icon">
-                                        <IconButton>
-                                            <MoreVertIcon />
+                                        <IconButton
+                                            onClick={() => {
+                                                deleteCourse(course.id);
+                                            }}
+                                            sx={{
+                                                "&.MuiButtonBase-root:hover": {
+                                                    bgcolor: "transparent",
+                                                    color: "red"
+                                                }
+                                            }}
+                                        >
+                                            <CancelIcon />
                                         </IconButton>
                                     </td>
                                 ) : (
                                     <Checkbox
+                                        icon={<Icon />}
+                                        checkedIcon={<CheckCircleIcon />}
                                         className="actions-icon"
                                         checked={course.enrolled}
-                                        onChange={handleEnrollment(
-                                            course.id,
-                                            !course.enrolled
-                                        )}
+                                        disabled={true}
                                         sx={{
                                             "& .MuiSvgIcon-root": {
                                                 color: "white"
