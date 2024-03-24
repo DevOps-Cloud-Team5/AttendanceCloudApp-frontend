@@ -1,17 +1,15 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { Box, FormControlLabel } from "@mui/material";
+import { Box } from "@mui/material";
 
 import RootPage from "../root";
 import "./login.css"; // Import CSS file for additional styling
@@ -19,12 +17,7 @@ import { backend_post, expire_time } from "../../utils";
 import { TokenResponse } from "../../types/common";
 
 const SignIn = () => {
-    const [rememberMe, setRememberMe] = useState(false);
     const navigate = useNavigate();
-
-    const handleRememberMeChange = () => {
-        setRememberMe(!rememberMe);
-    };
 
     const handleTokenResponse = (data: TokenResponse) => {
         if ("detail" in data) {
