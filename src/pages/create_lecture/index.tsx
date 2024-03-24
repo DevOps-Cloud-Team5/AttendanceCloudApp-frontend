@@ -20,6 +20,7 @@ import RootPage from "../root";
 import "./create.css"; // Import CSS file for additional styling
 import { backend_post } from "../../utils";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 
 const CreateLecture = () => {
     // const navigate = useNavigate();
@@ -37,8 +38,8 @@ const CreateLecture = () => {
         if (start_time == null || end_time == null) return;
         if (start_time == "" || end_time == "") return;
 
-        const start_date = new Date(Date.parse(start_time.toString()));
-        const end_date = new Date(Date.parse(end_time.toString()));
+        const start_date = moment(start_time.toString()).utc();
+        const end_date = moment(end_time.toString()).utc();
 
         backend_post(
             "course/lecture/" + id + "/add",
