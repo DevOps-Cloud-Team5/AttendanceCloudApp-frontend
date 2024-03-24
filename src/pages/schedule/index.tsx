@@ -98,25 +98,25 @@ const AttendancePage: React.FC = () => {
     };
 
     const goBackWeek = () => {
-        let new_date = schedule_date
-        let prev_week = new_date.week() - 1
+        const new_date = schedule_date;
+        let prev_week = new_date.week() - 1;
         if (prev_week == -1) {
-            prev_week = 51
-            new_date.year(new_date.year()-1)
+            prev_week = 51;
+            new_date.year(new_date.year() - 1);
         }
-        new_date.week(prev_week)
+        new_date.week(prev_week);
         setScheduleDate(new_date);
         updateSchedule();
     };
 
     const goForwardWeek = () => {
-        let new_date = schedule_date
-        let next_week = new_date.week() + 1
+        const new_date = schedule_date;
+        let next_week = new_date.week() + 1;
         if (next_week == 52) {
-            next_week = 0
-            new_date.year(new_date.year()+1)
+            next_week = 0;
+            new_date.year(new_date.year() + 1);
         }
-        new_date.week(next_week)
+        new_date.week(next_week);
         setScheduleDate(new_date);
         updateSchedule();
     };
@@ -145,9 +145,8 @@ const AttendancePage: React.FC = () => {
         "December"
     ];
 
-    const convertToScheduleTime = (time: string) => {
-        return moment(time).utc().format("HH:mm");
-    }
+    const convertToScheduleTime = (time: string) =>
+        moment(time).utc().format("HH:mm");
 
     const getCheckboxColor = (
         lecture: ScheduleLecture,
