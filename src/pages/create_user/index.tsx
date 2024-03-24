@@ -23,9 +23,9 @@ const CreateUser = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const addUsersCSV = (parsed_users: any) => {
         const users: UserCSV[] = parsed_users.data;
-        const validated_users : UserCSV[] = []
+        const validated_users: UserCSV[] = [];
         for (const user of users) {
-            if (user.first_name == "") continue
+            if (user.first_name == "") continue;
             const first_name = capitalize(user.first_name);
             const last_name = capitalize(user.last_name);
 
@@ -46,7 +46,7 @@ const CreateUser = () => {
             if (password == "" || password == null)
                 password = "defaultpassword";
             if (role == "" || role == null) role = "student";
-            
+
             validated_users.push({
                 username: username,
                 password: password,
@@ -54,13 +54,10 @@ const CreateUser = () => {
                 last_name: last_name,
                 email: email,
                 role: role
-            })
+            });
         }
 
-        backend_post(
-            "user/mass_register/",
-            JSON.stringify(validated_users)
-        );
+        backend_post("user/mass_register/", JSON.stringify(validated_users));
     };
 
     const handleFileUpload = (newFile: File | null) => {
